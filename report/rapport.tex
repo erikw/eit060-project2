@@ -27,7 +27,7 @@
 \end{titlepage}
 \setcounter{page}{2}
 % content
-\subsection{Desciption of the system}
+\section{Desciption of the system}
 Or system should handle medical records for patioents. The system consisrs of multiple entities including patients, doctors and agencies. 
 
 The entities are
@@ -35,9 +35,10 @@ The entities are
 \item Patient: A patient can have one or more records in the system and he will at all time have read access to them. He will have to use private and public keys and a software client to obtain them from a server. 
 \item Doctor: A doctor works at a division and will have read, write and create access for records to all patients registered to him. Also all records associated with the same division will be readable.
 \item Nurse: A nurse works under a division will have read and write access to records for records to all patients registered to him/her. Also all records associated with the same division will be readable.
-\item Medical record: A medical record is stored on a server. Each record is assosiacted with one patient, one doctor, one nurse and one division. 
+\item Medical record: A medical record is stored on a server. Each record is assosiacted with one patient, one doctor, one nurse and one division.
 \item Agency: An agency will have the ability to read and delete records at will.
-\item Certificate Authority: All certificates are signed by a root CA and every entity trusts this CA. This CA is separate from the hospital.
+\item Certificate Authority: All certificates are signed by a root CA and every entety trusts this CA, this CA is
+separate from the hospital.
 \item The server sits in a locked room and it accessible only by trusted technicans. Is has an audit log containing all access to the patient records.
 \end{itemize}
 
@@ -46,8 +47,49 @@ The first step in setting the system up (appart from server installationa and ha
 
 A patient will need to obtain the client software from the ``socialstyrelsen'' office. They will there get their signed certificate stored together with the client on some form of read only memory (e.g compact disc or thumbdrive).
 
+In a further extension of this system, it should be possible to add new doctors and nurses but this is out of the scope
+of this project and 
 
 % TODO expiration of the certs?
+
+\section{Protocol}
+\subsection{Read}
+Read will return the requested record if the user is 
+\begin{itemize}
+	\item Patient: A patient can read a specific record with this command by supplying a record id. Returns the record or error if not found.
+	\item Doctor, Nurse, Agency: A parameter specifying which record to obtain is needed. Returns the record or an error if not found or access denied.
+\end{itemize}
+
+\subsection{Append}
+\begin{itemize}
+\item Patient: Access always denied with a message "You shall not paaaaass!".
+\item Doctor, Nurse: Two parameters with record id and text to append is submitted. Responds with success or denied. Note that a doctor could mistype the id and accidentally write to another patients journal. A final product would include a GUI which would eliminate this problem.
+\item Agency: Access always denied with a message "You shall not paaaaass!".
+\end{itemize}
+
+\subsection{Create}
+Creates a new record for a patient.
+\begin{itemize}
+\item Patient: Access always denied with a message "You shall not paaaaass!".
+\item Doctor: Parameters are patient id, nurse.
+\item Nurse: Access always denied with a message "You shall not paaaaass!".
+\item Agency: Access always denied with a message "You shall not paaaaass!".
+\end{itemize}
+
+\subsection{Delete}
+Removes a particular record.
+\begin{itemize}
+\item Patient: Access always denied with a message "You shall not paaaaass!".
+\item Doctor: Access always denied with a message "You shall not paaaaass!".
+\item Nurse: Access always denied with a message "You shall not paaaaass!".
+\item Agency: Parameter with journal id to delete. Returns success.
+\end{itemize}
+
+\subsection{List}
+\begin{itemize}
+\item Patient: If called by a patient with no parameters, it will list all records pertaining to the patient.
+\item Doctor, Nurse, Agency: If called by a doctor or a nurse with a patient id as a parameter, it will list all records belonging to that patient. If no parameter is specified, an error is displayed.
+\end{itemize}
 
 % /content
 \end{document}
