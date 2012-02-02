@@ -27,32 +27,27 @@
 \end{titlepage}
 \setcounter{page}{2}
 % content
-\section{Linjering och inkoppling av ljus i en optisk fiber}
-\subsection{Introduktion}
-\subsection{Teori}
-\subsection{Apparatur}
-\subsection{Utförande}
-\subsection{Resultat}
-\subsection{Diskussion}
-\subsection{Sammanfattning}
+\subsection{Desciption of the system}
+Or system should handle medical records for patioents. The system consisrs of multiple entities including patients, doctors and agencies. 
 
-\section{Mätning av dämpningen i en fiber med vitljusspektroskopi}
-\subsection{Introduktion}
-\subsection{Teori}
-\subsection{Apparatur}
-\subsection{Utförande}
-\subsection{Resultat}
-\subsection{Diskussion}
-\subsection{Sammanfattning}
+The entities are
+\begin{itemize}
+\item Patient: A patient can have one or more records in the system and he will at all time have read access to them. He will have to use private and public keys and a software client to obtain them from a server. 
+\item Doctor: A doctor works at a division and will have read, write and create access for records to all patients registered to him. Also all records associated with the same division will be readable.
+\item Nurse: A nurse works under a division will have read and write access to records for records to all patients registered to him/her. Also all records associated with the same division will be readable.
+\item Medical record: A medical record is stored on a server. Each record is assosiacted with one patient, one doctor, one nurse and one division. 
+\item Agency: An agency will have the ability to read and delete records at will.
+\item Certificate Authority: All certificates are signed by a root CA and every entity trusts this CA. This CA is separate from the hospital.
+\item The server sits in a locked room and it accessible only by trusted technicans. Is has an audit log containing all access to the patient records.
+\end{itemize}
 
-\section{Fiber Bragg-gitter (FBG)}
-\subsection{Introduktion}
-\subsection{Teori}
-\subsection{Apparatur}
-\subsection{Utförande}
-\subsection{Resultat}
-\subsection{Diskussion}
-\subsection{Sammanfattning}
+\section{Setup process}
+The first step in setting the system up (appart from server installationa and hardware distribution) is to generate a keypair and from this a Certificate Signing Request for the public key (CSR). The CSR is transfered over sneakernet to the CA where it is signed and take back and stored. 
+
+A patient will need to obtain the client software from the ``socialstyrelsen'' office. They will there get their signed certificate stored together with the client on some form of read only memory (e.g compact disc or thumbdrive).
+
+
+% TODO expiration of the certs?
 
 % /content
 \end{document}
