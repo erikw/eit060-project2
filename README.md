@@ -14,6 +14,9 @@ Compile and run by typing the following commands:
 
 ##Contributors
 Erik Jansson
+
 Erik Westrup
+
 Gustaf Waldemarson
+
 Tommy Olofsson
