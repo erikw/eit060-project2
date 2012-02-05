@@ -10,7 +10,7 @@ public class ReadFactory extends CommandFactory<ReadCommand> {
 					throw new BadCommandParamException(COMMAND_NAME, "Records ID must be digits only.");
 				}
 			} else {
-				throw new BadCommandParamException(COMMAND_NAME, "Too many arguments. One expected.");
+				throw new BadCommandParamException(COMMAND_NAME, "Wrong number of arguments. One expected.");
 			}
 			return command;
 		}

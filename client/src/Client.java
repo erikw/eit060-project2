@@ -18,6 +18,7 @@ public class Client {
 		factories = new HashMap<String, CommandFactory>();
 		factories.put(ReadFactory.COMMAND_NAME, new ReadFactory());
 		factories.put(ListFactory.COMMAND_NAME, new ListFactory());
+		factories.put(AppendFactory.COMMAND_NAME, new AppendFactory());
 	}
 
 	public void run() {
@@ -35,6 +36,9 @@ public class Client {
 			while ((inputLine = buffReader.readLine()) != null) {
 				String[] parts = inputLine.split("\\s+");
 				if (parts.length > 0 && parts[0].length() > 0) {
+					if (parts[0].equals("q")) {
+						break; // I found my self trying to quit with q so often...
+					}
 					CommandFactory<Command> factory = factories.get(parts[0]);
 					if (factory == null) {
 						System.err.println("Not a valid command.");

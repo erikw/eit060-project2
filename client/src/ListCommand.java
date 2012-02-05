@@ -11,7 +11,8 @@ public class ListCommand implements Command {
 	}
 
 	public String protocolString() {
-		StringBuilder proto = new StringBuilder("list");
+		StringBuilder proto = new StringBuilder();
+		proto.append("list");
 		if (patientID != NO_ID) {
 			proto.append(" ").append(patientID);
 		} 
