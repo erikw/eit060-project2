@@ -4,7 +4,7 @@ Second project in the course EIT060 Computer Security at Lund University. The go
 ## How to build and run
 ### Client
 Compile and run by typing the following commands:
-## How to build and run
+
 	$cd it060_project2
 	$cd client
 	$ant
