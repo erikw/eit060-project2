@@ -10,11 +10,10 @@ Compile and run by typing the following commands:
 	$ant
 	$./run.sh
 
+### Server
+
 ##Contributors
 Erik Jansson
-
 Erik Westrup
-
 Gustaf Waldemarson
-
 Tommy Olofsson
