@@ -20,6 +20,7 @@ public class Client {
 		factories.put(ListFactory.COMMAND_NAME, new ListFactory());
 		factories.put(AppendFactory.COMMAND_NAME, new AppendFactory());
 		factories.put(CreateFactory.COMMAND_NAME, new CreateFactory());
+		factories.put(DeleteFactory.COMMAND_NAME, new DeleteFactory());
 	}
 
 	public void run() {
