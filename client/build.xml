@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="client" basedir="." default="compile">
+	<description>
+		Build script for the the client in the EIT060 project.
+	</description>
+
+	<!-- *** Global Variables *** -->
+	<property name="project.name" value="Enduro" />
+	<property name="project.group" value="0x8" />
+	<property name="project.authors" value="Erik Westrup, Erik Jansson, Gustaf Waldemarsson, Tommy Oloffson" />
+	<property name="path.source" value="src" />
+	<property name="path.destination" value="bin" />
+	<property name="path.library" value="lib" />
+	<property name="path.documentation" value="doc" />
+	<property name="path.release" value="release" />
+
+
+	<!-- Library versions in use. Please update path externalLibs if you add/remove from here.-->
+	<property name="junit" value="junit-4.9b2.jar" />
+
+	<!-- *** Paths *** -->
+	<path id="externalLibs">
+		<fileset dir="${path.library}">
+			<include name="${junit}" />
+		</fileset>
+	</path>
+
+	<path id="classpath.tests">
+		<pathelement location="${path.destination}" />
+	</path>
+
+	
+	<!-- *** Targets *** -->
+	<!-- Here all targets, "methods", exists. -->
+
+	<target name="compile" depends="clean" description="Compile the sources to the destination.">
+		<mkdir dir="bin" />
+		<javac destdir="${path.destination}">
+			<src path="${path.source}" />
+			<classpath refid="externalLibs" />
+		</javac>
+	</target>
+
+	<target name="clean" description="Delete old binaries and text files.">
+		<delete includeemptydirs="true"> 
+			<fileset dir="${path.destination}" includes="**/*" />
+		</delete>
+	</target>
+
+	<!--<target name="test" description="Run JUnit tests and stop build if one fails.">-->
+		<!--<junit printsummary="true" fork="yes" haltonfailure="true">-->
+			<!--<formatter type="plain" usefile="no" />-->
+			<!--<classpath refid="classpath.tests" />-->
+			<!--<classpath refid="externalLibs" />-->
+
+			<!--<batchtest>-->
+				<!--<fileset dir="${path.destination}/" includes="test/**/**Test**.class" />-->
+			<!--</batchtest>-->
+		<!--</junit>-->
+	<!--</target>-->
+
+</project>
