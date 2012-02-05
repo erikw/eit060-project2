@@ -24,7 +24,4 @@ public class DeleteFactory extends CommandFactory<DeleteCommand> {
 			sb.append("\t").append("[Others] NA.").append("\n");
 			return sb.toString();
 		}
-
 }
-
-

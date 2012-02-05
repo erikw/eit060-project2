@@ -31,6 +31,7 @@ public class Client {
 			System.out.println(factory.helpText());
 			//System.out.println("----");
 		}
+		System.out.println("-------");
 		
 		System.out.print(LINE_UI);
 		String inputLine;
