@@ -17,6 +17,7 @@ public class Client {
 		buffReader = new BufferedReader(new InputStreamReader(System.in));
 		factories = new HashMap<String, CommandFactory>();
 		factories.put(ReadFactory.COMMAND_NAME, new ReadFactory());
+		factories.put(ListFactory.COMMAND_NAME, new ListFactory());
 	}
 
 	public void run() {
@@ -25,7 +26,7 @@ public class Client {
 		System.out.println("Available commands are:");
 		for (CommandFactory<Command> factory : factories.values()) {
 			System.out.println(factory.helpText());
-			System.out.println("----");
+			//System.out.println("----");
 		}
 		
 		System.out.print(LINE_UI);
