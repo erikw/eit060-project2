@@ -1,5 +1,5 @@
 # Generate all outputs for the project.
-NAME=rapport
+NAME=report
 
 default : compile
 
