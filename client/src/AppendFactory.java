@@ -3,9 +3,16 @@ public class AppendFactory extends CommandFactory<AppendCommand> {
 
 		public AppendCommand makeCommand(String[] args) throws BadCommandParamException {
 			AppendCommand command;
-			if (args.length == 3) {
-				if (args[1].matches("\\d+") && args[2].length() > 0) {
-					command =  new AppendCommand(args[1], args[2]);	
+			if (args.length >= 3) {
+				if (args[1].matches("\\d+")) {
+					StringBuilder rebuilder = new StringBuilder(); // The correct way is ofc. to change the interface for parsing arguments at command line...
+					for (int i = 2; i < args.length; ++i ) {
+						rebuilder.append(args[i]);
+						if (i != args.length - 1) {
+							rebuilder.append(" ");
+						}
+					}
+					command =  new AppendCommand(args[1], rebuilder.toString());
 				} else {
 					throw new BadCommandParamException(COMMAND_NAME, "Record ID must be digits only and at least one character of text is needed.");
 				}
