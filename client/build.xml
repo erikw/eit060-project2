@@ -5,8 +5,7 @@
 	</description>
 
 	<!-- *** Global Variables *** -->
-	<property name="project.name" value="Enduro" />
-	<property name="project.group" value="0x8" />
+	<property name="project.name" value="Project 2" />
 	<property name="project.authors" value="Erik Westrup, Erik Jansson, Gustaf Waldemarsson, Tommy Oloffson" />
 	<property name="path.source" value="src" />
 	<property name="path.destination" value="bin" />
