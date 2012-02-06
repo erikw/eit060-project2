@@ -33,7 +33,7 @@
 	<!-- Here all targets, "methods", exists. -->
 
 	<target name="compile" depends="clean" description="Compile the sources to the destination.">
-		<mkdir dir="bin" />
+		<mkdir dir="${path.destination}" />
 		<javac includeantruntime="false" destdir="${path.destination}">
 			<src path="${path.source}" />
 			<classpath refid="externalLibs" />
@@ -41,9 +41,7 @@
 	</target>
 
 	<target name="clean" description="Delete old binaries and text files.">
-		<delete includeemptydirs="true"> 
-			<fileset dir="${path.destination}" includes="**/*" />
-		</delete>
+		<delete dir="${path.destination}" includeemptydirs="true" />
 	</target>
 
 	<!--<target name="test" description="Run JUnit tests and stop build if one fails.">-->
