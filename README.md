@@ -17,6 +17,6 @@ Compile and run by typing the following commands:
 
 [Erik Westrup](https://github.com/erikw)
 
-Gustaf Waldemarson
+[Gustaf Waldemarson](https://github.com/xaldew)
 
 [Tommy Olofsson](https://github.com/tommyolofsson)
