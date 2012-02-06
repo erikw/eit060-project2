@@ -6,13 +6,15 @@
 \usepackage[parfill]{parskip}
 \usepackage{graphicx}
 
-\title{TITLE}
+\title{EIT060 2nd project}
 \date{}
 \author{
-Tommy Olofsson,\texttt{<ada09tol@student.lu.se>}
-Erik Westrup,\texttt{<ada09eww@student.lu.se>}
-Gustaf Waldermarson,\texttt{<ada09gwa@student.lu.se>}
-Erik Jansson,\texttt{<ada09eja@student.lu.se>}
+\begin{tabular}{l l}
+Tommy Olofsson & \texttt{<ada09tol@student.lu.se>}\\
+Erik Westrup & \texttt{<ada09eww@student.lu.se>}\\
+Gustaf Waldermarson & \texttt{<ada09gwa@student.lu.se>}\\
+Erik Jansson & \texttt{<ada09eja@student.lu.se>}
+\end{tabular}
 }
 
 \begin{document}
@@ -27,10 +29,10 @@ Erik Jansson,\texttt{<ada09eja@student.lu.se>}
 \end{titlepage}
 \setcounter{page}{2}
 % content
-\section{Desciption of the system}
-Or system should handle medical records for patioents. The system consisrs of multiple entities including patients, doctors and agencies. 
+\section{Description of the system}
+The system should handle medical records for patients. It consists of multiple entities including patients, doctors, and agencies. % oxford comma ftw
 
-The entities are
+The entities are as follows:
 \begin{itemize}
 \item Patient: A patient can have one or more records in the system and he will at all time have read access to them. He will have to use private and public keys and a software client to obtain them from a server. 
 \item Doctor: A doctor works at a division and will have read, write and create access for records to all patients registered to him. Also all records associated with the same division will be readable.
@@ -43,12 +45,11 @@ separate from the hospital.
 \end{itemize}
 
 \section{Setup process}
-The first step in setting the system up (appart from server installationa and hardware distribution) is to generate a keypair and from this a Certificate Signing Request for the public key (CSR). The CSR is transfered over sneakernet to the CA where it is signed and take back and stored. 
+The first step in setting the system up (appart from server installation and hardware distribution) is to generate a keypair and from this a Certificate Signing Request (CSR) for the public key. The CSR is transfered over sneakernet to the CA where it is signed and take back and stored. 
 
 A patient will need to obtain the client software from the ``socialstyrelsen'' office. They will there get their signed certificate stored together with the client on some form of read only memory (e.g compact disc or thumbdrive).
 
-In a further extension of this system, it should be possible to add new doctors and nurses but this is out of the scope
-of this project and 
+In a further extension of this system, it should be possible to add new doctors and nurses. This, however, is out of the scope of this project.
 
 % TODO expiration of the certs?
 
