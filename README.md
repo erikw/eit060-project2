@@ -13,10 +13,10 @@ Compile and run by typing the following commands:
 ### Server
 
 ##Contributors
-Erik Jansson
+[Erik Jansson](https://github.com/Meldanya)
 
-Erik Westrup
+[Erik Westrup](https://github.com/erikw)
 
 Gustaf Waldemarson
 
-Tommy Olofsson
+[Tommy Olofsson](https://github.com/tommyolofsson)
