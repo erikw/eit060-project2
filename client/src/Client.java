@@ -16,20 +16,19 @@ public class Client {
 	public Client() {
 		buffReader = new BufferedReader(new InputStreamReader(System.in));
 		factories = new HashMap<String, CommandFactory>();
-		factories.put(ReadFactory.COMMAND_NAME, new ReadFactory());
-		factories.put(ListFactory.COMMAND_NAME, new ListFactory());
+		factories.put(ReadFactory.COMMAND_NAME,   new ReadFactory());
+		factories.put(ListFactory.COMMAND_NAME,   new ListFactory());
 		factories.put(AppendFactory.COMMAND_NAME, new AppendFactory());
 		factories.put(CreateFactory.COMMAND_NAME, new CreateFactory());
 		factories.put(DeleteFactory.COMMAND_NAME, new DeleteFactory());
 	}
 
 	public void run() {
-		System.out.println("Started secure client...");
+		System.out.println("Started secure client.");
 		System.out.println("Quit by sending an EOF.");
 		System.out.println("Available commands are:");
 		for (CommandFactory<Command> factory : factories.values()) {
 			System.out.println(factory.helpText());
-			//System.out.println("----");
 		}
 		System.out.println("-------");
 		
@@ -42,6 +41,7 @@ public class Client {
 					if (parts[0].equals("q")) {
 						break; // I found my self trying to quit with q so often...
 					}
+
 					CommandFactory<Command> factory = factories.get(parts[0]);
 					if (factory == null) {
 						System.err.println("Not a valid command.");
@@ -59,8 +59,6 @@ public class Client {
 		} catch (IOException ioe) {
 			System.err.println("Error reading input.");
 		}
-
 		System.out.println("\nTerminating...");
 	}
-
 }
