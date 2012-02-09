@@ -63,26 +63,26 @@ Read will return the requested record if the user is
 
 \subsection{Append}
 \begin{itemize}
-\item Patient: Access always denied with a message "You shall not paaaaass!".
+\item Patient: Access always denied with a message "You shall not pass!".
 \item Doctor, Nurse: Two parameters with record id and text to append is submitted. Responds with success or denied. Note that a doctor could mistype the id and accidentally write to another patients journal. A final product would include a GUI which would eliminate this problem.
-\item Agency: Access always denied with a message "You shall not paaaaass!".
+\item Agency: Access always denied with a message "You shall not pass!".
 \end{itemize}
 
 \subsection{Create}
 Creates a new record for a patient.
 \begin{itemize}
-\item Patient: Access always denied with a message "You shall not paaaaass!".
+\item Patient: Access always denied with a message "You shall not pass!".
 \item Doctor: Parameters are patient id, nurse.
-\item Nurse: Access always denied with a message "You shall not paaaaass!".
-\item Agency: Access always denied with a message "You shall not paaaaass!".
+\item Nurse: Access always denied with a message "You shall not pass!".
+\item Agency: Access always denied with a message "You shall not pass!".
 \end{itemize}
 
 \subsection{Delete}
 Removes a particular record.
 \begin{itemize}
-\item Patient: Access always denied with a message "You shall not paaaaass!".
-\item Doctor: Access always denied with a message "You shall not paaaaass!".
-\item Nurse: Access always denied with a message "You shall not paaaaass!".
+\item Patient: Access always denied with a message "You shall not pass!".
+\item Doctor: Access always denied with a message "You shall not pass!".
+\item Nurse: Access always denied with a message "You shall not pass!".
 \item Agency: Parameter with journal id to delete. Returns success.
 \end{itemize}
 
@@ -91,5 +91,20 @@ Removes a particular record.
 \item Patient: If called by a patient with no parameters, it will list all records pertaining to the patient.
 \item Doctor, Nurse, Agency: If called by a doctor or a nurse with a patient id as a parameter, it will list all records belonging to that patient. If no parameter is specified, an error is displayed.
 \end{itemize}
+
+
+\section{SSL/TLS}
+In our system we are using SSL/TLS-technology for authentication and establishment of a secure connection between the communicating parties. The Secure Socket Layer 
+
+
+
+
+\footnote{Computer Security 3ed, Dieter Gollman, Wiley, page 310-314}
+\footnote{Java\textregistered Secure Socket Extension (JSSE) Reference Guide, accessed 2012-02-09, http://docs.oracle.com/javase/6/docs/technotes/guides/security/jsse/JSSERefGuide.html}
+
+
+
+
+
 
 \end{document}
