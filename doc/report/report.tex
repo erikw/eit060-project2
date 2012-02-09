@@ -92,6 +92,9 @@ Removes a particular record.
 \item Doctor, Nurse, Agency: If called by a doctor or a nurse with a patient id as a parameter, it will list all records belonging to that patient. If no parameter is specified, an error is displayed.
 \end{itemize}
 
+\subsection{Implementation}
+In the name of simplicity and convenience for the implementators no fancy protocol is used. The same commands describes above are sent directly to the server from the client with a message length perpended. The server can answer with to commands: error and result. The first is sent when a requested action is denied or failed and a text message is included. If the requested was successful a result is sent with the result text included.
+
 \section{Public-key Infrastructure}
 \label{sec+pki}
 
@@ -99,12 +102,15 @@ Removes a particular record.
 
 \section{SSL/TLS}
 \label{sec+tls}
-In our system we are using \emph{SSL/TLS}\footnote{Secure Socket Layer/Transport Layer Security}-technology for authentication and establishment of a secure connection between the communicating parties. SSL was developed as a client-server protocol to be used to secure connections above the transport layer in the TCP/IP-stack for application protocols like http and email. Work on SSL started in the mid 90s by Netscape and was eventually adopted as a standard. SSL has lately been superseded by TLS. However the last version of SSL, 3.0, only differs slightly from TLS 1.0 and thus you often refer to the technology as SSL/TLS. We will here refer to TLS as it's the new  and recommended protocol to use. By using TLS in our program we will achieve mutual authentication between server and client, message confidentiality and integrity. The mutual two-way authentication is optional but since w are using it it will be described below.
+In our system we are using \emph{SSL/TLS}\footnote{Secure Socket Layer/Transport Layer Security}-technology for authentication and establishment of a secure connection between the communicating parties. SSL was developed as a client-server protocol to be used to provide a secure byte stream on top of transport layer in the TCP/IP-stack for application protocols like http and email. Work on SSL started in the mid 90s by Netscape and was eventually adopted as a standard. SSL has lately been superseded by TLS. However the last version of SSL, 3.0, only differs slightly from TLS 1.0 and thus you often refer to the technology as SSL/TLS. We will here refer to TLS as it's the new  and recommended protocol to use. By using TLS in our program we will achieve mutual authentication between server and client, message confidentiality and integrity. The mutual two-way authentication is optional but since we are using it it will be described below.
+
 
 \subsection{Pre-handshake}
 It is assumed that both the server and the client have generated a public/private key pair and have a CSR signed a CA according to section \ref{sec+pki}. It is essential that both sides trust at least one CA in the certificate chain of the other party -- otherwise they will not be able to trust each other.
 
 \subsection{Handshake}
+Before the parties can begin setting up the parameters the client must identify the server so it knows to whom he is about to request services from. The server must identify the client to be able to correctly authenticate it so it can use the provided services. They might not have had a previous connection so that they don't have a shared secret. This is solved by letting a trusted third party\footnote{TTP} verify the identity of one part. Thus the first thing to do is to exchange certificates 
+
 \subsection{Communication}
 \subsection{Teardown}
 
