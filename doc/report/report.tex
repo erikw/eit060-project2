@@ -9,12 +9,12 @@
 \title{EIT060 2nd project}
 \date{}
 \author{
-\begin{tabular}{l l}
-Tommy Olofsson & \texttt{<ada09tol@student.lu.se>}\\
-Erik Westrup & \texttt{<ada09eww@student.lu.se>}\\
-Gustaf Waldermarson & \texttt{<ada09gwa@student.lu.se>}\\
-Erik Jansson & \texttt{<ada09eja@student.lu.se>}
-\end{tabular}
+	\begin{tabular}{l l}
+		Tommy Olofsson & \texttt{<ada09tol@student.lu.se>}\\
+		Erik Westrup & \texttt{<ada09eww@student.lu.se>}\\
+		Gustaf Waldermarson & \texttt{<ada09gwa@student.lu.se>}\\
+		Erik Jansson & \texttt{<ada09eja@student.lu.se>}
+	\end{tabular}
 }
 
 \begin{document}
@@ -98,6 +98,7 @@ Removes a particular record.
 \footnote{Computer Security 3ed, Dieter Gollman, Wiley, page 288-293}
 
 \section{SSL/TLS}
+\label{sec+tls}
 In our system we are using \emph{SSL/TLS}\footnote{Secure Socket Layer/Transport Layer Security}-technology for authentication and establishment of a secure connection between the communicating parties. SSL was developed as a client-server protocol to be used to secure connections above the transport layer in the TCP/IP-stack for application protocols like http and email. Work on SSL started in the mid 90s by Netscape and was eventually adopted as a standard. SSL has lately been superseded by TLS. However the last version of SSL, 3.0, only differs slightly from TLS 1.0 and thus you often refer to the technology as SSL/TLS. We will here refer to TLS as it's the new  and recommended protocol to use. By using TLS in our program we will achieve mutual authentication between server and client, message confidentiality and integrity. The mutual two-way authentication is optional but since w are using it it will be described below.
 
 \subsection{Pre-handshake}
@@ -112,8 +113,24 @@ It is assumed that both the server and the client have generated a public/privat
 \footnote{Java\textregistered Secure Socket Extension (JSSE) Reference Guide, accessed 2012-02-09, http://docs.oracle.com/javase/6/docs/technotes/guides/security/jsse/JSSERefGuide.html}
 
 
+\section{Security evaluation}
+A list of attacks we are safe against:
+\begin{description}
+\item[Man-in-the-middle] Defending against a man-in-the-middle attack is hard without using a second, secure channel for verification. By using SSL-connections and certificates signed by a common certificate authority, this attack is not possible. An eavesdropper, from here on called Eve, would need to trick the certificate authority into signing her certificate with the servers name on it. This should not be possible since the CA checks identities of all certificates it signs.
+\item[Eavesdropping] This attack is simply averted by using the SSL protocol, see Section~\ref{sec+tls} for a more detailed explanation of SSL.
+\item[Fake certificates] Since we're using a single certificate authority which signs all the certificates, no certificates signed by anyone else than our CA is accepted. Thus, this attack vector is eliminated.
+\end{description}
 
+A list of attacks we are vulnerable against:
+\begin{description}
+\item[Spoofed client] If an attacker writes a fake client and tricks a user into using it as the real one, we cannot defend against that. The most severe thing the malicious attacker can do in this scenario is to steal all health information for that patient. Unfortunately, the only way to defend against this is to make sure that the correct client has been downloaded by visiting the hospital website using an SSL-connection.
+\item[]
+\end{description}
 
+The human factor is hard to take into account, a user will always do things you have not predicted with the software. For example, our implementation cannot protect against the user choosing a short and weak password which are prone to be broken since the password is handled by the Java keytool utility.
 
+In a real system, the client software would put some requirements on the password, e.g.~alphanumerical passwords of length 10 or more. This would give $(26*2 + 10)^{10} \approx 8.39\cdot 10^{17}$ possible combination of passwords which would take approximately 2 years and 7 months to enumerate at 10 billion passwords per second\footnote{http://www.wolframalpha.com/input/?i=\%2826*2\%2B10\%29\%5E10+\%2F+10\%5E10+s}. Since we will have a expiration time of one year, this seems sufficient protection against weak passwords.
+
+Some user education would be required to make sure they always download the software from the hospitals secure web server which authenticates itself with an SSL-certificate signed by a certificate authority which is trusted by all browsers, e.g.~VeriSign or DigiCert. This is needed to avoid the possibility that the user can accidentally receive a malicious client which steals patient information.
 
 \end{document}
