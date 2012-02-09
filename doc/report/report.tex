@@ -92,11 +92,20 @@ Removes a particular record.
 \item Doctor, Nurse, Agency: If called by a doctor or a nurse with a patient id as a parameter, it will list all records belonging to that patient. If no parameter is specified, an error is displayed.
 \end{itemize}
 
+\section{Public-key Infrastructure}
+\label{sec+pki}
+
+\footnote{Computer Security 3ed, Dieter Gollman, Wiley, page 288-293}
 
 \section{SSL/TLS}
-In our system we are using SSL/TLS-technology for authentication and establishment of a secure connection between the communicating parties. The Secure Socket Layer 
+In our system we are using \emph{SSL/TLS}\footnote{Secure Socket Layer/Transport Layer Security}-technology for authentication and establishment of a secure connection between the communicating parties. SSL was developed as a client-server protocol to be used to secure connections above the transport layer in the TCP/IP-stack for application protocols like http and email. Work on SSL started in the mid 90s by Netscape and was eventually adopted as a standard. SSL has lately been superseded by TLS. However the last version of SSL, 3.0, only differs slightly from TLS 1.0 and thus you often refer to the technology as SSL/TLS. We will here refer to TLS as it's the new  and recommended protocol to use. By using TLS in our program we will achieve mutual authentication between server and client, message confidentiality and integrity. The mutual two-way authentication is optional but since w are using it it will be described below.
 
+\subsection{Pre-handshake}
+It is assumed that both the server and the client have generated a public/private key pair and have a CSR signed a CA according to section \ref{sec+pki}. It is essential that both sides trust at least one CA in the certificate chain of the other party -- otherwise they will not be able to trust each other.
 
+\subsection{Handshake}
+\subsection{Communication}
+\subsection{Teardown}
 
 
 \footnote{Computer Security 3ed, Dieter Gollman, Wiley, page 310-314}
