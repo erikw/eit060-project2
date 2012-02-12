@@ -14,10 +14,10 @@ import javax.security.cert.X509Certificate;
 import java.security.KeyStoreException;
 
 public class JournalServer {
-    private static final int LENGTH_LENGTH = 16; // length of the length field, bytes
-    protected KeyStore keyStore;
+	private static final int LENGTH_LENGTH = 16; // length of the length field, bytes
+	protected KeyStore keyStore;
 
-    public JournalServer() {
+	public JournalServer() {
 		System.setProperty("javax.net.ssl.keyStore", "../crypt_server/keystore");
 		System.setProperty("javax.net.ssl.keyStorePassword", "passwd");
 		try {
@@ -25,13 +25,13 @@ public class JournalServer {
 		} catch (KeyStoreException e) {
 			this.log("could not open keystore");
 		}
-    }
+	}
 
-    protected void log(String msg) {
+	protected void log(String msg) {
 		System.out.println("SERVER:\t" + msg);
-    }
+	}
 
-    public void start(int port) {
+	public void start(int port) {
 		SSLServerSocketFactory fac = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault(); 
 		SSLServerSocket ss;
 
@@ -106,11 +106,11 @@ public class JournalServer {
 			}
 			// got length, do work.
 		}
-    }
+	}
 
-    protected String parseCmd(String cmd) {
+	protected String parseCmd(String cmd) {
 		return "You wrote " + cmd + "\n";
-    }
+	}
 
 	public static void main(String args[]) {
 		JournalServer js;
