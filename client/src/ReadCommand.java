@@ -1,4 +1,4 @@
-public class ReadCommand implements Command { 
+public class ReadCommand implements Command {
 	private String recordID;
 
 	public ReadCommand(String recordID) {

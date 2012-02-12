@@ -1,4 +1,4 @@
-public class CreateCommand implements Command { 
+public class CreateCommand implements Command {
 	private String patientID;
 
 	public CreateCommand(String patientID) {

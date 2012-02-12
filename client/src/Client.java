@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 
-public class Client { 
+public class Client {
 	private static final String LINE_UI = "> ";
 	private Map<String, CommandFactory> factories;
 	private BufferedReader buffReader;

@@ -1,4 +1,4 @@
-public class DeleteCommand implements Command { 
+public class DeleteCommand implements Command {
 	private String recordID;
 
 	public DeleteCommand(String recordID) {

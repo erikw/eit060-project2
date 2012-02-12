@@ -15,99 +15,107 @@ import java.security.KeyStoreException;
 
 public class JournalServer {
     private static final int LENGTH_LENGTH = 16; // length of the length field, bytes
-    protected KeyStore keyStore;    
-    
+    protected KeyStore keyStore;
+
     public JournalServer() {
-	System.setProperty("javax.net.ssl.keyStore", "../crypt_server/keystore");
-	System.setProperty("javax.net.ssl.keyStorePassword", "passwd");
-	try {
-	    this.keyStore = KeyStore.getInstance("JKS");
-	} catch (KeyStoreException e) {
-	    this.log("could not open keystore");
-	}
+		System.setProperty("javax.net.ssl.keyStore", "../crypt_server/keystore");
+		System.setProperty("javax.net.ssl.keyStorePassword", "passwd");
+		try {
+			this.keyStore = KeyStore.getInstance("JKS");
+		} catch (KeyStoreException e) {
+			this.log("could not open keystore");
+		}
     }
 
     protected void log(String msg) {
-	System.out.println("SERVER:\t" + msg);
+		System.out.println("SERVER:\t" + msg);
     }
 
     public void start(int port) {
-	SSLServerSocketFactory fac = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault(); 
-	SSLServerSocket ss;
-	try {
-	    ss = (SSLServerSocket)fac.createServerSocket(port);
-	} catch (java.io.IOException e) {
-	    this.log("could not bind to port. " + e);
-	    return;
-	}
-	while (true) {
-	    this.log("waiting for incomming connection");
-	    SSLSocket sock;
-	    try {
-		sock = (SSLSocket) ss.accept();
-	    } catch (java.io.IOException e) {
-		this.log("failed to accept connection");
-		continue;
-	    }
-	    this.log("accepted incomming connection");
-	    SSLSession sess = sock.getSession();
-	    X509Certificate cert;
-	    try {
-		cert = (X509Certificate)sess.getPeerCertificateChain()[0];
-	    } catch (javax.net.ssl.SSLPeerUnverifiedException e) {
-		this.log("client not verified");
+		SSLServerSocketFactory fac = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault(); 
+		SSLServerSocket ss;
+
 		try {
-		    sock.close();
-		} catch (java.io.IOException e2) {
-		    this.log("failed closing socket, w/e");
-		}
-		continue;
-	    }
-	    String subj = cert.getSubjectDN().getName();
-	    System.out.println("SERVER:\tclient DN: " + subj);
-	    int readBytes = 0;
-	    int tmp;
-	    int length = 0;
-	    InputStream in;
-	    try {
-		in = sock.getInputStream();
-	    } catch (java.io.IOException e) {
-		this.log("failed to get inputstream");
-		try {
-		    sock.close();
-		} catch (java.io.IOException e2) {
-		    this.log("failed closing socket, w/e");
-		}
-		continue;
-	    }
-	    while (readBytes < LENGTH_LENGTH) {
-		try {
-		    tmp = in.read();
+			ss = (SSLServerSocket)fac.createServerSocket(port);
 		} catch (java.io.IOException e) {
-		    continue;
+			this.log("could not bind to port. " + e);
+			return;
 		}
-		readBytes += 1;
-		length += tmp << (LENGTH_LENGTH - readBytes);
-	    }
-	    if (readBytes == LENGTH_LENGTH) {
-		this.log("the msg is " + length + " bytes long");
-	    } else {
-		this.log("SERVER:\tfailed to read length field");
-		continue;
-	    }
-	    // got length, do work.
-	    
-	}
+
+		while (true) {
+			this.log("waiting for incomming connection");
+			SSLSocket sock;
+
+			try {
+				sock = (SSLSocket) ss.accept();
+			} catch (java.io.IOException e) {
+				this.log("failed to accept connection");
+				continue;
+			}
+
+			this.log("accepted incomming connection");
+			SSLSession sess = sock.getSession();
+			X509Certificate cert;
+
+			try {
+				cert = (X509Certificate)sess.getPeerCertificateChain()[0];
+			} catch (javax.net.ssl.SSLPeerUnverifiedException e) {
+				this.log("client not verified");
+				try {
+					sock.close();
+				} catch (java.io.IOException e2) {
+					this.log("failed closing socket, w/e");
+				}
+				continue;
+			}
+
+			String subj = cert.getSubjectDN().getName();
+			System.out.println("SERVER:\tclient DN: " + subj);
+
+			int readBytes = 0;
+			int tmp;
+			int length = 0;
+			InputStream in;
+			try {
+				in = sock.getInputStream();
+			} catch (java.io.IOException e) {
+				this.log("failed to get inputstream");
+				try {
+					sock.close();
+				} catch (java.io.IOException e2) {
+					this.log("failed closing socket, w/e");
+				}
+				continue;
+			}
+
+			while (readBytes < LENGTH_LENGTH) {
+				try {
+					tmp = in.read();
+				} catch (java.io.IOException e) {
+					continue;
+				}
+				readBytes += 1;
+				length += tmp << (LENGTH_LENGTH - readBytes);
+			}
+
+			if (readBytes == LENGTH_LENGTH) {
+				this.log("the msg is " + length + " bytes long");
+			} else {
+				this.log("SERVER:\tfailed to read length field");
+				continue;
+			}
+			// got length, do work.
+		}
     }
-    
+
     protected String parseCmd(String cmd) {
-	return "You wrote " + cmd + "\n";
+		return "You wrote " + cmd + "\n";
     }
- 
-    public static void main(String args[]) {
-	JournalServer js;
-    
-	js = new JournalServer();
-	js.start(8080);
-    }
+
+	public static void main(String args[]) {
+		JournalServer js;
+
+		js = new JournalServer();
+		js.start(8080);
+	}
 }

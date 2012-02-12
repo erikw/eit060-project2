@@ -1,4 +1,4 @@
-public class ListCommand implements Command { 
+public class ListCommand implements Command {
 	public static final String NO_ID = "-1";
 	private String patientID;
 
@@ -15,7 +15,7 @@ public class ListCommand implements Command {
 		proto.append("list");
 		if (patientID != NO_ID) {
 			proto.append(" ").append(patientID);
-		} 
+		}
 		return proto.toString();
 	}
 }

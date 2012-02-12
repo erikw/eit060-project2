@@ -1,4 +1,4 @@
-public class AppendCommand implements Command { 
+public class AppendCommand implements Command {
 	private String recordID;
 	private String appendText;
 

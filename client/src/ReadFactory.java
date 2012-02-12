@@ -1,4 +1,4 @@
-public class ReadFactory extends CommandFactory<ReadCommand> { 
+public class ReadFactory extends CommandFactory<ReadCommand> {
 		public static final String COMMAND_NAME = "read";
 
 		public ReadCommand makeCommand(String[] args) throws BadCommandParamException {

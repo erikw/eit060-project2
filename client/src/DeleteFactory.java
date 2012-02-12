@@ -1,4 +1,4 @@
-public class DeleteFactory extends CommandFactory<DeleteCommand> { 
+public class DeleteFactory extends CommandFactory<DeleteCommand> {
 		public static final String COMMAND_NAME = "delete";
 
 		public DeleteCommand makeCommand(String[] args) throws BadCommandParamException {

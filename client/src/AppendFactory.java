@@ -1,4 +1,4 @@
-public class AppendFactory extends CommandFactory<AppendCommand> { 
+public class AppendFactory extends CommandFactory<AppendCommand> {
 		public static final String COMMAND_NAME = "append";
 
 		public AppendCommand makeCommand(String[] args) throws BadCommandParamException {
