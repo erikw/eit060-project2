@@ -6,7 +6,7 @@
 \usepackage[parfill]{parskip}
 \usepackage{graphicx}
 
-\title{EIT060 2nd project}
+\title{EIT060 2nd Project}
 \date{}
 \author{
 	\begin{tabular}{l l}
@@ -29,7 +29,7 @@
 \end{titlepage}
 \setcounter{page}{2}
 % content
-\section{Description of the system}
+\section{System Description}
 The system should handle medical records for patients. It consists of multiple entities including patients, doctors, and agencies. % oxford comma ftw
 
 The entities are as follows:
@@ -44,12 +44,15 @@ separate from the hospital.
 \item The server sits in a locked room and it accessible only by trusted technicans. Is has an audit log containing all access to the patient records.
 \end{itemize}
 
-\section{Setup process}
+\section{Setup Process}
 The first step in setting the system up (appart from server installation and hardware distribution) is to generate a keypair and from this a Certificate Signing Request (CSR) for the public key. The CSR is transfered over sneakernet to the CA where it is signed and taken back and stored. 
 
-A patient will need to obtain the client software from the ``socialstyrelsen'' office. They will there get their signed certificate stored together with the client on some form of read only memory (e.g compact disc or thumbdrive).
+A patient will need to obtain the client software from the ``socialstyrelsen'' office. They will there get their signed certificate stored together with the client on some form of read only memory (e.g compact disc or thumbdrive). This certificate is transfered to the client application and stored in the user's password protected keystore. 
 
 In a further extension of this system, it should be possible to add new doctors and nurses. This, however, is out of the scope of this project.
+
+\section{Authentication}
+The system will use two-factor authentication to connect to the server. The first factor is a password the user has to enter to get the certificates from the keystore. These certificates are then used as the second factor, and are used to authenticate the user to the server.
 
 % TODO expiration of the certs?
 % TODO How certs generated?
@@ -94,8 +97,7 @@ Removes a particular record.
 \end{itemize}
 
 \subsection{Implementation}
-In the name of simplicity and convenience for the implementators no fancy protocol is used. The same commands describes above are sent directly to the server from the client with a message length prepended. The server can answer with to commands: error and result. The first is sent when a requested action is denied or failed and a text message is included. If the requested was successful a result is sent with the result text included.
-
+In the name of simplicity and convenience for the implementators no fancy protocol is used. The same commands describes above are sent directly to the server from the client with a message length prepended. The server can answer with two commands: error and result. The first is sent when a requested action is denied or failed and a text message is included. If the requested was successful a result is sent with the result text included.
 \section{Public-key Infrastructure}
 \label{sec+pki}
 
@@ -137,7 +139,7 @@ Both sides must send a \emph{Close Message} to terminate the session.
 \footnote{Java\textregistered Secure Socket Extension (JSSE) Reference Guide, accessed 2012-02-09, http://docs.oracle.com/javase/6/docs/technotes/guides/security/jsse/JSSERefGuide.html}
 
 
-\section{Security evaluation}
+\section{Security Evaluation}
 A list of attacks we are safe against:
 \begin{description}
 \item[Man-in-the-middle] Defending against a man-in-the-middle attack is hard without using a second, secure channel for verification. However, by using SSL-connections and certificates signed by a common certificate authority, this attack is avoided. An eavesdropper, from here on called Eve, would need to trick the certificate authority into signing her certificate with the servers name on it. This should not be possible since the CA checks identities of all certificates it signs.
@@ -161,7 +163,6 @@ There is always the possibility that an attacker will have access to a super com
 With the keystore password the attacker would have free access to a user's certificates. These can later be used by the attacker to authenticate himself/herself with the server.
 
 \end{description}
-
 
 
 \end{document}
