@@ -26,15 +26,17 @@ public class Client {
 	public void run() {
 		System.out.println("Started secure client.");
 		System.out.println("Quit by sending an EOF.");
-		System.out.println("Available commands are:");
-		for (CommandFactory<Command> factory : factories.values()) {
-			System.out.println(factory.helpText());
-		}
-		System.out.println("-------");
-		
-		System.out.print(LINE_UI);
-		String inputLine;
 		try {
+			openKeystores();
+
+			System.out.println("Available commands are:");
+			for (CommandFactory<Command> factory : factories.values()) {
+				System.out.println(factory.helpText());
+			}
+			System.out.println("-------");
+			
+			System.out.print(LINE_UI);
+			String inputLine;
 			while ((inputLine = buffReader.readLine()) != null) {
 				String[] parts = inputLine.split("\\s+");
 				if (parts.length > 0 && parts[0].length() > 0) {
@@ -64,5 +66,21 @@ public class Client {
 
 	private void connectServer() {
 		
+	}
+
+	private void openKeystores() throws IOException {
+			System.out.print("Keystore password:");
+			String passwordKeystore;
+			String passwordTruststore;
+			while (passwordKeystore == null || passwordKeystore.length() == 0) {
+				System.out.print("Keystore password:");
+				passwordKeystore = buffReader.readLine();
+				// TODO test opening keystore
+			}
+			while (passwordTruststore == null || passwordTruststore.length() == 0) {
+				System.out.print("Truststore password:");
+				passwordTruststore = buffReader.readLine();
+				// TODO test opening keystore
+			}
 	}
 }
