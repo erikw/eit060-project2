@@ -61,4 +61,8 @@ public class Client {
 		}
 		System.out.println("\nTerminating...");
 	}
+
+	private void connectServer() {
+		
+	}
 }
