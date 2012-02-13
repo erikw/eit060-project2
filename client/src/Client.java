@@ -70,17 +70,42 @@ public class Client {
 
 	private void openKeystores() throws IOException {
 			System.out.print("Keystore password:");
-			String passwordKeystore;
-			String passwordTruststore;
-			while (passwordKeystore == null || passwordKeystore.length() == 0) {
+			String passwordKeystore = null;
+			ConsoleEraser eraser = new ConsoleEraser();
 				System.out.print("Keystore password:");
+			eraser.run();
+			while (passwordKeystore == null || passwordKeystore.length() == 0) {
 				passwordKeystore = buffReader.readLine();
 				// TODO test opening keystore
 			}
-			while (passwordTruststore == null || passwordTruststore.length() == 0) {
-				System.out.print("Truststore password:");
-				passwordTruststore = buffReader.readLine();
-				// TODO test opening keystore
+			eraser.stopIt();
+	}
+
+	//private static void sttyEcho(boolean on) {
+		//String command = "/bin/sh -c /bin/stty ";
+		//command	+= on ? "" : "-";
+		//command += "echo";
+		//command += " </dev/tty";
+		//try {
+			//Process proc = Runtime.getRuntime().exec("/bin/sh -c /bin/stty -echo < /dev/tty");
+			//proc.waitFor();
+		//} catch (InterruptedException ie) {
+		//} catch (IOException ioe) {
+
+		//}
+	//}
+
+	private class ConsoleEraser extends Thread {
+		private boolean stop;
+
+		public void run() {
+			while (!stop) {
+				System.out.print("\b");
 			}
+		}
+
+		synchronized void stopIt() {
+			stop = true;
+		}
 	}
 }
