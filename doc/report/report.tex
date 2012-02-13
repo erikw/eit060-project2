@@ -36,8 +36,8 @@ The entities are as follows:
 \begin{itemize}
 \item Patient: A patient can have one or more records in the system and he will at all time have read access to them. He will have to use private and public keys and a software client to obtain them from a server. 
 \item Doctor: A doctor works at a division and will have read, write and create access for records to all patients registered to him. Also all records associated with the same division will be readable.
-\item Nurse: A nurse works under a division will have read and write access to records for records to all patients registered to him/her. Also all records associated with the same division will be readable.
-\item Medical record: A medical record is stored on a server. Each record is assosiacted with one patient, one doctor, one nurse and one division.
+\item Nurse: A nurse works under a division will have read and write access to records for records to all patients registered to him/her. Also all records associated with the same division will be readable to the nurse.
+\item Medical record: A medical record is stored on a server. Each record is associated with one patient, one doctor, one nurse and one division.
 \item Agency: An agency will have the ability to read and delete records at will.
 \item Certificate Authority: All certificates are signed by a root CA and every entety trusts this CA, this CA is
 separate from the hospital.
@@ -45,7 +45,7 @@ separate from the hospital.
 \end{itemize}
 
 \section{Setup process}
-The first step in setting the system up (appart from server installation and hardware distribution) is to generate a keypair and from this a Certificate Signing Request (CSR) for the public key. The CSR is transfered over sneakernet to the CA where it is signed and take back and stored. 
+The first step in setting the system up (appart from server installation and hardware distribution) is to generate a keypair and from this a Certificate Signing Request (CSR) for the public key. The CSR is transfered over sneakernet to the CA where it is signed and taken back and stored. 
 
 A patient will need to obtain the client software from the ``socialstyrelsen'' office. They will there get their signed certificate stored together with the client on some form of read only memory (e.g compact disc or thumbdrive).
 
@@ -56,7 +56,7 @@ In a further extension of this system, it should be possible to add new doctors 
 
 \section{Protocol}
 \subsection{Read}
-Read will return the requested record if the user is 
+Read will return the requested record if the user is \ldots
 \begin{itemize}
 	\item Patient: A patient can read a specific record with this command by supplying a record id. Returns the record or error if not found.
 	\item Doctor, Nurse, Agency: A parameter specifying which record to obtain is needed. Returns the record or an error if not found or access denied.
@@ -94,24 +94,24 @@ Removes a particular record.
 \end{itemize}
 
 \subsection{Implementation}
-In the name of simplicity and convenience for the implementators no fancy protocol is used. The same commands describes above are sent directly to the server from the client with a message length perpended. The server can answer with to commands: error and result. The first is sent when a requested action is denied or failed and a text message is included. If the requested was successful a result is sent with the result text included.
+In the name of simplicity and convenience for the implementators no fancy protocol is used. The same commands describes above are sent directly to the server from the client with a message length prepended. The server can answer with to commands: error and result. The first is sent when a requested action is denied or failed and a text message is included. If the requested was successful a result is sent with the result text included.
 
 \section{Public-key Infrastructure}
 \label{sec+pki}
 
-Asymmetric keys is a way of letting two parties communicate without having a shared secret (like in symmetric encryption) but instead by both having a private/public key pair. The public keys are shared and messages are encrypted with them. Only the holder of the corresponding private pair can decrypt it. The only problem in this is that you don't know who's public key you have meaning you could have a perfectly secure connection to a fraudster! One way to solve this is to let a Trusted Third Part verify the connection with a public key to a real identity. There is an hierarchal order where \emph{Root Certificate Authorities} are on the top. 
+Asymmetric keys is a way of letting two parties communicate securely without having a shared secret (like in symmetric encryption) but instead by both having a private/public key pair. The public keys are shared and messages are encrypted with them. Only the holder of the corresponding private pair can decrypt it. The only problem with this is that you don't know who's public key you have meaning you could have a perfectly secure connection to a fraudster! One way to solve this is to let a Trusted Third Party verify the public key and map it to a real identity. There is an hierarchical order where the \emph{Root Certificate Authorities} are on the top. 
 
 When someone want to prove the key-identity connection to someone they can generate a certificate request and let a CA sign it with its private key. The signed certificate can then be shared to others publicly. Other users who trust the same CA can then verify this signing by decrypting the certificate with the CAs public key. The signing can possibly be applied in several steps creating a certificate chain. To verify a certificate chain you have to follow it up from bottom to top and verify each signing. If you find a CA in the chain that you trust you can also trust the certificate from the unknown person.
 
-One problem for the user is to get the root CAs. Typically they are included in operating systems or in web browsers. The user thus have to trust the judgment of the distributer of these systems that they use. Another problem is when security is breached, e.g. when a CAs private signing key is lost to a fraudster. Then the fraudster can sign certificates in the name of the attacked CA. A proposed but not working solution is to regularly publish a \emph{Certificate Revocation List} of certificates that no longer should be trusted. The users is supposed to check these list regularly but in practice there is no standardize way of doing this.
+One problem for the user is to get the root CAs. Typically they are included in operating systems or in web browsers. The user thus have to trust the judgment of the distributer of these systems that they use. Another problem is when security is breached, e.g. when a CAs private signing key is lost to a fraudster. Then the fraudster can sign certificates in the name of the attacked CA. A proposed but not working solution is to regularly publish a \emph{Certificate Revocation List} of certificates that no longer should be trusted. The users is supposed to check these lists regularly but in practice there is no standardized way of doing this.
 
-One alternative decentralized approach not based on TTPs is \emph{Web of Trust} based on a system of voting where a public key to identify is strengthen by the fact that many other trust this connection.
+One alternative and decentralized approach which is not based on TTPs is \emph{Web of Trust} based on a system of voting where a public key to identify is strengthen by the fact that many other trust this connection.
 
 \footnote{Computer Security 3ed, Dieter Gollman, Wiley, page 288-293}
 
 \section{SSL/TLS}
 \label{sec+tls}
-In our system we are using \emph{SSL/TLS}\footnote{Secure Socket Layer/Transport Layer Security}-technology for authentication and establishment of a secure connection between the communicating parties. SSL was developed as a client-server protocol to be used to provide a secure byte stream on top of transport layer in the TCP/IP-stack for application protocols like http and email. Work on SSL started in the mid 90s by Netscape and was eventually adopted as a standard. SSL has lately been superseded by TLS. However the last version of SSL, 3.0, only differs slightly from TLS 1.0 and thus you often refer to the technology as SSL/TLS. We will here refer to TLS as it's the new  and recommended protocol to use. By using TLS in our program we will achieve mutual authentication between server and client, message confidentiality and integrity. The mutual two-way authentication is optional but since we are using it it will be described below.
+In our system we are using \emph{SSL/TLS}\footnote{Secure Socket Layer/Transport Layer Security}-technology for authentication and establishment of a secure connection between the communicating parties. SSL was developed as a client-server protocol to be used to provide a secure byte stream on top of transport layer in the TCP/IP-stack for application protocols like http and email. Work on SSL started in the mid 90s by Netscape and was eventually adopted as a standard. SSL has lately been superseded by TLS. However the last version of SSL, 3.0, only differs slightly from TLS 1.0 and thus you often refer to the technology as SSL/TLS. We will here refer to TLS as it is the new  and recommended protocol to use. By using TLS in our program we will achieve mutual authentication between server and client, message confidentiality and integrity. The mutual two-way authentication is optional but since we are using it it will be described below.
 
 
 \subsection{Pre-handshake}
@@ -120,7 +120,7 @@ It is assumed that both the server and the client have generated a public/privat
 \subsection{Handshake}
 The first thing in the handshake is that the client initiates the communication by sending a \emph{ClientHello} to the server containting a random number (used later) and a list of supported chiper suits ranked in the order of the clients preference. A cipher suite is a text string specifying a set of parameters in the form \emph{<ssl/tls>\_<keyexchange>\_WITH\_<encyption-type>\_<enc-key-size>\_<hmac>}. For example \emph{TLS\_RSA\_WITH\_RC4\_128\_SHA} means that to use Transport Layer Protocol with RSA authentication and message encryption with RC4 stream cipher with 128 bit keys and that the hashed message autentication to be used is Secure Hash Algorithm. The client can also optionally specify a compression algorithm to use in this message. The server responds with a \emph{ServerHello} including a random number and a chosen cipher suite that is the best match from the client and the servers preferences.
 
-Optionally the server (typically) want to identify the client to be able to correctly authenticate it so it can use the provided services. Optionally the client can identify the server so it knows to whom he is about to request services from. It might be the first time the communicate so no previous shared secret between them exists. This is solved by letting a trusted third party\footnote{TTP} verify the identity of one part. Thus they no have to to exchange certificates. The server then send its \emph{certificate} or the whole certificate chain to the client. If it wants to authenticate the client it also send a \emph{certificate request}. The following message is \emph{SeverHelloDone} indicating the end of this phase from the servers side.  The client verifies the servers certificate if one was recieved. If the server requested so, the client send it certificate or the whole certificate chain to the server who then verifies it.
+Optionally the server (typically) want to identify the client to be able to correctly authenticate it so it can use the provided services. Optionally the client can identify the server so it knows from whom he is about to request services from. It might be the first time the communicate so no previous shared secret between them exists. This is solved by letting a trusted third party\footnote{TTP} verify the identity of one part. Thus they no have to to exchange certificates. The server then send its \emph{certificate} or the whole certificate chain to the client. If it wants to authenticate the client it also send a \emph{certificate request}. The following message is \emph{SeverHelloDone} indicating the end of this phase from the servers side.  The client verifies the servers certificate if one was recieved. If the server requested so, the client send its certificate or the whole certificate chain to the server who then verifies it.
 
 Next the client will send \emph{ClientKeyExchange} which is dependent on the previously chosen key exchange algorithm. The client will generate a random number called the \emph{PreMasterSecret} which is sent to the server encrypted with its public key from earlier (\emph{ClientKeyExchange}). Both sides use this information combined with the previously shared random numbers to get a \emph{MasterSecret} which is the basis for the symmetric keys for encryption and for message authentication. If Diffie-Hellman is used they agree upon generator and then both combines a random number with the generator and sends it to the other party. This exploits the discrete logarithm problem to establish a secret between the server and client. % TODO hur passar DH/RSA ihop med PreMasterSecret osv.? 
 
@@ -130,7 +130,7 @@ The client now send \emph{ChangeCipherSpec} and \emph{Finished} meaning that fro
 Now both parties have agreed upon how to communicate and with what keys. The messages is encrypted using the specified block or stream cipher and the HMAC is send allowing the receiver to verify the integrity of the message.
 
 \subsection{Teardown}
-Both sides send a \emph{Close Message} to terminate the session.
+Both sides must send a \emph{Close Message} to terminate the session.
 
 
 \footnote{Computer Security 3ed, Dieter Gollman, Wiley, page 310-314}
@@ -147,18 +147,21 @@ A list of attacks we are safe against:
 
 A list of attacks we are vulnerable against:
 \begin{description}
-\item[Spoofed client] If an attacker writes a fake client and tricks a user into using it as the real one, we cannot defend against that. The most severe thing the malicious attacker can do in this scenario is to steal all health information for that patient. Unfortunately, the only way to defend against this is to make sure that the correct client has been downloaded by visiting the hospital website using an SSL-connection.
-\item[]
-\end{description}
-
-The human factor is hard to take into account, a user will always do things you have not predicted with the software. For example, our implementation cannot protect against the user choosing a short and weak password which are prone to be broken since the password is handled by the Java keytool utility.
-
-In a real system, the client software would put some requirements on the password, e.g.~alphanumerical passwords of length 10 or more. This would give $(26*2 + 10)^{10} \approx 8.39\cdot 10^{17}$ possible combination of passwords which would take approximately 2 years and 7 months to enumerate at 10 billion passwords per second\footnote{http://www.wolframalpha.com/input/?i=\%2826*2\%2B10\%29\%5E10+\%2F+10\%5E10+s}. Since we will have a expiration time of one year, this seems sufficient protection against weak passwords.
-
-There is always the possibility that an attacker will have access to a super computer capable of cracking passwords at a \emph{significantly} higher rate than usual. This scenario is not easy to defend against. The only solution is to use an algorithm that, like bcrypt, is adaptive and takes into consideration the computing power of the machine it is running on. However, using keytool, this is not an option since the keytool utility does not allow a choice of encryption algorithms when encrypting a keystore.
-
-% TODO med vilken dator skulle det ta den tiden?
+\item[Spoofed Client] If an attacker writes a fake client and tricks a user into using it as the real one. We cannot defend the users against that. The most severe thing the malicious attacker can do in this scenario is to steal all health information the user accesses. Unfortunately, the only ways to defend against this is to make sure that the correct client has been downloaded by visiting the hospital website using an SSL-connection or been obtained through some other secure way.
 
 Some user education would be required to make sure they always download the software from the hospital's secure web server which authenticates itself with an SSL-certificate signed by a certificate authority which is trusted by all browsers, e.g.~VeriSign or DigiCert. This is needed to avoid the possibility that the user can accidentally receive a malicious client which steals patient information.
+
+\item[Compromised Keystores]The human factor is hard to take into account, a user will always do things you have not predicted with the software. For example, our implementation cannot protect against the user choosing a short and weak password which are prone to be broken since the password is handled by the Java keytool utility.
+
+In a real system, the client software would put some requirements on the password, e.g.~alphanumerical passwords of length 10 or more. This would give $(26*2 + 10)^{10} \approx 8.39\cdot 10^{17}$ possible combination of passwords which would take approximately 2 years and 7 months to enumerate at 10 billion passwords per second\footnote{http://www.wolframalpha.com/input/?i=\%2826*2\%2B10\%29\%5E10+\%2F+10\%5E10+s}. Since we will have an expiration time of one year, this seems sufficient protection against weak passwords.
+
+There is always the possibility that an attacker will have access to a super computer capable of cracking passwords at a \emph{significantly} higher rate than usual. This scenario is not easy to defend against. The only solution is to use an algorithm that, like bcrypt, is adaptive and takes into consideration the computing power of the machine it is running on. However, using keytool, this is not an option since the keytool utility does not allow a choice of encryption algorithms when encrypting a keystore.
+% TODO med vilken dator skulle det ta den tiden?
+
+With the keystore password the attacker would have free access to a user's certificates. These can later be used by the attacker to authenticate himself/herself with the server.
+
+\end{description}
+
+
 
 \end{document}
