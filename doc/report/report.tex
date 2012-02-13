@@ -124,7 +124,7 @@ Optionally the server (typically) want to identify the client to be able to corr
 
 Next the client will send \emph{ClientKeyExchange} which is dependent on the previously chosen key exchange algorithm. The client will generate a random number called the \emph{PreMasterSecret} which is sent to the server encrypted with its public key from earlier (\emph{ClientKeyExchange}). Both sides use this information combined with the previously shared random numbers to get a \emph{MasterSecret} which is the basis for the symmetric keys for encryption and for message authentication. If Diffie-Hellman is used they agree upon generator and then both combines a random number with the generator and sends it to the other party. This exploits the discrete logarithm problem to establish a secret between the server and client. % TODO hur passar DH/RSA ihop med PreMasterSecret osv.? 
 
-The client now send \emph{ChangeCipherSpec} and \emph{Finished} meaning that from now on all communication will be encrypted using the now shared secret. The client answers with the same sequence.
+The client now send \emph{ChangeCipherSpec} and \emph{Finished} meaning that from now on all communication will be encrypted using the now shared secret. The server answers with the same sequence.
 
 \subsection{Communication}
 Now both parties have agreed upon how to communicate and with what keys. The messages is encrypted using the specified block or stream cipher and the HMAC is send allowing the receiver to verify the integrity of the message.
