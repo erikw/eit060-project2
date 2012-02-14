@@ -9,6 +9,7 @@ import java.security.GeneralSecurityException;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.KeyManagerFactory;
+import java.util.Arrays;
 
 public class Client {
 	private static final String LINE_UI = "> ";
@@ -21,19 +22,31 @@ public class Client {
 
 	public static void main(String args[]) {
 		Client client = null;
+		boolean error = false;
 		if (args.length == 0) {
 			System.out.println("No user specified. Running with user \"patient\"");
 			client = new Client();
 		} else if (args.length == 1) {
-			client = new Client(args[0]);
+			if (Arrays.asList(validUsers).contains(args[0])) {
+				client = new Client(args[0]);
+			} else {
+				error = true;
+			}
 		} else {
+			error = true;
+		}
+
+		if (error) {
 			System.err.print("Specify none or one user to run the program as. Valid users are: ");
 			for (String user : validUsers) {
 				System.err.print(user + " ");
 			}
+			System.err.println(".");
 			System.exit(1);
+
+		} else {
+			client.run();
 		}
-		client.run();
 	}
 
 	public Client() {

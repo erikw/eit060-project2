@@ -1,2 +1,2 @@
 #!/bin/sh
-java -cp bin Client
+java -cp bin Client $1
