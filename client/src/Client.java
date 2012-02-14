@@ -34,7 +34,7 @@ public class Client {
 				System.out.println(factory.helpText());
 			}
 			System.out.println("-------");
-			
+
 			System.out.print(LINE_UI);
 			String inputLine;
 			while ((inputLine = buffReader.readLine()) != null) {
@@ -65,47 +65,17 @@ public class Client {
 	}
 
 	private void connectServer() {
-		
+
 	}
 
 	private void openKeystores() throws IOException {
+		System.out.print("Keystore password:");
+		String passwordKeystore = null;
+		while (passwordKeystore == null || passwordKeystore.length() == 0) {
 			System.out.print("Keystore password:");
-			String passwordKeystore = null;
-			ConsoleEraser eraser = new ConsoleEraser();
-				System.out.print("Keystore password:");
-			eraser.run();
-			while (passwordKeystore == null || passwordKeystore.length() == 0) {
-				passwordKeystore = buffReader.readLine();
-				// TODO test opening keystore
-			}
-			eraser.stopIt();
-	}
-
-	//private static void sttyEcho(boolean on) {
-		//String command = "/bin/sh -c /bin/stty ";
-		//command	+= on ? "" : "-";
-		//command += "echo";
-		//command += " </dev/tty";
-		//try {
-			//Process proc = Runtime.getRuntime().exec("/bin/sh -c /bin/stty -echo < /dev/tty");
-			//proc.waitFor();
-		//} catch (InterruptedException ie) {
-		//} catch (IOException ioe) {
-
-		//}
-	//}
-
-	private class ConsoleEraser extends Thread {
-		private boolean stop;
-
-		public void run() {
-			while (!stop) {
-				System.out.print("\b");
-			}
+			passwordKeystore = new String(System.console().readPassword());
 		}
-
-		synchronized void stopIt() {
-			stop = true;
-		}
+		// TODO open keystore here.
+		System.out.println("Password is " + passwordKeystore);
 	}
 }
