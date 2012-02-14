@@ -23,11 +23,11 @@ public class JournalServer {
 		try {
 			this.keyStore = KeyStore.getInstance("JKS");
 		} catch (KeyStoreException e) {
-			this.log("could not open keystore");
+			log("could not open keystore");
 		}
 	}
 
-	protected void log(String msg) {
+	private void log(String msg) {
 		System.out.println("SERVER:\t" + msg);
 	}
 
@@ -38,33 +38,33 @@ public class JournalServer {
 		try {
 			ss = (SSLServerSocket)fac.createServerSocket(port);
 		} catch (java.io.IOException e) {
-			this.log("could not bind to port. " + e);
+			log("could not bind to port. " + e);
 			return;
 		}
 
 		while (true) {
-			this.log("waiting for incomming connection");
+			log("waiting for incomming connection");
 			SSLSocket sock;
 
 			try {
 				sock = (SSLSocket) ss.accept();
 			} catch (java.io.IOException e) {
-				this.log("failed to accept connection");
+				log("failed to accept connection");
 				continue;
 			}
 
-			this.log("accepted incomming connection");
+			log("accepted incomming connection");
 			SSLSession sess = sock.getSession();
 			X509Certificate cert;
 
 			try {
 				cert = (X509Certificate)sess.getPeerCertificateChain()[0];
 			} catch (javax.net.ssl.SSLPeerUnverifiedException e) {
-				this.log("client not verified");
+				log("client not verified");
 				try {
 					sock.close();
 				} catch (java.io.IOException e2) {
-					this.log("failed closing socket, w/e");
+					log("failed closing socket, w/e");
 				}
 				continue;
 			}
@@ -79,11 +79,11 @@ public class JournalServer {
 			try {
 				in = sock.getInputStream();
 			} catch (java.io.IOException e) {
-				this.log("failed to get inputstream");
+				log("failed to get inputstream");
 				try {
 					sock.close();
 				} catch (java.io.IOException e2) {
-					this.log("failed closing socket, w/e");
+					log("failed closing socket, w/e");
 				}
 				continue;
 			}
@@ -99,9 +99,9 @@ public class JournalServer {
 			}
 
 			if (readBytes == LENGTH_LENGTH) {
-				this.log("the msg is " + length + " bytes long");
+				log("the msg is " + length + " bytes long");
 			} else {
-				this.log("SERVER:\tfailed to read length field");
+				log("SERVER:\tfailed to read length field");
 				continue;
 			}
 			// got length, do work.
