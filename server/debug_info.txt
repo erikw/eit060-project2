@@ -166,25 +166,21 @@ Is secure renegotiation: false
 SERVER:	accepted incomming connection
 [read] MD5 and SHA1 hashes:  len = 3
 0000: 01 03 01                                           ...
-[read] MD5 and SHA1 hashes:  len = 107
-0000: 00 45 00 00 00 20 00 00   04 01 00 80 00 00 05 00  .E... ..........
-0010: 00 2F 00 00 35 00 00 33   00 00 39 00 00 32 00 00  ./..5..3..9..2..
-0020: 38 00 00 0A 07 00 C0 00   00 16 00 00 13 00 00 09  8...............
-0030: 06 00 40 00 00 15 00 00   12 00 00 03 02 00 80 00  ..@.............
-0040: 00 08 00 00 14 00 00 11   00 00 FF 4F 3D 10 56 EB  ...........O=.V.
-0050: 34 8B 1D A8 17 05 BB BB   DD 9B 70 65 02 FE 47 14  4.........pe..G.
-0060: AD 9F 7F 76 B5 45 0E 0A   FD 23 CF                 ...v.E...#.
-main, READ:  SSL v2, contentType = Handshake, translated length = 81
+[read] MD5 and SHA1 hashes:  len = 44
+0000: 00 06 00 00 00 20 00 00   32 00 00 FF 4F 3D 21 12  ..... ..2...O=!.
+0010: E2 EC CE CC EE 58 7F 43   A1 40 D1 04 50 3C FC B1  .....X.C.@..P<..
+0020: 6F 85 A9 C7 91 B9 2B 29   52 54 0A 10              o.....+)RT..
+main, READ:  SSL v2, contentType = Handshake, translated length = 47
 *** ClientHello, TLSv1
-RandomCookie:  GMT: 1329401942 bytes = { 235, 52, 139, 29, 168, 23, 5, 187, 187, 221, 155, 112, 101, 2, 254, 71, 20, 173, 159, 127, 118, 181, 69, 14, 10, 253, 35, 207 }
+RandomCookie:  GMT: 1329406226 bytes = { 226, 236, 206, 204, 238, 88, 127, 67, 161, 64, 209, 4, 80, 60, 252, 177, 111, 133, 169, 199, 145, 185, 43, 41, 82, 84, 10, 16 }
 Session ID:  {}
-Cipher Suites: [SSL_RSA_WITH_RC4_128_MD5, SSL_RSA_WITH_RC4_128_SHA, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_DHE_RSA_WITH_AES_128_CBC_SHA, TLS_DHE_RSA_WITH_AES_256_CBC_SHA, TLS_DHE_DSS_WITH_AES_128_CBC_SHA, TLS_DHE_DSS_WITH_AES_256_CBC_SHA, SSL_RSA_WITH_3DES_EDE_CBC_SHA, SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA, SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA, SSL_RSA_WITH_DES_CBC_SHA, SSL_DHE_RSA_WITH_DES_CBC_SHA, SSL_DHE_DSS_WITH_DES_CBC_SHA, SSL_RSA_EXPORT_WITH_RC4_40_MD5, SSL_RSA_EXPORT_WITH_DES40_CBC_SHA, SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA, SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA, TLS_EMPTY_RENEGOTIATION_INFO_SCSV]
+Cipher Suites: [TLS_DHE_DSS_WITH_AES_128_CBC_SHA, TLS_EMPTY_RENEGOTIATION_INFO_SCSV]
 Compression Methods:  { 0 }
 ***
 %% Created:  [Session-1, TLS_DHE_DSS_WITH_AES_128_CBC_SHA]
 *** ServerHello, TLSv1
-RandomCookie:  GMT: 1329401942 bytes = { 32, 122, 64, 94, 136, 184, 195, 45, 159, 101, 222, 154, 26, 230, 238, 109, 39, 188, 142, 102, 191, 69, 68, 51, 110, 216, 156, 77 }
-Session ID:  {79, 61, 16, 86, 250, 91, 72, 51, 131, 182, 122, 103, 237, 76, 77, 182, 199, 169, 44, 227, 225, 41, 78, 139, 64, 234, 212, 178, 119, 66, 78, 87}
+RandomCookie:  GMT: 1329406226 bytes = { 27, 28, 217, 49, 56, 78, 69, 17, 79, 122, 144, 227, 32, 47, 55, 123, 64, 26, 127, 230, 111, 107, 156, 18, 152, 84, 65, 121 }
+Session ID:  {79, 61, 33, 18, 165, 241, 153, 102, 186, 154, 250, 77, 73, 14, 146, 88, 39, 2, 90, 79, 113, 53, 235, 85, 32, 240, 126, 201, 77, 155, 11, 218}
 Cipher Suite: TLS_DHE_DSS_WITH_AES_128_CBC_SHA
 Compression Method: 0
 Extension renegotiation_info, renegotiated_connection: <empty>
@@ -338,19 +334,19 @@ BasicConstraints:[
 *** Diffie-Hellman ServerKeyExchange
 DH Modulus:  { 233, 230, 66, 89, 157, 53, 95, 55, 201, 127, 253, 53, 103, 18, 11, 142, 37, 201, 205, 67, 233, 39, 179, 169, 103, 15, 190, 197, 216, 144, 20, 25, 34, 210, 195, 179, 173, 36, 128, 9, 55, 153, 134, 157, 30, 132, 106, 171, 73, 250, 176, 173, 38, 210, 206, 106, 34, 33, 157, 71, 11, 206, 125, 119, 125, 74, 33, 251, 233, 194, 112, 181, 127, 96, 112, 2, 243, 206, 248, 57, 54, 148, 207, 69, 238, 54, 136, 193, 26, 140, 86, 171, 18, 122, 61, 175 }
 DH Base:  { 48, 71, 10, 213, 160, 5, 251, 20, 206, 45, 157, 205, 135, 227, 139, 199, 209, 177, 197, 250, 203, 174, 203, 233, 95, 25, 10, 167, 163, 29, 35, 196, 219, 188, 190, 6, 23, 69, 68, 64, 26, 91, 44, 2, 9, 101, 216, 194, 189, 33, 113, 211, 102, 132, 69, 119, 31, 116, 186, 8, 77, 32, 41, 216, 60, 28, 21, 133, 71, 243, 169, 241, 162, 113, 91, 226, 61, 81, 174, 77, 62, 90, 31, 106, 112, 100, 243, 22, 147, 58, 52, 109, 63, 82, 146, 82 }
-Server DH Public Key:  { 123, 224, 209, 226, 11, 162, 48, 203, 70, 195, 209, 56, 133, 114, 151, 157, 188, 11, 65, 207, 243, 246, 172, 214, 225, 193, 48, 58, 111, 183, 30, 121, 22, 110, 135, 4, 105, 18, 189, 237, 231, 203, 111, 63, 18, 234, 2, 133, 157, 197, 89, 44, 33, 47, 247, 39, 251, 94, 95, 80, 128, 235, 102, 149, 203, 1, 223, 255, 65, 233, 81, 207, 11, 145, 42, 190, 4, 107, 153, 240, 77, 146, 167, 236, 184, 141, 70, 82, 207, 61, 87, 104, 61, 247, 243, 194 }
+Server DH Public Key:  { 154, 87, 204, 201, 65, 192, 24, 154, 53, 177, 3, 172, 119, 247, 113, 34, 63, 93, 91, 163, 231, 242, 151, 158, 251, 130, 108, 57, 184, 240, 254, 73, 147, 151, 225, 122, 118, 31, 72, 104, 190, 45, 111, 83, 140, 174, 170, 138, 92, 252, 143, 129, 228, 80, 90, 149, 110, 193, 75, 12, 238, 227, 163, 89, 255, 50, 172, 245, 165, 193, 107, 114, 30, 17, 214, 37, 148, 146, 36, 4, 229, 104, 23, 134, 126, 117, 223, 141, 144, 210, 250, 181, 102, 133, 79, 38 }
 Signed with a DSA or RSA public key
 *** CertificateRequest
 Cert Types: RSA, DSS
 Cert Authorities:
 <EMAILADDRESS=root@socialstyrelsen.se, CN=root_ca, O=Socialstyrelsen, L=Lund, ST=Scania, C=SE>
 *** ServerHelloDone
-[write] MD5 and SHA1 hashes:  len = 3510
-0000: 02 00 00 4D 03 01 4F 3D   10 56 20 7A 40 5E 88 B8  ...M..O=.V z@^..
-0010: C3 2D 9F 65 DE 9A 1A E6   EE 6D 27 BC 8E 66 BF 45  .-.e.....m'..f.E
-0020: 44 33 6E D8 9C 4D 20 4F   3D 10 56 FA 5B 48 33 83  D3n..M O=.V.[H3.
-0030: B6 7A 67 ED 4C 4D B6 C7   A9 2C E3 E1 29 4E 8B 40  .zg.LM...,..)N.@
-0040: EA D4 B2 77 42 4E 57 00   32 00 00 05 FF 01 00 01  ...wBNW.2.......
+[write] MD5 and SHA1 hashes:  len = 3511
+0000: 02 00 00 4D 03 01 4F 3D   21 12 1B 1C D9 31 38 4E  ...M..O=!....18N
+0010: 45 11 4F 7A 90 E3 20 2F   37 7B 40 1A 7F E6 6F 6B  E.Oz.. /7.@...ok
+0020: 9C 12 98 54 41 79 20 4F   3D 21 12 A5 F1 99 66 BA  ...TAy O=!....f.
+0030: 9A FA 4D 49 0E 92 58 27   02 5A 4F 71 35 EB 55 20  ..MI..X'.ZOq5.U 
+0040: F0 7E C9 4D 9B 0B DA 00   32 00 00 05 FF 01 00 01  ...M....2.......
 0050: 00 0B 00 0B 74 00 0B 71   00 04 F6 30 82 04 F2 30  ....t..q...0...0
 0060: 82 02 DA 02 09 00 C1 D8   AF D0 7E 95 17 03 30 0D  ..............0.
 0070: 06 09 2A 86 48 86 F7 0D   01 01 05 05 00 30 81 81  ..*.H........0..
@@ -534,7 +530,7 @@ Cert Authorities:
 0B90: B7 0C E4 28 52 13 17 22   7A 1D D5 ED 85 88 9E 7C  ...(R.."z.......
 0BA0: DE AD EB 2D C3 CD 3B 09   D4 F4 3A 3B 3A 9D C7 E1  ...-..;...:;:...
 0BB0: 49 0F 99 D3 4C 00 2E BD   65 71 5F EF 0A 0E 61 B9  I...L...eq_...a.
-0BC0: DA 25 9C C6 C0 23 CA 73   A8 0C 00 01 56 00 60 E9  .%...#.s....V.`.
+0BC0: DA 25 9C C6 C0 23 CA 73   A8 0C 00 01 57 00 60 E9  .%...#.s....W.`.
 0BD0: E6 42 59 9D 35 5F 37 C9   7F FD 35 67 12 0B 8E 25  .BY.5_7...5g...%
 0BE0: C9 CD 43 E9 27 B3 A9 67   0F BE C5 D8 90 14 19 22  ..C.'..g......."
 0BF0: D2 C3 B3 AD 24 80 09 37   99 86 9D 1E 84 6A AB 49  ....$..7.....j.I
@@ -547,26 +543,26 @@ Cert Authorities:
 0C60: C2 BD 21 71 D3 66 84 45   77 1F 74 BA 08 4D 20 29  ..!q.f.Ew.t..M )
 0C70: D8 3C 1C 15 85 47 F3 A9   F1 A2 71 5B E2 3D 51 AE  .<...G....q[.=Q.
 0C80: 4D 3E 5A 1F 6A 70 64 F3   16 93 3A 34 6D 3F 52 92  M>Z.jpd...:4m?R.
-0C90: 52 00 60 7B E0 D1 E2 0B   A2 30 CB 46 C3 D1 38 85  R.`......0.F..8.
-0CA0: 72 97 9D BC 0B 41 CF F3   F6 AC D6 E1 C1 30 3A 6F  r....A.......0:o
-0CB0: B7 1E 79 16 6E 87 04 69   12 BD ED E7 CB 6F 3F 12  ..y.n..i.....o?.
-0CC0: EA 02 85 9D C5 59 2C 21   2F F7 27 FB 5E 5F 50 80  .....Y,!/.'.^_P.
-0CD0: EB 66 95 CB 01 DF FF 41   E9 51 CF 0B 91 2A BE 04  .f.....A.Q...*..
-0CE0: 6B 99 F0 4D 92 A7 EC B8   8D 46 52 CF 3D 57 68 3D  k..M.....FR.=Wh=
-0CF0: F7 F3 C2 00 2E 30 2C 02   14 15 AA AA 58 94 E6 10  .....0,.....X...
-0D00: C8 47 32 6A 03 FA 9A 85   72 45 12 53 71 02 14 2D  .G2j....rE.Sq..-
-0D10: 59 D4 BE 6C 85 C4 CA B6   A1 4E CF F5 DE 68 99 D4  Y..l.....N...h..
-0D20: 71 C2 2E 0D 00 00 8B 02   01 02 00 86 00 84 30 81  q.............0.
-0D30: 81 31 0B 30 09 06 03 55   04 06 13 02 53 45 31 0F  .1.0...U....SE1.
-0D40: 30 0D 06 03 55 04 08 13   06 53 63 61 6E 69 61 31  0...U....Scania1
-0D50: 0D 30 0B 06 03 55 04 07   13 04 4C 75 6E 64 31 18  .0...U....Lund1.
-0D60: 30 16 06 03 55 04 0A 13   0F 53 6F 63 69 61 6C 73  0...U....Socials
-0D70: 74 79 72 65 6C 73 65 6E   31 10 30 0E 06 03 55 04  tyrelsen1.0...U.
-0D80: 03 14 07 72 6F 6F 74 5F   63 61 31 26 30 24 06 09  ...root_ca1&0$..
-0D90: 2A 86 48 86 F7 0D 01 09   01 16 17 72 6F 6F 74 40  *.H........root@
-0DA0: 73 6F 63 69 61 6C 73 74   79 72 65 6C 73 65 6E 2E  socialstyrelsen.
-0DB0: 73 65 0E 00 00 00                                  se....
-main, WRITE: TLSv1 Handshake, length = 3510
+0C90: 52 00 60 9A 57 CC C9 41   C0 18 9A 35 B1 03 AC 77  R.`.W..A...5...w
+0CA0: F7 71 22 3F 5D 5B A3 E7   F2 97 9E FB 82 6C 39 B8  .q"?][.......l9.
+0CB0: F0 FE 49 93 97 E1 7A 76   1F 48 68 BE 2D 6F 53 8C  ..I...zv.Hh.-oS.
+0CC0: AE AA 8A 5C FC 8F 81 E4   50 5A 95 6E C1 4B 0C EE  ...\....PZ.n.K..
+0CD0: E3 A3 59 FF 32 AC F5 A5   C1 6B 72 1E 11 D6 25 94  ..Y.2....kr...%.
+0CE0: 92 24 04 E5 68 17 86 7E   75 DF 8D 90 D2 FA B5 66  .$..h...u......f
+0CF0: 85 4F 26 00 2F 30 2D 02   14 6B 16 5F D9 65 FB B2  .O&./0-..k._.e..
+0D00: AC F2 EF B9 94 C3 E0 EA   10 27 39 CA 59 02 15 00  .........'9.Y...
+0D10: 93 83 E5 DD 71 07 EC ED   67 A0 CA 8E 54 B0 B5 BE  ....q...g...T...
+0D20: 50 BE 31 8B 0D 00 00 8B   02 01 02 00 86 00 84 30  P.1............0
+0D30: 81 81 31 0B 30 09 06 03   55 04 06 13 02 53 45 31  ..1.0...U....SE1
+0D40: 0F 30 0D 06 03 55 04 08   13 06 53 63 61 6E 69 61  .0...U....Scania
+0D50: 31 0D 30 0B 06 03 55 04   07 13 04 4C 75 6E 64 31  1.0...U....Lund1
+0D60: 18 30 16 06 03 55 04 0A   13 0F 53 6F 63 69 61 6C  .0...U....Social
+0D70: 73 74 79 72 65 6C 73 65   6E 31 10 30 0E 06 03 55  styrelsen1.0...U
+0D80: 04 03 14 07 72 6F 6F 74   5F 63 61 31 26 30 24 06  ....root_ca1&0$.
+0D90: 09 2A 86 48 86 F7 0D 01   09 01 16 17 72 6F 6F 74  .*.H........root
+0DA0: 40 73 6F 63 69 61 6C 73   74 79 72 65 6C 73 65 6E  @socialstyrelsen
+0DB0: 2E 73 65 0E 00 00 00                               .se....
+main, WRITE: TLSv1 Handshake, length = 3511
 main, READ: TLSv1 Handshake, length = 3047
 *** Certificate chain
 chain [0] = [
@@ -978,77 +974,68 @@ BasicConstraints:[
 0B70: 65 71 5F EF 0A 0E 61 B9   DA 25 9C C6 C0 23 CA 73  eq_...a..%...#.s
 0B80: A8                                                 .
 *** ClientKeyExchange, DH
-DH Public key:  { 172, 30, 110, 48, 35, 25, 238, 123, 114, 104, 91, 149, 162, 68, 221, 235, 231, 164, 10, 13, 33, 156, 69, 168, 12, 1, 239, 208, 155, 42, 9, 68, 243, 217, 127, 123, 0, 201, 148, 161, 123, 177, 246, 139, 252, 139, 24, 139, 107, 243, 233, 170, 19, 190, 172, 137, 139, 237, 37, 5, 41, 251, 116, 73, 199, 27, 211, 126, 20, 155, 12, 158, 246, 193, 57, 239, 198, 200, 12, 189, 221, 75, 10, 91, 153, 95, 139, 100, 78, 115, 36, 77, 224, 250, 93, 102 }
+DH Public key:  { 162, 212, 121, 151, 95, 47, 19, 57, 159, 2, 172, 1, 87, 139, 95, 37, 49, 173, 26, 94, 107, 161, 45, 67, 162, 51, 190, 253, 104, 205, 217, 13, 172, 38, 20, 85, 69, 129, 120, 242, 103, 121, 168, 31, 131, 80, 67, 189, 111, 113, 188, 141, 124, 59, 239, 178, 220, 225, 199, 218, 16, 105, 1, 129, 89, 123, 137, 9, 23, 235, 40, 117, 122, 172, 66, 34, 30, 168, 55, 246, 164, 202, 211, 153, 170, 219, 97, 112, 63, 148, 24, 219, 129, 191, 167, 247 }
 SESSION KEYGEN:
 PreMaster Secret:
-0000: 25 A3 4B CC 38 C7 36 AF   59 3C 5A 4A 49 96 1C 3E  %.K.8.6.Y<ZJI..>
-0010: 32 C4 9F F7 9A 05 EA B2   6C A6 B3 3C 7E D0 B2 47  2.......l..<...G
-0020: 6A 31 AE 98 63 8C FD 29   1B 1C 97 68 F6 D2 6F AB  j1..c..)...h..o.
-0030: 8B 29 EC 93 3A 04 B3 31   B6 0B BC D0 09 0F 15 4D  .)..:..1.......M
-0040: E8 94 07 44 97 55 ED 9C   6D 00 29 DD 21 48 9B A6  ...D.U..m.).!H..
-0050: EF 71 FB 8A 82 F5 63 42   79 D0 AA 0B E5 C0 9E 69  .q....cBy......i
+0000: 69 FC D1 25 A2 01 6B CE   59 31 BA 3E CB 5A 53 1F  i..%..k.Y1.>.ZS.
+0010: 55 62 75 E2 82 4E F7 21   AE 1A 65 C4 06 57 A1 65  Ubu..N.!..e..W.e
+0020: 1B 18 A0 0D 4F E2 5C 84   A1 9C 51 EC 33 8A 52 9B  ....O.\...Q.3.R.
+0030: BF E7 41 8B 48 3B 59 E7   D5 28 CD A2 98 B7 DB E2  ..A.H;Y..(......
+0040: 06 1C D2 D3 F3 53 03 0A   1A 7C 1A EA 15 D3 80 32  .....S.........2
+0050: 73 9C B8 4E F5 CF E0 C4   DF 58 F1 70 BE D6 0A 0A  s..N.....X.p....
 CONNECTION KEYGEN:
 Client Nonce:
-0000: 4F 3D 10 56 EB 34 8B 1D   A8 17 05 BB BB DD 9B 70  O=.V.4.........p
-0010: 65 02 FE 47 14 AD 9F 7F   76 B5 45 0E 0A FD 23 CF  e..G....v.E...#.
+0000: 4F 3D 21 12 E2 EC CE CC   EE 58 7F 43 A1 40 D1 04  O=!......X.C.@..
+0010: 50 3C FC B1 6F 85 A9 C7   91 B9 2B 29 52 54 0A 10  P<..o.....+)RT..
 Server Nonce:
-0000: 4F 3D 10 56 20 7A 40 5E   88 B8 C3 2D 9F 65 DE 9A  O=.V z@^...-.e..
-0010: 1A E6 EE 6D 27 BC 8E 66   BF 45 44 33 6E D8 9C 4D  ...m'..f.ED3n..M
+0000: 4F 3D 21 12 1B 1C D9 31   38 4E 45 11 4F 7A 90 E3  O=!....18NE.Oz..
+0010: 20 2F 37 7B 40 1A 7F E6   6F 6B 9C 12 98 54 41 79   /7.@...ok...TAy
 Master Secret:
-0000: 16 34 59 E2 3E 9D 6A AF   2D B8 E7 FE 26 F7 75 40  .4Y.>.j.-...&.u@
-0010: 6C 17 5D 99 2B CD 7E B0   23 7D FD 2D 7A FA A8 35  l.].+...#..-z..5
-0020: FD 34 03 13 46 E6 68 17   34 9E B5 74 BB 7F 1E FD  .4..F.h.4..t....
+0000: 53 F7 B5 0A 8D 16 28 1A   07 FC 32 31 09 6A D7 AF  S.....(...21.j..
+0010: A0 4A 9F AB 13 21 17 EC   D4 6F E2 80 46 92 A1 10  .J...!...o..F...
+0020: DC 1C 8B AB 13 41 FF 70   82 84 B0 F3 A4 C7 55 D7  .....A.p......U.
 Client MAC write Secret:
-0000: A6 39 FD 3C 62 09 B6 96   B4 0A F8 B0 AF 53 28 26  .9.<b........S(&
-0010: A6 12 D4 2C                                        ...,
+0000: 54 02 A6 69 17 8C C4 98   9C AC 92 CB D0 EE D0 27  T..i...........'
+0010: E7 BE 8B 1E                                        ....
 Server MAC write Secret:
-0000: 90 19 81 42 63 44 84 EF   62 25 86 E6 48 7C EC 67  ...BcD..b%..H..g
-0010: A6 EF 0D 52                                        ...R
+0000: 4E F4 FD 0E 09 3F BE 05   9F 66 0E 28 F1 2F 8A FA  N....?...f.(./..
+0010: 4E 74 EE 9B                                        Nt..
 Client write key:
-0000: 5C 97 46 26 2A 16 20 1C   76 11 C3 F1 11 EB 19 2E  \.F&*. .v.......
+0000: E3 4C B3 4F B6 CB 6F 16   11 5A 80 A7 99 F3 04 22  .L.O..o..Z....."
 Server write key:
-0000: 6D FD 37 85 39 4F 14 96   A5 49 B8 F7 BF 53 0A FE  m.7.9O...I...S..
+0000: 84 A3 38 B5 CF 95 73 E7   F1 9D 0C F0 1F D5 85 AC  ..8...s.........
 Client write IV:
-0000: E6 5F ED 2C BD 5F 7E 0E   A6 1E A1 9E 2C 8A FB 75  ._.,._......,..u
+0000: 57 74 28 40 E9 F6 FA 06   2E 02 80 42 9D 2B 38 70  Wt(@.......B.+8p
 Server write IV:
-0000: EA F9 41 E8 F3 99 22 DF   47 10 6E D3 82 2C 0C 8B  ..A...".G.n..,..
+0000: BE DA EB 8A 89 D1 90 CF   23 CF 7E 75 CF 44 11 24  ........#..u.D.$
 [read] MD5 and SHA1 hashes:  len = 102
-0000: 10 00 00 62 00 60 AC 1E   6E 30 23 19 EE 7B 72 68  ...b.`..n0#...rh
-0010: 5B 95 A2 44 DD EB E7 A4   0A 0D 21 9C 45 A8 0C 01  [..D......!.E...
-0020: EF D0 9B 2A 09 44 F3 D9   7F 7B 00 C9 94 A1 7B B1  ...*.D..........
-0030: F6 8B FC 8B 18 8B 6B F3   E9 AA 13 BE AC 89 8B ED  ......k.........
-0040: 25 05 29 FB 74 49 C7 1B   D3 7E 14 9B 0C 9E F6 C1  %.).tI..........
-0050: 39 EF C6 C8 0C BD DD 4B   0A 5B 99 5F 8B 64 4E 73  9......K.[._.dNs
-0060: 24 4D E0 FA 5D 66                                  $M..]f
+0000: 10 00 00 62 00 60 A2 D4   79 97 5F 2F 13 39 9F 02  ...b.`..y._/.9..
+0010: AC 01 57 8B 5F 25 31 AD   1A 5E 6B A1 2D 43 A2 33  ..W._%1..^k.-C.3
+0020: BE FD 68 CD D9 0D AC 26   14 55 45 81 78 F2 67 79  ..h....&.UE.x.gy
+0030: A8 1F 83 50 43 BD 6F 71   BC 8D 7C 3B EF B2 DC E1  ...PC.oq...;....
+0040: C7 DA 10 69 01 81 59 7B   89 09 17 EB 28 75 7A AC  ...i..Y.....(uz.
+0050: 42 22 1E A8 37 F6 A4 CA   D3 99 AA DB 61 70 3F 94  B"..7.......ap?.
+0060: 18 DB 81 BF A7 F7                                  ......
 main, READ: TLSv1 Handshake, length = 53
 *** CertificateVerify
 [read] MD5 and SHA1 hashes:  len = 53
-0000: 0F 00 00 31 00 2F 30 2D   02 14 64 9E 25 8B 2B 0C  ...1./0-..d.%.+.
-0010: 3D 21 52 E9 F5 83 52 F1   92 D1 D2 6D BF 17 02 15  =!R...R....m....
-0020: 00 86 23 15 E1 39 61 24   27 2A C1 49 83 B6 34 F2  ..#..9a$'*.I..4.
-0030: 2B E2 BF 88 2B                                     +...+
+0000: 0F 00 00 31 00 2F 30 2D   02 15 00 83 33 1C 38 5F  ...1./0-....3.8_
+0010: 07 13 B8 B0 47 77 F1 34   B5 96 63 37 53 E4 1B 02  ....Gw.4..c7S...
+0020: 14 1A C4 68 E7 B2 5A D7   AE 4E 8E 33 9F 49 1B 1F  ...h..Z..N.3.I..
+0030: 89 4D E8 BA E3                                     .M...
 main, READ: TLSv1 Change Cipher Spec, length = 1
 main, READ: TLSv1 Handshake, length = 48
 *** Finished
-verify_data:  { 145, 119, 168, 165, 121, 149, 230, 249, 5, 158, 247, 166 }
+verify_data:  { 2, 29, 127, 13, 236, 155, 212, 118, 49, 138, 129, 91 }
 ***
 [read] MD5 and SHA1 hashes:  len = 16
-0000: 14 00 00 0C 91 77 A8 A5   79 95 E6 F9 05 9E F7 A6  .....w..y.......
+0000: 14 00 00 0C 02 1D 7F 0D   EC 9B D4 76 31 8A 81 5B  ...........v1..[
 main, WRITE: TLSv1 Change Cipher Spec, length = 1
 *** Finished
-verify_data:  { 129, 117, 19, 29, 179, 100, 32, 193, 57, 195, 52, 26 }
+verify_data:  { 217, 115, 59, 120, 104, 214, 244, 254, 252, 118, 170, 8 }
 ***
 [write] MD5 and SHA1 hashes:  len = 16
-0000: 14 00 00 0C 81 75 13 1D   B3 64 20 C1 39 C3 34 1A  .....u...d .9.4.
+0000: 14 00 00 0C D9 73 3B 78   68 D6 F4 FE FC 76 AA 08  .....s;xh....v..
 main, WRITE: TLSv1 Handshake, length = 48
 %% Cached server session: [Session-1, TLS_DHE_DSS_WITH_AES_128_CBC_SHA]
 SERVER:	client DN: CN=700101-0000, OU=patient, O=hospital, L=Lund, ST=Scania, C=SE
-main, received EOFException: ignored
-main, called closeInternal(false)
-main, SEND TLSv1 ALERT:  warning, description = close_notify
-main, WRITE: TLSv1 Alert, length = 32
-main, called closeSocket(selfInitiated)
-SERVER:	the msg is -15 bytes long
-Exception in thread "main" java.lang.NegativeArraySizeException
-	at JournalServer.start(Unknown Source)
-	at JournalServer.main(Unknown Source)

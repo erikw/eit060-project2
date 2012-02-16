@@ -168,6 +168,8 @@ public class Client {
 			socket = (SSLSocket)sslfactory.createSocket(serverIP, serverPort);
 
 			socket.setUseClientMode(true);
+			String[] suites = {"TLS_DHE_DSS_WITH_AES_256_CBC_SHA"};
+			socket.setEnabledCipherSuites(suites);
 			socket.startHandshake();
 
 			out = new PrintWriter(

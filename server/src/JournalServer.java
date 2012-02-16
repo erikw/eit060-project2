@@ -96,6 +96,9 @@ public class JournalServer {
 	    }
 
 	    log("accepted incomming connection");
+
+		String[] suites = {"TLS_DHE_DSS_WITH_AES_256_CBC_SHA"};
+		sock.setEnabledCipherSuites(suites);
 	    SSLSession sess = sock.getSession();
 	    X509Certificate cert;
 
