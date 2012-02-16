@@ -13,8 +13,9 @@ public class Client {
 	private static InetAddress serverIP;
 	private static int serverPort = 1024;
 	private String user;
-	private String passwordKeystore;
+	private String keystorePassword;
 	private String passwordKey;
+    private String truststorePassword;
 	private static String[] validUsers = new String[] {"patient", "doctor", "nurse", "agency"};
 	private PrintWriter out;
 	private InputStream in;
@@ -147,12 +148,12 @@ public class Client {
 
 			KeyManagerFactory keyFactory = KeyManagerFactory.getInstance("SunX509");
 			KeyStore keyStore = KeyStore.getInstance("JKS");
-			keyStore.load(new FileInputStream("users/" + user + "/keystore"), passwordKeystore.toCharArray());
-			keyFactory.init(keyStore, passwordKeystore.toCharArray());
+			keyStore.load(new FileInputStream("users/" + user + "/keystore"), keystorePassword.toCharArray());
+			keyFactory.init(keyStore, keystorePassword.toCharArray());
 
 			TrustManagerFactory trustFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 			KeyStore trustStore = KeyStore.getInstance("JKS");
-			trustStore.load(new FileInputStream("users/" + user + "/truststore"), null);
+			trustStore.load(new FileInputStream("users/" + user + "/truststore"), truststorePassword.toCharArray());
 			trustFactory.init(trustStore);
 
 			trustFactory.init(keyStore);
@@ -199,16 +200,19 @@ public class Client {
     }
 
 	private void readPassword() throws IOException {
-		System.out.print("Keystore password:");
-		while (passwordKeystore == null || passwordKeystore.length() == 0) {
+		while (keystorePassword == null || keystorePassword.length() == 0) {
 			System.out.print("Keystore password:");
-			passwordKeystore = new String(System.console().readPassword());
+			keystorePassword = new String(System.console().readPassword());
 		}
 
-		System.out.print("Key password:");
 		while (passwordKey == null || passwordKey.length() == 0) {
-			System.out.print("Keystore password:");
+			System.out.print("Private key access password:");
 			passwordKey = new String(System.console().readPassword());
+		}
+
+		while (truststorePassword == null || truststorePassword.length() == 0) {
+			System.out.print("Truststore password:");
+			truststorePassword = new String(System.console().readPassword());
 		}
 
 	}

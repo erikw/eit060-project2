@@ -34,7 +34,7 @@
 
 	<target name="compile" depends="clean" description="Compile the sources to the destination.">
 		<mkdir dir="${path.destination}" />
-		<javac includeantruntime="false" destdir="${path.destination}">
+		<javac includeantruntime="false" destdir="${path.destination}" debug = "true">
 			<src path="${path.source}" />
 			<classpath refid="externalLibs" />
 		</javac>
