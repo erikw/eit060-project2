@@ -1,41 +1,93 @@
 import java.util.Map;
 import java.util.HashMap;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import java.io.*;
+import java.security.*;
+import javax.net.ssl.*;
+import java.net.*;
+import java.util.Arrays;
 
 public class Client {
 	private static final String LINE_UI = "> ";
 	private Map<String, CommandFactory> factories;
 	private BufferedReader buffReader;
+	private static InetAddress serverIP;
+	private static int serverPort = 1024;
+	private String user;
+	private String passwordKeystore;
+	private String passwordKey;
+	private static String[] validUsers = new String[] {"patient", "doctor", "nurse", "agency"};
+	private PrintWriter out;
+	private InputStream in;
+    private SSLSocket socket = null;
+    private boolean isConnect = false;
 
 	public static void main(String args[]) {
-		new Client().run();
+		Client client = null;
+		boolean error = false;
+		if (args.length == 0) {
+			System.out.println("No user specified. Running with user \"patient\"");
+			client = new Client();
+		} else if (args.length == 1) {
+			if (Arrays.asList(validUsers).contains(args[0])) {
+				client = new Client(args[0]);
+			} else {
+				error = true;
+			}
+		} else {
+			error = true;
+		}
+
+		if (error) {
+			System.err.print("Specify none or one user to run the program as. Valid users are: ");
+			for (String user : validUsers) {
+				System.err.print(user + " ");
+			}
+			System.err.println(".");
+			System.exit(1);
+
+		} else {
+			client.run();
+		}
 	}
 
 	public Client() {
+		this("patient");
+	}
+
+	public Client(String user) {
+		this.user = user;	
 		buffReader = new BufferedReader(new InputStreamReader(System.in));
+
 		factories = new HashMap<String, CommandFactory>();
 		factories.put(ReadFactory.COMMAND_NAME,   new ReadFactory());
 		factories.put(ListFactory.COMMAND_NAME,   new ListFactory());
 		factories.put(AppendFactory.COMMAND_NAME, new AppendFactory());
 		factories.put(CreateFactory.COMMAND_NAME, new CreateFactory());
 		factories.put(DeleteFactory.COMMAND_NAME, new DeleteFactory());
+
+		try {
+			serverIP = InetAddress.getByAddress(new byte[] {(byte) 192,(byte) 168, 0, 1});
+		} catch (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
 	}
 
 	public void run() {
 		System.out.println("Started secure client.");
 		System.out.println("Quit by sending an EOF.");
-		System.out.println("Available commands are:");
-		for (CommandFactory<Command> factory : factories.values()) {
-			System.out.println(factory.helpText());
-		}
-		System.out.println("-------");
-		
-		System.out.print(LINE_UI);
-		String inputLine;
 		try {
-			while ((inputLine = buffReader.readLine()) != null) {
+			readPassword();
+			connectServer();
+			
+			System.out.println("Available commands are:");
+			for (CommandFactory<Command> factory : factories.values()) {
+				System.out.println(factory.helpText());
+			}
+			System.out.println("-------");
+
+			System.out.print(LINE_UI);
+			String inputLine;
+			while ((inputLine = buffReader.readLine()) != null && isConnect) {
 				String[] parts = inputLine.split("\\s+");
 				if (parts.length > 0 && parts[0].length() > 0) {
 					if (parts[0].equals("q")) {
@@ -48,10 +100,35 @@ public class Client {
 					} else {
 						try {
 							Command command = factory.makeCommand(parts);
-							// TODO send command over the wire with send(command.protocolString()) or such.
+							// Send command to server!
+							String protoString = command.protocolString();
+							out.print(protoString.toCharArray().length);
+							out.print(protoString);
+
+							String serverResponse;
+							byte[] message = new byte[Integer.MAX_VALUE];					
+							int amtRead = 0;
+							
+							while((amtRead = in.read(message, amtRead, 4 - amtRead) )!= 4) { 
+							    System.out.println("Reading bytestream...");
+							    System.out.println(new String(message));
+							}
+							
+							int size = 0;
+							for (int i = 0; i < 4; i++) {
+							    size |= ((int) message[i]) << 3 - i;    
+							}
+							
+							
 						} catch (BadCommandParamException bcpe) {
 							System.err.println(bcpe.getMessage());
+						} catch (IOException ioe) {
+						    killConnection();
+						    
+						    System.err.println(ioe.getMessage());
+						    ioe.printStackTrace();
 						}
+				     
 					}
 				}
 				System.out.print(LINE_UI);
@@ -63,6 +140,76 @@ public class Client {
 	}
 
 	private void connectServer() {
-		
+	  
+		try {
+			SSLContext sslContext = SSLContext.getInstance("TLS");
+			
+
+			KeyManagerFactory keyFactory = KeyManagerFactory.getInstance("SunX509");
+			KeyStore keyStore = KeyStore.getInstance("JKS");
+			keyStore.load(new FileInputStream("users/" + user + "/keystore"), passwordKeystore.toCharArray());
+			keyFactory.init(keyStore, passwordKeystore.toCharArray());
+
+			TrustManagerFactory trustFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+			KeyStore trustStore = KeyStore.getInstance("JKS");
+			trustStore.load(new FileInputStream("users/" + user + "/truststore"), null);
+			trustFactory.init(trustStore);
+
+			trustFactory.init(keyStore);
+			sslContext.init(keyFactory.getKeyManagers(), trustFactory.getTrustManagers(), null);
+			SSLSocketFactory sslfactory = sslContext.getSocketFactory();
+
+			socket = (SSLSocket)sslfactory.createSocket(serverIP, serverPort);
+
+			socket.setUseClientMode(true);
+			socket.startHandshake();
+
+			out = new PrintWriter(
+						new OutputStreamWriter(
+								       socket.getOutputStream()));
+
+			
+			if(out.checkError()) {
+			    System.err.println("SSLSocketClient: java.io.PrintWriter error");
+			}
+
+			in = socket.getInputStream();
+			isConnect = true;
+			
+
+		} catch (GeneralSecurityException gse) {
+			gse.printStackTrace();
+			return;
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+
+		} 
+
+	}
+
+    private void killConnection() {
+	try {
+	in.close();
+	out.close();
+	socket.close();
+	} catch (IOException ioe) {
+	    System.err.println("Disconnection failed.");
+	    ioe.printStackTrace();
+	}
+    }
+
+	private void readPassword() throws IOException {
+		System.out.print("Keystore password:");
+		while (passwordKeystore == null || passwordKeystore.length() == 0) {
+			System.out.print("Keystore password:");
+			passwordKeystore = new String(System.console().readPassword());
+		}
+
+		System.out.print("Key password:");
+		while (passwordKey == null || passwordKey.length() == 0) {
+			System.out.print("Keystore password:");
+			passwordKey = new String(System.console().readPassword());
+		}
+
 	}
 }
