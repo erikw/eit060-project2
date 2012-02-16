@@ -1,6 +1,7 @@
 import java.util.Map;
 import java.util.HashMap;
 import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -19,6 +20,8 @@ public class Client {
 	private static int serverPort = 1025;
 	private String passwordKeystore;
 	private static String[] validUsers = new String[] {"patient", "doctor", "nurse", "agency"};
+	private PrintWriter out;
+	private BufferedReader in;
 
 	public static void main(String args[]) {
 		Client client = null;
@@ -99,7 +102,14 @@ public class Client {
 					} else {
 						try {
 							Command command = factory.makeCommand(parts);
-							// TODO send command over the wire with send(command.protocolString()) or such.
+							// Send command to server!
+							out.print(command.protocolString());
+
+							String serverResponse;
+
+							while ((serverResponse = in.readLine()) != null)
+								System.out.println(serverResponse); // TODO do something more fancy here?
+
 						} catch (BadCommandParamException bcpe) {
 							System.err.println(bcpe.getMessage());
 						}
@@ -125,6 +135,9 @@ public class Client {
 			gse.printStackTrace();
 		}
 
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(
+					socket.getInputStream()));
 	}
 
 	private void readPassword() throws IOException {
