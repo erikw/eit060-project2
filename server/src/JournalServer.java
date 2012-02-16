@@ -11,6 +11,7 @@ import javax.net.ssl.SSLSession;
 import java.io.OutputStream;
 import java.io.InputStream;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import javax.security.cert.X509Certificate;
 import java.security.KeyStoreException;
 import javax.net.ssl.*;
@@ -145,6 +146,24 @@ public class JournalServer {
 				continue;
 			}
 			// got length, do work.
+			InputStreamReader reader = new InputStreamReader(in);
+			char[] message = new char[length];
+			int ret;
+			int offset = 0;
+			while (offset < LENGTH_LENGTH) {
+				try {
+					ret = reader.read(message, offset, (LENGTH_LENGTH - offset));
+				} catch(Exception e) {
+					this.log("got exception while reading message: " + e.toString());
+					break;
+				}
+
+				if (ret == -1) {
+					this.log("fuck. something went south. breaking the parsing of message.");
+					break;
+				}
+				offset += ret;
+			}
 		}
 	}
 
