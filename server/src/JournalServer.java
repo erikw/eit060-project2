@@ -18,13 +18,20 @@ public class JournalServer {
 	protected KeyStore keyStore;
 
 	public JournalServer() {
+		System.setProperty("javax.net.ssl.trustStore", "myTrustStore");
+		System.setProperty("javax.net.ssl.trustStorePassword", "passwd");
 		System.setProperty("javax.net.ssl.keyStore", "../crypt_server/keystore");
 		System.setProperty("javax.net.ssl.keyStorePassword", "passwd");
+		System.setProperty("javax.net.ssl.keyStoreType", "pkcs12");
+		// System.setProperty("javax.net.ssl.keyStore", "new.p12");
+		// System.setProperty("javax.net.ssl.keyStorePassword", "newpasswd");
+
 		try {
 			this.keyStore = KeyStore.getInstance("JKS");
 		} catch (KeyStoreException e) {
-			log("could not open keystore");
-		}
+			log("could not open keystore. exiting");
+		}		
+		// this.keyStore.load(new FileInputstream
 	}
 
 	private void log(String msg) {
