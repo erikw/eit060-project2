@@ -18,7 +18,9 @@ public class Client {
 	private BufferedReader buffReader;
 	private static InetAddress serverIP;
 	private static int serverPort = 1025;
+	private String user;
 	private String passwordKeystore;
+	private String passwordKey;
 	private static String[] validUsers = new String[] {"patient", "doctor", "nurse", "agency"};
 	private PrintWriter out;
 	private BufferedReader in;
@@ -57,7 +59,7 @@ public class Client {
 	}
 
 	public Client(String user) {
-		
+		this.user = user;	
 		buffReader = new BufferedReader(new InputStreamReader(System.in));
 
 		factories = new HashMap<String, CommandFactory>();
@@ -124,15 +126,26 @@ public class Client {
 	}
 
 	private void connectServer() {
-		SSLSocketFactory socketFactory = null;
-		SSLContext sslContext;
-		KeyManagerFactory keyFactory;
 		try {
-			sslContext = SSLContext.getInstance("TLS");
-			keyFactory = KeyManagerFactory.getInstance("SunX509");
-			// TODO continue here...
-		} catch (java.security.GeneralSecurityException gse) {
+			SSLContext sslContext = SSLContext.getInstance("TLS");
+
+			KeyManagerFactory keyFactory = KeyManagerFactory.getInstance("SunX509");
+			KeyStore keyStore = KeyStore.getInstance("JKS");
+			keyStore.load(new FileInputStream("users/" + user + "/keystore"), passwordKeystore.toCharArray());
+			keyFactory.init(keyStore, passwordKeystore.toCharArray());
+
+			TrustManagerFactory trustFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+			KeyStore trustStore = KeyStore.getInstance("JKS");
+			trustStore.load(new FileInputStream("users/" + user + "/truststore"), null);
+			trustFactory.init(trustStore);
+
+			trustFactory.init(keystore)
+			sslContext.init(keyFactory.getKeyManagers(), trustStore.getTrustManagers(), null);
+
+
+		} catch (GeneralSecurityException gse) {
 			gse.printStackTrace();
+			return;
 		}
 
 		BufferedReader in = new BufferedReader(
@@ -145,6 +158,12 @@ public class Client {
 		while (passwordKeystore == null || passwordKeystore.length() == 0) {
 			System.out.print("Keystore password:");
 			passwordKeystore = new String(System.console().readPassword());
+		}
+
+		System.out.print("Key password:");
+		while (passwordKey == null || passwordKey.length() == 0) {
+			System.out.print("Keystore password:");
+			passwordKey = new String(System.console().readPassword());
 		}
 	}
 }
