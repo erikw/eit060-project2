@@ -18,163 +18,162 @@ import javax.net.ssl.*;
 import javax.net.*;
 
 public class JournalServer {
-	private static final int LENGTH_LENGTH = 16; // length of the length field, bytes
-	protected KeyStore keyStore;
+    private static final int LENGTH_LENGTH = 4; // length of the length field, bytes
+    protected KeyStore keyStore;
 
-	public JournalServer() {
-		System.setProperty("javax.net.ssl.trustStore", "myTrustStore");
-		System.setProperty("javax.net.ssl.trustStorePassword", "password3");
-		System.setProperty("javax.net.ssl.keyStore", "../keystore");
-		System.setProperty("javax.net.ssl.keyStorePassword", "password1");
-		System.setProperty("javax.net.ssl.keyStoreType", "pkcs12");
-		// System.setProperty("javax.net.ssl.keyStore", "new.p12");
-		// System.setProperty("javax.net.ssl.keyStorePassword", "newpasswd");
+    public JournalServer() {
+	// System.setProperty("javax.net.ssl.trustStore", "myTrustStore");
+	// System.setProperty("javax.net.ssl.trustStorePassword", "password3");
+	// System.setProperty("javax.net.ssl.keyStore", "../keystore");
+	// System.setProperty("javax.net.ssl.keyStorePassword", "password1");
+	// System.setProperty("javax.net.ssl.keyStoreType", "pkcs12");
+	// System.setProperty("javax.net.ssl.keyStore", "new.p12");
+	// System.setProperty("javax.net.ssl.keyStorePassword", "newpasswd");
 
-		try {
-			this.keyStore = KeyStore.getInstance("JKS");
-		} catch (KeyStoreException e) {
-			log("could not open keystore. exiting");
-		}		
-		// this.keyStore.load(new FileInputstream
-	}
+	try {
+	    this.keyStore = KeyStore.getInstance("JKS");
+	} catch (KeyStoreException e) {
+	    log("could not open keystore. exiting");
+	}		
+    }
 
-	private void log(String msg) {
-		System.out.println("SERVER:\t" + msg);
-	}
+    private void log(String msg) {
+	System.out.println("SERVER:\t" + msg);
+    }
 
-	public void start(int port) {
-		// SSLServerSocketFactory fac = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault(); 
-	    SSLServerSocketFactory ssf = null;
-		SSLServerSocket ss;
-		// set up the server
-		// try {
-		// 	ss = (SSLServerSocket)fac.createServerSocket(port);
-		// } catch (java.io.IOException e) {
-		// 	log("could not bind to port. " + e);
-		// 	return;
-		// }
-		char[] pw = "password1".toCharArray();
+    public void start(int port) {
+	// SSLServerSocketFactory fac = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault(); 
+	SSLServerSocketFactory ssf = null;
+	SSLServerSocket ss;
+	// set up the server
+	// try {
+	// 	ss = (SSLServerSocket)fac.createServerSocket(port);
+	// } catch (java.io.IOException e) {
+	// 	log("could not bind to port. " + e);
+	// 	return;
+	// }
+	char[] pw = "password1".toCharArray();
 
-		// other stuff that might work
-		SSLContext ctx;
-		KeyManagerFactory kmf;
-		KeyStore ks;
-		try {
-		    ctx = SSLContext.getInstance("TLS");
-		    kmf = KeyManagerFactory.getInstance("SunX509");
-		    ks = KeyStore.getInstance("JKS");
-		    ks.load(new FileInputStream("../keystore"), pw);
-		    kmf.init(ks, "password2".toCharArray());
-		    ctx.init(kmf.getKeyManagers(), null, null);
+	// other stuff that might work
+	SSLContext ctx;
+	KeyManagerFactory kmf;
+	KeyStore ks;
+	try {
+	    ctx = SSLContext.getInstance("TLS");
+	    kmf = KeyManagerFactory.getInstance("SunX509");
+	    ks = KeyStore.getInstance("JKS");
+	    ks.load(new FileInputStream("../keystore"), pw);
+	    kmf.init(ks, "password2".toCharArray());
+	    ctx.init(kmf.getKeyManagers(), null, null);
 		
-		    ssf = ctx.getServerSocketFactory();
-		} catch (Exception e) {
-		    this.log("shit went south, bailing. (" + e + ")");
-		    System.exit(1);
-		}
+	    ssf = ctx.getServerSocketFactory();
+	} catch (Exception e) {
+	    this.log("shit went south, bailing. (" + e + ")");
+	    System.exit(1);
+	}
 		
+	try {
+	    ss = (SSLServerSocket) ssf.createServerSocket(port);
+	} catch (Exception e) {
+	    log("could not bind to port. " + e);
+	    return;
+	}
+
+	ss.setNeedClientAuth(true);
+
+	// accept clients, maybe sould be multithreaded later
+	while (true) {
+	    log("waiting for incomming connection");
+	    SSLSocket sock;
+
+	    try {
+		sock = (SSLSocket) ss.accept();
+	    } catch (java.io.IOException e) {
+		log("failed to accept connection");
+		continue;
+	    }
+
+	    log("accepted incomming connection");
+	    SSLSession sess = sock.getSession();
+	    X509Certificate cert;
+
+	    try {
+		cert = (X509Certificate)sess.getPeerCertificateChain()[0];
+	    } catch (javax.net.ssl.SSLPeerUnverifiedException e) {
+		log("client not verified");
 		try {
-		    ss = (SSLServerSocket) ssf.createServerSocket(port);
-		} catch (Exception e) {
-			log("could not bind to port. " + e);
-			return;
+		    sock.close();
+		} catch (java.io.IOException e2) {
+		    log("failed closing socket, w/e");
+		}
+		continue;
+	    }
+
+	    String subj = cert.getSubjectDN().getName();
+	    System.out.println("SERVER:\tclient DN: " + subj);
+
+	    int readBytes = 0;
+	    int tmp;
+	    int length = 0;
+	    InputStream in;
+	    try {
+		in = sock.getInputStream();
+	    } catch (java.io.IOException e) {
+		log("failed to get inputstream");
+		try {
+		    sock.close();
+		} catch (java.io.IOException e2) {
+		    log("failed closing socket, w/e");
+		}
+		continue;
+	    }
+
+	    while (readBytes < LENGTH_LENGTH) {
+		try {
+		    tmp = in.read();
+		} catch (java.io.IOException e) {
+		    continue;
+		}
+		readBytes += 1;
+		length += tmp << (LENGTH_LENGTH - readBytes);
+	    }
+
+	    if (readBytes == LENGTH_LENGTH) {
+		log("the msg is " + length + " bytes long");
+	    } else {
+		log("SERVER:\tfailed to read length field");
+		continue;
+	    }
+	    // got length, do work.
+	    InputStreamReader reader = new InputStreamReader(in);
+	    char[] message = new char[length];
+	    int ret;
+	    int offset = 0;
+	    while (offset < LENGTH_LENGTH) {
+		try {
+		    ret = reader.read(message, offset, (LENGTH_LENGTH - offset));
+		} catch(Exception e) {
+		    this.log("got exception while reading message: " + e.toString());
+		    break;
 		}
 
-		ss.setNeedClientAuth(true);
-
-		// accept clients, maybe sould be multithreaded later
-		while (true) {
-			log("waiting for incomming connection");
-			SSLSocket sock;
-
-			try {
-				sock = (SSLSocket) ss.accept();
-			} catch (java.io.IOException e) {
-				log("failed to accept connection");
-				continue;
-			}
-
-			log("accepted incomming connection");
-			SSLSession sess = sock.getSession();
-			X509Certificate cert;
-
-			try {
-				cert = (X509Certificate)sess.getPeerCertificateChain()[0];
-			} catch (javax.net.ssl.SSLPeerUnverifiedException e) {
-				log("client not verified");
-				try {
-					sock.close();
-				} catch (java.io.IOException e2) {
-					log("failed closing socket, w/e");
-				}
-				continue;
-			}
-
-			String subj = cert.getSubjectDN().getName();
-			System.out.println("SERVER:\tclient DN: " + subj);
-
-			int readBytes = 0;
-			int tmp;
-			int length = 0;
-			InputStream in;
-			try {
-				in = sock.getInputStream();
-			} catch (java.io.IOException e) {
-				log("failed to get inputstream");
-				try {
-					sock.close();
-				} catch (java.io.IOException e2) {
-					log("failed closing socket, w/e");
-				}
-				continue;
-			}
-
-			while (readBytes < LENGTH_LENGTH) {
-				try {
-					tmp = in.read();
-				} catch (java.io.IOException e) {
-					continue;
-				}
-				readBytes += 1;
-				length += tmp << (LENGTH_LENGTH - readBytes);
-			}
-
-			if (readBytes == LENGTH_LENGTH) {
-				log("the msg is " + length + " bytes long");
-			} else {
-				log("SERVER:\tfailed to read length field");
-				continue;
-			}
-			// got length, do work.
-			InputStreamReader reader = new InputStreamReader(in);
-			char[] message = new char[length];
-			int ret;
-			int offset = 0;
-			while (offset < LENGTH_LENGTH) {
-				try {
-					ret = reader.read(message, offset, (LENGTH_LENGTH - offset));
-				} catch(Exception e) {
-					this.log("got exception while reading message: " + e.toString());
-					break;
-				}
-
-				if (ret == -1) {
-					this.log("fuck. something went south. breaking the parsing of message.");
-					break;
-				}
-				offset += ret;
-			}
+		if (ret == -1) {
+		    this.log("fuck. something went south. breaking the parsing of message.");
+		    break;
 		}
+		offset += ret;
+	    }
 	}
+    }
 
-	protected String parseCmd(String cmd) {
-		return "You wrote " + cmd + "\n";
-	}
+    protected String parseCmd(String cmd) {
+	return "You wrote " + cmd + "\n";
+    }
 
-	public static void main(String args[]) {
-		JournalServer js;
+    public static void main(String args[]) {
+	JournalServer js;
 
-		js = new JournalServer();
-		js.start(8080);
-	}
+	js = new JournalServer();
+	js.start(8080);
+    }
 }
