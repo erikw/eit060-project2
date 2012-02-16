@@ -11,7 +11,7 @@ public class Client {
 	private Map<String, CommandFactory> factories;
 	private BufferedReader buffReader;
 	private static InetAddress serverIP;
-	private static int serverPort = 1024;
+	private static int serverPort = 8080;
 	private String user;
 	private String keystorePassword;
 	private String passwordKey;
@@ -67,7 +67,7 @@ public class Client {
 		factories.put(DeleteFactory.COMMAND_NAME, new DeleteFactory());
 
 		try {
-			serverIP = InetAddress.getByAddress(new byte[] {(byte) 192,(byte) 168, 0, 1});
+			serverIP = InetAddress.getByAddress(new byte[] {(byte) 127,(byte) 0, 0, 1});
 		} catch (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
@@ -156,7 +156,6 @@ public class Client {
 			trustStore.load(new FileInputStream("users/" + user + "/truststore"), truststorePassword.toCharArray());
 			trustFactory.init(trustStore);
 
-			trustFactory.init(keyStore);
 			sslContext.init(keyFactory.getKeyManagers(), trustFactory.getTrustManagers(), null);
 			SSLSocketFactory sslfactory = sslContext.getSocketFactory();
 
