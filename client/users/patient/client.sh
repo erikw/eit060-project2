@@ -1,5 +1,5 @@
-KEYSTORE_FILE="keystore"
-KEYSTORE_PASS="password1"
+KEYSTORE_FILE="truststore"
+KEYSTORE_PASS="password3"
 KEYSTORE_KEYPAIR_ALIAS="patient"
 KEYSTORE_KEYPAIR_PASS="password3"
 
