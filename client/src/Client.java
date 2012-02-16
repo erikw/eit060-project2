@@ -103,8 +103,12 @@ public class Client {
 							Command command = factory.makeCommand(parts);
 							// Send command to server!
 							String protoString = command.protocolString();
-							out.print(protoString.toCharArray().length);
-							out.print(protoString);
+							//out.print(protoString.toCharArray().length);
+							int len = protoString.toCharArray().length;
+							int mask = 0x0f;
+							for (int i = 3; i >= 0; i--) {
+							    socket.getOutputStream().write((len >> i) & mask);
+							}
 
 							String serverResponse;
 							byte[] message = new byte[Integer.MAX_VALUE];					
@@ -199,20 +203,22 @@ public class Client {
     }
 
 	private void readPassword() throws IOException {
-		while (keystorePassword == null || keystorePassword.length() == 0) {
-			System.out.print("Keystore password:");
-			keystorePassword = new String(System.console().readPassword());
-		}
+		// while (keystorePassword == null || keystorePassword.length() == 0) {
+		// 	System.out.print("Keystore password:");
+		// 	keystorePassword = new String(System.console().readPassword());
+		// }
 
-		while (passwordKey == null || passwordKey.length() == 0) {
-			System.out.print("Private key access password:");
-			passwordKey = new String(System.console().readPassword());
-		}
+		// while (passwordKey == null || passwordKey.length() == 0) {
+		// 	System.out.print("Private key access password:");
+		// 	passwordKey = new String(System.console().readPassword());
+		// }
 
-		while (truststorePassword == null || truststorePassword.length() == 0) {
-			System.out.print("Truststore password:");
-			truststorePassword = new String(System.console().readPassword());
-		}
-
+		// while (truststorePassword == null || truststorePassword.length() == 0) {
+		// 	System.out.print("Truststore password:");
+		// 	truststorePassword = new String(System.console().readPassword());
+		// }
+	    keystorePassword = "password1";
+	    passwordKey = "password2";
+	    truststorePassword = "password3";
 	}
 }

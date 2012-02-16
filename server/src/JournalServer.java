@@ -115,7 +115,7 @@ public class JournalServer {
 	    System.out.println("SERVER:\tclient DN: " + subj);
 
 	    int readBytes = 0;
-	    int tmp;
+	    int tmp, tmp_shift;
 	    int length = 0;
 	    InputStream in;
 	    try {
@@ -137,7 +137,9 @@ public class JournalServer {
 		    continue;
 		}
 		readBytes += 1;
-		length += tmp << (LENGTH_LENGTH - readBytes);
+		tmp_shift = tmp << (LENGTH_LENGTH - readBytes);
+		length += tmp_shift;
+		System.out.printf("raw:%d shifted:%d addedToLength:%d\n", tmp, tmp_shift, length);
 	    }
 
 	    if (readBytes == LENGTH_LENGTH) {
