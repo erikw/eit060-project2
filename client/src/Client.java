@@ -149,7 +149,7 @@ public class Client {
 			KeyManagerFactory keyFactory = KeyManagerFactory.getInstance("SunX509");
 			KeyStore keyStore = KeyStore.getInstance("JKS");
 			keyStore.load(new FileInputStream("users/" + user + "/keystore"), keystorePassword.toCharArray());
-			keyFactory.init(keyStore, keystorePassword.toCharArray());
+			keyFactory.init(keyStore, passwordKey.toCharArray());
 
 			TrustManagerFactory trustFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 			KeyStore trustStore = KeyStore.getInstance("JKS");
