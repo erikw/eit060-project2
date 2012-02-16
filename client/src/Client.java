@@ -104,25 +104,27 @@ public class Client {
 							// Send command to server!
 							String protoString = command.protocolString();
 							//out.print(protoString.toCharArray().length);
-							int len = protoString.toCharArray().length;
+							int len = protoString.getBytes().length;
 							int mask = 0x0f;
 							for (int i = 3; i >= 0; i--) {
 							    socket.getOutputStream().write((len >> i) & mask);
 							}
-
+							OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
+							osw.write(protoString, 0, len);
+							
 							String serverResponse;
-							byte[] message = new byte[Integer.MAX_VALUE];					
-							int amtRead = 0;
+							// byte[] message = new byte[Integer.MAX_VALUE];					
+							// int amtRead = 0;
 							
-							while((amtRead = in.read(message, amtRead, 4 - amtRead) )!= 4) { 
-							    System.out.println("Reading bytestream...");
-							    System.out.println(new String(message));
-							}
+							// while((amtRead = in.read(message, amtRead, 4 - amtRead) )!= 4) { 
+							//     System.out.println("Reading bytestream...");
+							//     System.out.println(new String(message));
+							// }
 							
-							int size = 0;
-							for (int i = 0; i < 4; i++) {
-							    size |= ((int) message[i]) << 3 - i;    
-							}
+							// int size = 0;
+							// for (int i = 0; i < 4; i++) {
+							//     size |= ((int) message[i]) << 3 - i;    
+							// }
 							
 							
 						} catch (BadCommandParamException bcpe) {
