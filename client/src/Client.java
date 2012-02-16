@@ -1,15 +1,9 @@
 import java.util.Map;
 import java.util.HashMap;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.security.GeneralSecurityException;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.KeyManagerFactory;
+import java.io.*;
+import java.security.*;
+import javax.net.ssl.*;
+import java.net.*;
 import java.util.Arrays;
 
 public class Client {
@@ -139,18 +133,22 @@ public class Client {
 			trustStore.load(new FileInputStream("users/" + user + "/truststore"), null);
 			trustFactory.init(trustStore);
 
-			trustFactory.init(keystore)
-			sslContext.init(keyFactory.getKeyManagers(), trustStore.getTrustManagers(), null);
+			trustFactory.init(keyStore);
+			sslContext.init(keyFactory.getKeyManagers(), trustFactory.getTrustManagers(), null);
 
+			SSLSocket socket = null;
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(
+						socket.getInputStream()));
 
 		} catch (GeneralSecurityException gse) {
 			gse.printStackTrace();
 			return;
-		}
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(
-					socket.getInputStream()));
+		} 
+
 	}
 
 	private void readPassword() throws IOException {
