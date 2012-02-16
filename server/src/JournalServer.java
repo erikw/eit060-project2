@@ -33,7 +33,7 @@ public class JournalServer {
 	try {
 	    this.keyStore = KeyStore.getInstance("JKS");
 	} catch (KeyStoreException e) {
-	    log("could not open keystore. exiting");
+	    log("could not open keystore. exiting (" + e + ")");
 	}		
     }
 
@@ -41,31 +41,33 @@ public class JournalServer {
 	System.out.println("SERVER:\t" + msg);
     }
 
+    // ugly pos
     public void start(int port) {
-	// SSLServerSocketFactory fac = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault(); 
 	SSLServerSocketFactory ssf = null;
 	SSLServerSocket ss;
-	// set up the server
-	// try {
-	// 	ss = (SSLServerSocket)fac.createServerSocket(port);
-	// } catch (java.io.IOException e) {
-	// 	log("could not bind to port. " + e);
-	// 	return;
-	// }
-	char[] pw = "password1".toCharArray();
 
-	// other stuff that might work
+	char[] keyStorePasswd = "password1".toCharArray();
+	char[] keyPasswd = "password2".toCharArray();
+	char[] trustPasswd = "password3".toCharArray();
+
 	SSLContext ctx;
 	KeyManagerFactory kmf;
-	KeyStore ks;
+	KeyStore ks, ts;
+	TrustManagerFactory tmf;
 	try {
 	    ctx = SSLContext.getInstance("TLS");
 	    kmf = KeyManagerFactory.getInstance("SunX509");
 	    ks = KeyStore.getInstance("JKS");
-	    ks.load(new FileInputStream("../keystore"), pw);
-	    kmf.init(ks, "password2".toCharArray());
-	    ctx.init(kmf.getKeyManagers(), null, null);
-		
+	    ks.load(new FileInputStream("./keystore"), keyStorePasswd);
+	    kmf.init(ks, keyPasswd);
+
+	    tmf = TrustManagerFactory.getInstance("SunX509");
+	    ts = KeyStore.getInstance("JKS");
+	    ts.load(new FileInputStream("./truststore"), trustPasswd);
+	    tmf.init(ts);
+	    
+	    ctx = SSLContext.getInstance("TLS");
+	    ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 	    ssf = ctx.getServerSocketFactory();
 	} catch (Exception e) {
 	    this.log("shit went south, bailing. (" + e + ")");
