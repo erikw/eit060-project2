@@ -14,7 +14,7 @@ Compile and run by typing the following commands:
 ### Client
 Compile and run by typing the following commands:
 
-	$cd it060_project2/client/
+	$cd eit060_project2/client/
 	$ant
 	$./run.sh [-d] [<user-type>]
 
