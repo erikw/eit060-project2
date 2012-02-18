@@ -5,8 +5,7 @@ Second project in the course EIT060 Computer Security at Lund University. The go
 ### Server
 Compile and run by typing the following commands:
 
-	$cd it060_project2
-	$cd server
+	$cd eit060_project2/server/
 	$ant
 	$./run.sh [-d]
 
@@ -15,8 +14,7 @@ Compile and run by typing the following commands:
 ### Client
 Compile and run by typing the following commands:
 
-	$cd it060_project2
-	$cd client
+	$cd it060_project2/client/
 	$ant
 	$./run.sh [-d] [<user-type>]
 
