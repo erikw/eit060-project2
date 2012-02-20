@@ -1,25 +1,19 @@
 /*
- * documentation for java ssl stuff can be found here:
+ * Documentation for Jessy:
  * http://docs.oracle.com/javase/1.4.2/docs/api/javax/net/ssl/package-summary.html
  */
 
-import java.security.KeyStore;
-import javax.net.ssl.SSLServerSocketFactory;
-import javax.net.ssl.SSLServerSocket;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSession;
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.security.*;
 import javax.security.cert.X509Certificate;
-import java.security.KeyStoreException;
-import javax.net.ssl.*;
 import javax.net.*;
+import javax.net.ssl.*;
+import java.io.*;
+import java.util.logging.*;
 
 public class JournalServer {
     private static final int LENGTH_LENGTH = 4; // length of the length field, bytes
-    protected KeyStore keyStore;
+    private KeyStore keyStore;
+	private Logger log;
 
     public JournalServer() {
 	// System.setProperty("javax.net.ssl.trustStore", "myTrustStore");
@@ -31,14 +25,24 @@ public class JournalServer {
 	// System.setProperty("javax.net.ssl.keyStorePassword", "newpasswd");
 
 	try {
-	    this.keyStore = KeyStore.getInstance("JKS");
+	    keyStore = KeyStore.getInstance("JKS");
 	} catch (KeyStoreException e) {
-	    log("could not open keystore. exiting (" + e + ")");
+	    trace("could not open keystore. exiting (" + e + ")");
 	}		
+
+	FileHandler fileHandler = null;
+	try {
+		fileHandler = new FileHandler("logs/audit.log", 10*1024*1024, 100, true);
+	} catch (IOException ioe) {
+		System.err.println("Could not open log file.");
+	}
+	fileHandler.setFormatter(new SimpleFormatter());
+	log = Logger.getLogger("auditLog");
+	log.addHandler(fileHandler);
     }
 
-    private void log(String msg) {
-	System.out.println("SERVER:\t" + msg);
+    private void trace(String msg) {
+		System.out.println("SERVER:\t" + msg);
     }
 
     // ugly pos
@@ -70,14 +74,14 @@ public class JournalServer {
 	    ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 	    ssf = ctx.getServerSocketFactory();
 	} catch (Exception e) {
-	    this.log("shit went south, bailing. (" + e + ")");
+	    trace("shit went south, bailing. (" + e + ")");
 	    System.exit(1);
 	}
 		
 	try {
 	    ss = (SSLServerSocket) ssf.createServerSocket(port);
 	} catch (Exception e) {
-	    log("could not bind to port. " + e);
+	    trace("could not bind to port. " + e);
 	    return;
 	}
 
@@ -85,17 +89,17 @@ public class JournalServer {
 
 	// accept clients, maybe sould be multithreaded later
 	while (true) {
-	    log("waiting for incomming connection");
+	    trace("waiting for incomming connection");
 	    SSLSocket sock;
 
 	    try {
 		sock = (SSLSocket) ss.accept();
 	    } catch (java.io.IOException e) {
-		log("failed to accept connection");
+		trace("failed to accept connection");
 		continue;
 	    }
 
-	    log("accepted incomming connection");
+	    trace("accepted incomming connection");
 
 	    // String[] suites = {"TLS_DHE_DSS_WITH_AES_256_CBC_SHA"};
 	    // sock.setEnabledCipherSuites(suites);
@@ -105,11 +109,11 @@ public class JournalServer {
 	    try {
 		cert = (X509Certificate)sess.getPeerCertificateChain()[0];
 	    } catch (javax.net.ssl.SSLPeerUnverifiedException e) {
-		log("client not verified");
+		trace("client not verified");
 		try {
 		    sock.close();
 		} catch (java.io.IOException e2) {
-		    log("failed closing socket, w/e");
+		    trace("failed closing socket, w/e");
 		}
 		continue;
 	    }
@@ -124,11 +128,11 @@ public class JournalServer {
 	    try {
 		in = sock.getInputStream();
 	    } catch (java.io.IOException e) {
-		log("failed to get inputstream");
+		trace("failed to get inputstream");
 		try {
 		    sock.close();
 		} catch (java.io.IOException e2) {
-		    log("failed closing socket, w/e");
+		    trace("failed closing socket, w/e");
 		}
 		continue;
 	    }
@@ -146,9 +150,9 @@ public class JournalServer {
 	    }
 
 	    if (readBytes == LENGTH_LENGTH) {
-		log("the msg is " + length + " bytes long");
+		trace("the msg is " + length + " bytes long");
 	    } else {
-		log("SERVER:\tfailed to read length field");
+		trace("SERVER:\tfailed to read length field");
 		continue;
 	    }
 	    // got length, do work.
@@ -160,12 +164,12 @@ public class JournalServer {
 		try {
 		    ret = reader.read(message, offset, (length - offset));
 		} catch(Exception e) {
-		    this.log("got exception while reading message: " + e.toString());
+		    trace("got exception while reading message: " + e.toString());
 		    break;
 		}
 
 		if (ret == -1) {
-		    this.log("fuck. something went south. breaking the parsing of message.");
+		    trace("fuck. something went south. breaking the parsing of message.");
 		    break;
 		}
 		offset += ret;
