@@ -141,7 +141,7 @@ public class JournalServer {
 		}
 		readBytes += 1;
 		tmp_shift = tmp << (LENGTH_LENGTH - readBytes);
-		length += tmp_shift;
+		length |= tmp_shift;
 		System.out.printf("raw:%s shifted:%d addedToLength:%d\n", Integer.toHexString(tmp), tmp_shift, length);
 	    }
 
