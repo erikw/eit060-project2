@@ -9,24 +9,10 @@
 	<property name="project.authors" value="Erik Westrup, Erik Jansson, Gustaf Waldemarsson, Tommy Olofsson" />
 	<property name="path.source" value="src" />
 	<property name="path.destination" value="bin" />
-	<property name="path.library" value="lib" />
 	<property name="path.documentation" value="doc" />
 	<property name="path.release" value="release" />
 
 
-	<!-- Library versions in use. Please update path externalLibs if you add/remove from here.-->
-	<property name="junit" value="junit-4.9b2.jar" />
-
-	<!-- *** Paths *** -->
-	<path id="externalLibs">
-		<fileset dir="${path.library}">
-			<include name="${junit}" />
-		</fileset>
-	</path>
-
-	<path id="classpath.tests">
-		<pathelement location="${path.destination}" />
-	</path>
 
 	
 	<!-- *** Targets *** -->
@@ -36,7 +22,6 @@
 		<mkdir dir="${path.destination}" />
 		<javac includeantruntime="false" destdir="${path.destination}" debug = "true">
 			<src path="${path.source}" />
-			<classpath refid="externalLibs" />
 		</javac>
 	</target>
 
@@ -44,16 +29,5 @@
 		<delete dir="${path.destination}" includeemptydirs="true" />
 	</target>
 
-	<!--<target name="test" description="Run JUnit tests and stop build if one fails.">-->
-		<!--<junit printsummary="true" fork="yes" haltonfailure="true">-->
-			<!--<formatter type="plain" usefile="no" />-->
-			<!--<classpath refid="classpath.tests" />-->
-			<!--<classpath refid="externalLibs" />-->
-
-			<!--<batchtest>-->
-				<!--<fileset dir="${path.destination}/" includes="test/**/**Test**.class" />-->
-			<!--</batchtest>-->
-		<!--</junit>-->
-	<!--</target>-->
 
 </project>
