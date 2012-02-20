@@ -10,6 +10,7 @@ import javax.net.ssl.*;
 import java.io.*;
 import java.util.*;
 import java.util.logging.*;
+import java.net.Socket;
 
 public class JournalServer {
 	private static final int LENGTH_LENGTH = 4; // length of the length field, bytes
@@ -51,8 +52,16 @@ public class JournalServer {
 		System.out.println("Trace---> " + msg);
 	}
 
+	private void log(String subj, Socket sock, String logmsg) {
+		String ip = (sock != null) ? sock.getInetAddress().toString() : "#";
+		if (subj == null)
+			subj = "#";
+		
+		log.info(String.format("| %15s | %15s | %s ", subj, ip, logmsg));
+	}
+
 	private void log(String logmsg) {
-		log.info(logmsg);
+		log(null, null, logmsg);
 	}
 
 	public void start(int port) {
@@ -69,6 +78,7 @@ public class JournalServer {
 		String keyPasswd  = null;
 		String trustPasswd = null;
 
+		log("Server started");
 		try {
 			passwds = this.readPassword();
 			keyStorePasswd = passwds[0];
@@ -76,6 +86,7 @@ public class JournalServer {
 			trustPasswd = passwds[2];
 		} catch (java.io.IOException e) {
 			this.trace("could not read passwords (" + e + ")");
+			log("could not read passwords, exiting (" + e + ")");
 			System.exit(1);
 		}
 
@@ -96,6 +107,7 @@ public class JournalServer {
 			ssf = ctx.getServerSocketFactory();
 		} catch (Exception e) {
 			trace("shit went south, bailing. (" + e + ")");
+			log("Error accessing stores, exiting");
 			System.exit(1);
 		}
 
@@ -131,6 +143,7 @@ public class JournalServer {
 				cert = (X509Certificate)sess.getPeerCertificateChain()[0];
 			} catch (javax.net.ssl.SSLPeerUnverifiedException e) {
 				trace("client not verified");
+				log("#", sock, "Failed to verify");
 				try {
 					sock.close();
 				} catch (java.io.IOException e2) {
@@ -141,6 +154,8 @@ public class JournalServer {
 
 			String subj = cert.getSubjectDN().getName();
 			trace("client DN: " + subj);
+			log(subj, sock, "connected");
+
 			InputStream in;
 			try {
 				in = sock.getInputStream();
@@ -217,6 +232,7 @@ public class JournalServer {
 				}
 			}
 			if (terminated)
+				log("terminated");
 				trace("terminated");
 		}
 	}
