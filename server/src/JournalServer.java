@@ -149,10 +149,13 @@ public class JournalServer {
 		    length |= tmp_shift;
 		    System.out.printf("raw:%s shifted:%d addedToLength:%d\n", Integer.toHexString(tmp), tmp_shift, length);
 		}
-
-		if (readBytes == LENGTH_LENGTH) {
+		if (length < 0) {
+		    this.trace("the client is fucking w/ us. Alternativly the connection died");
+		    terminated = true;
+		    continue;
+		} else if (readBytes == LENGTH_LENGTH) {
 		    trace("the msg is " + length + " bytes long");
-		} else {
+			} else {
 		    trace("SERVER:\tfailed to read length field");
 		    continue;
 		}

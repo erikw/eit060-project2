@@ -184,12 +184,15 @@ public class Client {
 			isConnect = true;
 			
 
+			// works for now.
 		} catch (GeneralSecurityException gse) {
 			gse.printStackTrace();
-			return;
+			System.out.println("Could not authorize");
+			System.exit(1);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-
+			System.out.println("Could not authorize");
+			System.exit(1);
 		} 
 
 	}
