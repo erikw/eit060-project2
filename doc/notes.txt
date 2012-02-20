@@ -1,1 +1,0 @@
-Debug TLS: java -Djavax.net.debug=ssl:handshake:data Server
