@@ -54,15 +54,29 @@ public class JournalServer {
 		SSLServerSocketFactory ssf = null;
 		SSLServerSocket ss;
 
-		// TODO remove these debugging hacks? Maybe the server must be started by personsknowing the passwords?
-		char[] keyStorePasswd = "password1".toCharArray();
-		char[] keyPasswd = "password2".toCharArray();
-		char[] trustPasswd = "password3".toCharArray();
+		// char[] keyStorePasswd = "password1".toCharArray();
+		// char[] keyPasswd = "password2".toCharArray();
+		// char[] trustPasswd = "password3".toCharArray();
+		String passwds[];
 
 		SSLContext ctx;
 		KeyManagerFactory kmf;
 		KeyStore ks, ts;
 		TrustManagerFactory tmf;
+		char[] keyStorePasswd = "password1".toCharArray();
+		char[] keyPasswd = "password2".toCharArray();
+		char[] trustPasswd = "password3".toCharArray();
+
+		try {
+			passwds = this.readPassword();
+			keyStorePasswd = passwds[0].toCharArray();
+			keyPasswd = passwds[1].toCharArray();
+			trustPasswd = passwds[2].toCharArray();
+		} catch (java.io.IOException e) {
+			this.trace("could not read passwords (" + e + ")");
+			System.exit(1);
+		}
+
 		try {
 			ctx = SSLContext.getInstance("TLS");
 			kmf = KeyManagerFactory.getInstance("SunX509");
@@ -203,5 +217,34 @@ public class JournalServer {
 			if (terminated)
 				trace("terminated");
 		}
+	}
+
+	private void parseCmd(char[] cmd) {
+		System.out.println("---- cmd ----");
+		for (int i = 0; i < cmd.length; i++)
+			System.out.print(cmd[i]);
+		System.out.print('\n');
+	}
+
+	private String[] readPassword() throws IOException {
+		// while (keystorePassword == null || keystorePassword.length() == 0) {
+		// 	System.out.print("Server keystore password:");
+		// 	keystorePassword = new String(System.console().readPassword());
+		// }
+
+		// while (keyPassword == null || keyPassword.length() == 0) {
+		// 	System.out.print("Server keystore password:");
+		// 	keystorePassword = new String(System.console().readPassword());
+		// }
+
+		// while (truststorePassword == null || truststorePassword.length() == 0) {
+		// 	System.out.print("Server truststore password:");
+		// 	truststorePassword = new String(System.console().readPassword());
+		// }
+		String pws[] = new String[3];
+	    pws[0] = "password1";
+	    pws[1] = "password2";
+	    pws[2] = "password3";
+		return pws;
 	}
 }
