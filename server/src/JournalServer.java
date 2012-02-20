@@ -136,54 +136,62 @@ public class JournalServer {
 		}
 		continue;
 	    }
+	    boolean terminated = false;
+	    while (!terminated) {
+		while (readBytes < LENGTH_LENGTH) {
+		    try {
+			tmp = in.read();
+		    } catch (java.io.IOException e) {
+			continue;
+		    }
+		    readBytes += 1;
+		    tmp_shift = tmp << (LENGTH_LENGTH - readBytes);
+		    length |= tmp_shift;
+		    System.out.printf("raw:%s shifted:%d addedToLength:%d\n", Integer.toHexString(tmp), tmp_shift, length);
+		}
 
-	    while (readBytes < LENGTH_LENGTH) {
-		try {
-		    tmp = in.read();
-		} catch (java.io.IOException e) {
+		if (readBytes == LENGTH_LENGTH) {
+		    trace("the msg is " + length + " bytes long");
+		} else {
+		    trace("SERVER:\tfailed to read length field");
 		    continue;
 		}
-		readBytes += 1;
-		tmp_shift = tmp << (LENGTH_LENGTH - readBytes);
-		length |= tmp_shift;
-		System.out.printf("raw:%s shifted:%d addedToLength:%d\n", Integer.toHexString(tmp), tmp_shift, length);
-	    }
+		// got length, do work.
+		InputStreamReader reader = new InputStreamReader(in);
+		char[] message = new char[length];
+		int ret;
+		int offset = 0;
+		while (offset < length) {
+		    try {
+			ret = reader.read(message, offset, (length - offset));
+		    } catch(Exception e) {
+			trace("got exception while reading message: " + e.toString());
+			break;
+		    }
 
-	    if (readBytes == LENGTH_LENGTH) {
-		trace("the msg is " + length + " bytes long");
-	    } else {
-		trace("SERVER:\tfailed to read length field");
-		continue;
-	    }
-	    // got length, do work.
-	    InputStreamReader reader = new InputStreamReader(in);
-	    char[] message = new char[length];
-	    int ret;
-	    int offset = 0;
-	    while (offset < length) {
-		try {
-		    ret = reader.read(message, offset, (length - offset));
-		} catch(Exception e) {
-		    trace("got exception while reading message: " + e.toString());
+		    if (ret == -1) {
+			trace("fuck. something went south. breaking the parsing of message.");
+			break;
+		    }
+		    offset += ret;
+		}
+		if (offset < length) {
+		    trace("could not read complete message");
+		    terminated = true;
 		    break;
 		}
-
-		if (ret == -1) {
-		    trace("fuck. something went south. breaking the parsing of message.");
-		    break;
-		}
-		offset += ret;
+		this.parseCmd(message);
 	    }
-	    if (offset < length) {
-		trace("could not read complete message");
-		break;
-	    }
-	    this.parseCmd(message);
+	    if (terminated)
+		this.trace("terminated");
 	}
     }
 
-    protected String parseCmd(char[] cmd) {
-	return "You wrote " + cmd + "\n";
+    private void parseCmd(char[] cmd) {
+	System.out.println("---- cmd ----");
+	for (int i = 0; i < cmd.length; i++)
+	    System.out.print(cmd[i]);
+	System.out.print('\n');
     }
 
 }
