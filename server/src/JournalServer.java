@@ -54,24 +54,21 @@ public class JournalServer {
 		SSLServerSocketFactory ssf = null;
 		SSLServerSocket ss;
 
-		// char[] keyStorePasswd = "password1".toCharArray();
-		// char[] keyPasswd = "password2".toCharArray();
-		// char[] trustPasswd = "password3".toCharArray();
 		String passwds[];
 
 		SSLContext ctx;
 		KeyManagerFactory kmf;
 		KeyStore ks, ts;
 		TrustManagerFactory tmf;
-		char[] keyStorePasswd = "password1".toCharArray();
-		char[] keyPasswd = "password2".toCharArray();
-		char[] trustPasswd = "password3".toCharArray();
+		String keyStorePasswd = null;
+		String keyPasswd  = null;
+		String trustPasswd = null;
 
 		try {
 			passwds = this.readPassword();
-			keyStorePasswd = passwds[0].toCharArray();
-			keyPasswd = passwds[1].toCharArray();
-			trustPasswd = passwds[2].toCharArray();
+			keyStorePasswd = passwds[0];
+			keyPasswd = passwds[1];
+			trustPasswd = passwds[2];
 		} catch (java.io.IOException e) {
 			this.trace("could not read passwords (" + e + ")");
 			System.exit(1);
@@ -81,12 +78,12 @@ public class JournalServer {
 			ctx = SSLContext.getInstance("TLS");
 			kmf = KeyManagerFactory.getInstance("SunX509");
 			ks = KeyStore.getInstance("JKS");
-			ks.load(new FileInputStream("./keystore"), keyStorePasswd);
-			kmf.init(ks, keyPasswd);
+			ks.load(new FileInputStream("./keystore"), keyStorePasswd.toCharArray());
+			kmf.init(ks, keyPasswd.toCharArray());
 
 			tmf = TrustManagerFactory.getInstance("SunX509");
 			ts = KeyStore.getInstance("JKS");
-			ts.load(new FileInputStream("./truststore"), trustPasswd);
+			ts.load(new FileInputStream("./truststore"), trustPasswd.toCharArray());
 			tmf.init(ts);
 
 			ctx = SSLContext.getInstance("TLS");
