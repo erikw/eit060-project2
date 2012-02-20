@@ -48,7 +48,7 @@ public class JournalServer {
 	}
 
 	private void trace(String msg) {
-		System.out.println("SERVER:\t" + msg);
+		System.out.println("Trace---> " + msg);
 	}
 
 	private void log(String logmsg) {
