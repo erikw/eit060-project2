@@ -97,8 +97,8 @@ public class JournalServer {
 
 	    log("accepted incomming connection");
 
-		String[] suites = {"TLS_DHE_DSS_WITH_AES_256_CBC_SHA"};
-		sock.setEnabledCipherSuites(suites);
+	    // String[] suites = {"TLS_DHE_DSS_WITH_AES_256_CBC_SHA"};
+	    // sock.setEnabledCipherSuites(suites);
 	    SSLSession sess = sock.getSession();
 	    X509Certificate cert;
 
@@ -142,7 +142,7 @@ public class JournalServer {
 		readBytes += 1;
 		tmp_shift = tmp << (LENGTH_LENGTH - readBytes);
 		length += tmp_shift;
-		System.out.printf("raw:%d shifted:%d addedToLength:%d\n", tmp, tmp_shift, length);
+		System.out.printf("raw:%s shifted:%d addedToLength:%d\n", Integer.toHexString(tmp), tmp_shift, length);
 	    }
 
 	    if (readBytes == LENGTH_LENGTH) {
@@ -156,9 +156,9 @@ public class JournalServer {
 	    char[] message = new char[length];
 	    int ret;
 	    int offset = 0;
-	    while (offset < LENGTH_LENGTH) {
+	    while (offset < length) {
 		try {
-		    ret = reader.read(message, offset, (LENGTH_LENGTH - offset));
+		    ret = reader.read(message, offset, (length - offset));
 		} catch(Exception e) {
 		    this.log("got exception while reading message: " + e.toString());
 		    break;
@@ -170,10 +170,15 @@ public class JournalServer {
 		}
 		offset += ret;
 	    }
+	    if (offset < length) {
+		this.log("could not read complete message");
+		break;
+	    }
+	    this.parseCmd(message);
 	}
     }
 
-    protected String parseCmd(String cmd) {
+    protected String parseCmd(char[] cmd) {
 	return "You wrote " + cmd + "\n";
     }
 
