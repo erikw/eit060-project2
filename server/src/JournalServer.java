@@ -15,6 +15,11 @@ public class JournalServer {
     private KeyStore keyStore;
 	private Logger log;
 
+	public static final int USER_PATIENT = 0;
+	public static final int USER_NURSE   = 1;
+	public static final int USER_DOCTOR  = 2;
+	public static final int USER_AGENCY  = 3;
+
     public static void main(String args[]) {
 		new JournalServer().start(8080);
     }
