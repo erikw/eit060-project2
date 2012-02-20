@@ -8,12 +8,14 @@ import javax.security.cert.X509Certificate;
 import javax.net.*;
 import javax.net.ssl.*;
 import java.io.*;
+import java.util.*;
 import java.util.logging.*;
 
 public class JournalServer {
 	private static final int LENGTH_LENGTH = 4; // length of the length field, bytes
 	private KeyStore keyStore;
 	private Logger log;
+	private Map<String, Record> records;
 
 	public static final int USER_PATIENT = 0;
 	public static final int USER_NURSE   = 1;
@@ -40,6 +42,9 @@ public class JournalServer {
 		fileHandler.setFormatter(new SimpleFormatter());
 		log = Logger.getLogger("auditLog");
 		log.addHandler(fileHandler);
+
+		records = new HashMap<String, Record>();
+		putStaticRecords();
 	}
 
 	private void trace(String msg) {
@@ -216,13 +221,6 @@ public class JournalServer {
 		}
 	}
 
-	private void parseCmd(char[] cmd) {
-		System.out.println("---- cmd ----");
-		for (int i = 0; i < cmd.length; i++)
-			System.out.print(cmd[i]);
-		System.out.print('\n');
-	}
-
 	private String[] readPassword() throws IOException {
 		// while (keystorePassword == null || keystorePassword.length() == 0) {
 		// 	System.out.print("Server keystore password:");
@@ -243,5 +241,11 @@ public class JournalServer {
 	    pws[1] = "password2";
 	    pws[2] = "password3";
 		return pws;
+	}
+
+	private void putStaticRecords() {
+		records.put(Record.getNextRecordID(), new Record("1", "901021-1192", "1", "1", "Ill, not sick." ));
+		records.put(Record.getNextRecordID(), new Record("1", "700101-0000", "1", "1", "Bruten stortå. Lagad med tajp." ));
+		records.put(Record.getNextRecordID(), new Record("2", "900814-4553", "2", "2", "Y2K error in brain." ));
 	}
 }
