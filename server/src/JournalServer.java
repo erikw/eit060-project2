@@ -45,6 +45,10 @@ public class JournalServer {
 		System.out.println("SERVER:\t" + msg);
     }
 
+	private void log(String logmsg) {
+		log.info(logmsg);
+	}
+
     // ugly pos
     public void start(int port) {
 	SSLServerSocketFactory ssf = null;
@@ -175,7 +179,7 @@ public class JournalServer {
 		offset += ret;
 	    }
 	    if (offset < length) {
-		this.log("could not read complete message");
+		trace("could not read complete message");
 		break;
 	    }
 	    this.parseCmd(message);
@@ -188,7 +192,6 @@ public class JournalServer {
 
     public static void main(String args[]) {
 	JournalServer js;
-
 	js = new JournalServer();
 	js.start(8080);
     }
