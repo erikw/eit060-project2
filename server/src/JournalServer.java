@@ -124,7 +124,7 @@ public class JournalServer {
 			}
 
 			String subj = cert.getSubjectDN().getName();
-			System.out.println("SERVER:\tclient DN: " + subj);
+			trace("client DN: " + subj);
 			InputStream in;
 			try {
 				in = sock.getInputStream();
@@ -149,19 +149,19 @@ public class JournalServer {
 					} catch (java.io.IOException e) {
 						continue;
 					}
-					readBytes += 1;
+					++readBytes;
 					tmp_shift = tmp << (LENGTH_LENGTH - readBytes);
 					length |= tmp_shift;
 					System.out.printf("raw:%s shifted:%d addedToLength:%d\n", Integer.toHexString(tmp), tmp_shift, length);
 				}
 				if (length < 0) {
-					this.trace("the client is fucking w/ us. Alternativly the connection died");
+					trace("the client is fucking w/ us. Alternativly the connection died");
 					terminated = true;
 					continue;
 				} else if (readBytes == LENGTH_LENGTH) {
 					trace("the msg is " + length + " bytes long");
 				} else {
-					trace("SERVER:\tfailed to read length field");
+					trace("failed to read length field");
 					continue;
 				}
 				// got length, do work.
@@ -188,18 +188,20 @@ public class JournalServer {
 					terminated = true;
 					break;
 				}
-				this.parseCmd(message);
+
+				Command command;
+				try {
+					// TODO get Journal.USER_XXX from db.getuserType(subj) or something
+					//command = CommandFactory.makeCommand(message, userType)
+					command = CommandFactory.makeCommand(message, JournalServer.USER_PATIENT);
+				} catch (UnknownCommandException uce) {
+					trace("Got unparsable command.");
+					terminated = true;
+					break;
+				}
 			}
 			if (terminated)
-				this.trace("terminated");
+				trace("terminated");
 		}
 	}
-
-	private void parseCmd(char[] cmd) {
-		System.out.println("---- cmd ----");
-		for (int i = 0; i < cmd.length; i++)
-			System.out.print(cmd[i]);
-		System.out.print('\n');
-	}
-
 }

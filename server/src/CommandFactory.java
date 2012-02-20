@@ -1,6 +1,6 @@
 public class CommandFactory {
 
-	public static Command makeCommand(byte[] data, int userType) throws UnknownCommandException {
+	public static Command makeCommand(char[] data, int userType) throws UnknownCommandException {
 		String[] parts = new String(data).split(" ", 2);
 		String commandName = parts[0];
 		System.out.println("CommandFactory: parsed command name = " + commandName);
