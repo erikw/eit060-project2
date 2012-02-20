@@ -111,6 +111,7 @@ public class Client {
 							}
 							OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
 							osw.write(protoString, 0, len);
+							osw.flush();
 							
 							String serverResponse;
 							// byte[] message = new byte[Integer.MAX_VALUE];					
