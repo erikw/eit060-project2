@@ -15,6 +15,12 @@ public class JournalServer {
     private KeyStore keyStore;
 	private Logger log;
 
+    public static void main(String args[]) {
+		JournalServer js;
+		js = new JournalServer();
+		js.start(8080);
+    }
+
     public JournalServer() {
 	try {
 	    keyStore = KeyStore.getInstance("JKS");
@@ -26,7 +32,7 @@ public class JournalServer {
 	try {
 		fileHandler = new FileHandler("logs/audit.log", 10*1024*1024, 100, true);
 	} catch (IOException ioe) {
-		System.err.println("Could not open log file.");
+		trace("Could not open log file.");
 	}
 	fileHandler.setFormatter(new SimpleFormatter());
 	log = Logger.getLogger("auditLog");
@@ -41,11 +47,11 @@ public class JournalServer {
 		log.info(logmsg);
 	}
 
-    // ugly pos
     public void start(int port) {
 	SSLServerSocketFactory ssf = null;
 	SSLServerSocket ss;
 
+	// TODO remove these debugging hacks? Maybe the server must be started by personsknowing the passwords?
 	char[] keyStorePasswd = "password1".toCharArray();
 	char[] keyPasswd = "password2".toCharArray();
 	char[] trustPasswd = "password3".toCharArray();
@@ -182,9 +188,4 @@ public class JournalServer {
 	return "You wrote " + cmd + "\n";
     }
 
-    public static void main(String args[]) {
-	JournalServer js;
-	js = new JournalServer();
-	js.start(8080);
-    }
 }
