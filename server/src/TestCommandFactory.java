@@ -28,5 +28,15 @@ public class TestCommandFactory {
 		} catch (UnknownCommandException uce) {
 			System.err.println("Caught UCE! on create as doctor");
 		}
+		try {
+			Command c = CommandFactory.makeCommand("read 123".getBytes(), JournalServer.USER_DOCTOR);
+		} catch (UnknownCommandException uce) {
+			System.err.println("Caught UCE! on read as doctor");
+		}
+		try {
+			Command c = CommandFactory.makeCommand("append 123 en lång text om en patient".getBytes(), JournalServer.USER_DOCTOR);
+		} catch (UnknownCommandException uce) {
+			System.err.println("Caught UCE! on read as doctor");
+		}
 	}
 }

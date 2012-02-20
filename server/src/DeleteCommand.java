@@ -1,7 +1,7 @@
 public class DeleteCommand implements Command { 
-	private int ref;
+	private int recordID;
 
-	public DeleteCommand (int ref) {
-		this.ref = ref;
+	public DeleteCommand (int recordID) {
+		this.recordID = recordID;
 	}
 }

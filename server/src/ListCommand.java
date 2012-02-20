@@ -1,12 +1,12 @@
 public class ListCommand implements Command { 
-	public static final int NO_REF = -1;
-	private int ref;
+	public static final int NO_ID = -1;
+	private int patientID;
 
 	public ListCommand () {
-		this(ListCommand.NO_REF);
+		this(ListCommand.NO_ID);
 	}
 
-	public ListCommand(int ref) {
-		this.ref = ref;
+	public ListCommand(int patientID) {
+		this.patientID = patientID;
 	}
 }

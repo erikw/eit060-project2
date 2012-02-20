@@ -12,19 +12,28 @@ public class CommandFactory {
 					System.out.println(" for patient.");
 					command = new ListCommand();
 				} else {
-					int ref = Integer.parseInt(parts[1]);
-					command = new ListCommand(ref);
+					int patientID = Integer.parseInt(parts[1]);
+					command = new ListCommand(patientID);
 				}
 			} else if (commandName.equals("append")) {
-
+				System.out.println("Command is append");
+				parts = parts[1].split(" ", 2);
+				int recordID = Integer.parseInt(parts[0]);
+				String text = parts[1];
+				System.out.println("with recordID=" + recordID + " and text=" + text);
+				command = new AppendCommand(recordID, text);
 			} else if (commandName.equals("create")) {
+				System.out.println("Command is create");
 				int patientID = Integer.parseInt(parts[1]);
-				command = new DeleteCommand(patientID);
+				command = new CreateCommand(patientID);
 			} else if (commandName.equals("delete")) {
-				int ref = Integer.parseInt(parts[1]);
-				command = new DeleteCommand(ref);
+				System.out.println("Command is delete");
+				int recordID = Integer.parseInt(parts[1]);
+				command = new DeleteCommand(recordID);
 			} else if (commandName.equals("read")) {
-
+				System.out.println("Command is read");
+				int recordID = Integer.parseInt(parts[1]);
+				command = new ReadCommand(recordID);
 			} else {
 				throw new UnknownCommandException();
 			}
