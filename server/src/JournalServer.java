@@ -120,10 +120,6 @@ public class JournalServer {
 
 	    String subj = cert.getSubjectDN().getName();
 	    System.out.println("SERVER:\tclient DN: " + subj);
-
-	    int readBytes = 0;
-	    int tmp, tmp_shift;
-	    int length = 0;
 	    InputStream in;
 	    try {
 		in = sock.getInputStream();
@@ -138,6 +134,10 @@ public class JournalServer {
 	    }
 	    boolean terminated = false;
 	    while (!terminated) {
+		int readBytes = 0;
+		int tmp, tmp_shift;
+		int length = 0;
+		
 		while (readBytes < LENGTH_LENGTH) {
 		    try {
 			tmp = in.read();
