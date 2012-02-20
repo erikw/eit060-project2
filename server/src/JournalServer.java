@@ -237,9 +237,9 @@ public class JournalServer {
 		// 	truststorePassword = new String(System.console().readPassword());
 		// }
 		String pws[] = new String[3];
-	    pws[0] = "password1";
-	    pws[1] = "password2";
-	    pws[2] = "password3";
+	    pws[0] = "LrLV3w4TZ5I6a";
+	    pws[1] = "LrLV3w4TZ5I6a";
+	    pws[2] = "QWH7yedDGR18y";
 		return pws;
 	}
 

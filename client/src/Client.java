@@ -223,8 +223,8 @@ public class Client {
 		// 	System.out.print("Truststore password:");
 		// 	truststorePassword = new String(System.console().readPassword());
 		// }
-	    keystorePassword = "password1";
-	    passwordKey = "password2";
-	    truststorePassword = "password3";
+	    keystorePassword = "pzNniiebY9oqs";
+	    passwordKey = "pzNniiebY9oqs";
+	    truststorePassword = "xLN75gzUJz7Yh";
 	}
 }
