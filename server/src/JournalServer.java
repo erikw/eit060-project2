@@ -16,14 +16,6 @@ public class JournalServer {
 	private Logger log;
 
     public JournalServer() {
-	// System.setProperty("javax.net.ssl.trustStore", "myTrustStore");
-	// System.setProperty("javax.net.ssl.trustStorePassword", "password3");
-	// System.setProperty("javax.net.ssl.keyStore", "../keystore");
-	// System.setProperty("javax.net.ssl.keyStorePassword", "password1");
-	// System.setProperty("javax.net.ssl.keyStoreType", "pkcs12");
-	// System.setProperty("javax.net.ssl.keyStore", "new.p12");
-	// System.setProperty("javax.net.ssl.keyStorePassword", "newpasswd");
-
 	try {
 	    keyStore = KeyStore.getInstance("JKS");
 	} catch (KeyStoreException e) {
