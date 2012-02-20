@@ -16,9 +16,7 @@ public class JournalServer {
 	private Logger log;
 
     public static void main(String args[]) {
-		JournalServer js;
-		js = new JournalServer();
-		js.start(8080);
+		new JournalServer().start(8080);
     }
 
     public JournalServer() {
