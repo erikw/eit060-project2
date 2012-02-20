@@ -20,7 +20,7 @@ Compile and run by typing the following commands:
 
 -d Enables TLS handshake debugging.
 
-\<user-type\> lets you run the program as the indicated user-type and must be from the set {"", *patient*, *nurse*, *doctor*, *agency*}. Default is *patient*. 
+\<user-type\> lets you run the program as the indicated user-type and must be from the set {"", *patient*, *nurse[1-2]*, *doctor[1-2]*, *agency*}. Default is *patient*. 
 
 ##Contributors
 [Erik Jansson](https://github.com/Meldanya)
