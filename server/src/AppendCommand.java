@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public class AppendCommand implements Command { 
+public class AppendCommand extends Command { 
 	private int recordID;
 	private String text;
 

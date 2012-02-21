@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public class CreateCommand implements Command { 
+public class CreateCommand extends Command { 
 
 	private int patientID;
 

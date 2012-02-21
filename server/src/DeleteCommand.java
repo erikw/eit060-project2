@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public class DeleteCommand implements Command { 
+public class DeleteCommand extends Command { 
 	private int recordID;
 
 	public DeleteCommand (int recordID) {

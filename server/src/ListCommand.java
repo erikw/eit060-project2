@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public class ListCommand implements Command { 
+public class ListCommand extends Command { 
 	public static final int NO_ID = -1;
 	private int patientID;
 

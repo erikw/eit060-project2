@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public class ReadCommand implements Command { 
+public class ReadCommand extends Command { 
 	private int recordID;
 
 	public ReadCommand(int recordID) {
