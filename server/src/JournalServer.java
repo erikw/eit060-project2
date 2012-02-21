@@ -17,6 +17,8 @@ public class JournalServer {
 	private KeyStore keyStore;
 	private Logger log;
 	private Map<String, Record> records;
+	private Map<String, String> units;
+	
 
 	public static void main(String args[]) {
 		new JournalServer().start(8080);
@@ -263,5 +265,10 @@ public class JournalServer {
 		records.put(Record.getNextRecordID(), new Record("1", "901021-1192", "1", "1", "Ill, not sick." ));
 		records.put(Record.getNextRecordID(), new Record("1", "700101-0000", "1", "1", "Bruten stortå. Lagad med tajp." ));
 		records.put(Record.getNextRecordID(), new Record("2", "900814-4553", "2", "2", "Y2K error in brain." ));
+
+		units.put("n1", "unit1");
+		units.put("n2", "unit2");
+		unit.put("d1", "unit1");
+		unit.put("d2", "unit2");
 	}
 }
