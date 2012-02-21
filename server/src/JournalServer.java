@@ -222,9 +222,7 @@ public class JournalServer {
 
 				Command command;
 				try {
-					// TODO get Journal.USER_XXX from db.getuserType(subj) or something
-					//command = CommandFactory.makeCommand(message, userType)
-					command = CommandFactory.makeCommand(message, JournalServer.USER_PATIENT);
+					command = CommandFactory.makeCommand(message, this.getType(subj));
 				} catch (UnknownCommandException uce) {
 					trace("Got unparsable command.");
 					terminated = true;
@@ -234,6 +232,14 @@ public class JournalServer {
 			if (terminated)
 				log("terminated");
 				trace("terminated");
+		}
+	}
+	private int getType(String s) {
+		switch (s.charAt(0)) {
+		case 'd': return JournalServer.USER_DOCTOR;
+		case 'n': return JournalServer.USER_NURSE;
+		case 'a': return JournalServer.USER_AGENCY;
+		default:  return JournalServer.USER_PATIENT;
 		}
 	}
 
