@@ -16,7 +16,7 @@ public class AppendCommand extends Command {
 			if (super.subject == rec.nurseID || super.departmentID == rec.departmentID) {
 				ok = true;
 			}
-		} else if (super-subject.charAt(0) == 'd') {
+		} else if (super.subject.charAt(0) == 'd') {
 			if (super.subject == rec.doctorID || super.departmentID == rec.departmentID) {			
 				ok = true;
 			}

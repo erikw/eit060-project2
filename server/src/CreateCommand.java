@@ -16,10 +16,12 @@ public class CreateCommand extends Command {
 	public String execute(Map<Integer, Record> records) {
 		boolean ok = false;
 		if (super.subject.charAt(0) == 'd') {
-			records.put(Record.getNextRecordID(), new Record(super.departmentID, this.patientID, this.nurseID, super.subject, this.text));
+			int rID = Record.getNextRecordID();
+			Record rec = new Record(super.departmentID, this.patientID, this.nurseID, super.subject, this.text);
+			records.put(rID, rec);
 			log.info(String.format(String.format("%s@%s created record %s", super.subject, super.departmentID, rec.recordID)));
 		} else {
-			log.info(String.format("Access denied for %s on %s", super.subject, rec.recordID));
+			log.info(String.format("Access denied for %s when creating record", super.subject));
 		}
 		return (ok) ? "Record created" : "Access denied";
 	}
