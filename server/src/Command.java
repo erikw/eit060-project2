@@ -1,5 +1,6 @@
 import java.util.Map;
 import javax.security.cert.X509Certificate;
+// TODO put cert stuff in attr.
 
 public abstract class  Command { 
 	protected X509Certificate cert;

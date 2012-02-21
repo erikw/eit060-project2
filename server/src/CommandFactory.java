@@ -48,6 +48,7 @@ public class CommandFactory {
 		} catch (Exception e) {
 			throw new UnknownCommandException();
 		}
+		command.setCert(cert);
 		return command;
 	}
 
