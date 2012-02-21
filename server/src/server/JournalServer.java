@@ -195,7 +195,20 @@ public class JournalServer {
 
 				// TODO skriv ut det med prefix längd.
 				//out.write(command.execute(records, units).toBytes)
-				command.execute(records);
+				String resp = command.execute(records);
+				int mask = 0x0f;
+				int len = resp.getBytes().length;
+				try {
+					for (int i = 3; i >= 0; i--) {
+						sock.getOutputStream().write((len >> i) & mask);
+					}
+					OutputStreamWriter osw = new OutputStreamWriter(out);
+					osw.write(resp, 0, len);
+					osw.flush();
+				} catch (IOException ioe) {
+					terminated = true;
+				}
+
 			}
 			if (terminated)
 				log("terminated");

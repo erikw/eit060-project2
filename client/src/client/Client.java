@@ -7,6 +7,7 @@ import java.security.*;
 import javax.net.ssl.*;
 import java.net.*;
 import java.util.Arrays;
+import net.*;
 
 public class Client {
 	private static final String LINE_UI = "> ";
@@ -106,6 +107,7 @@ public class Client {
 							command = factory.makeCommand(parts);
 						} catch (BadCommandParamException bcpe) {
 							System.err.println(bcpe.getMessage());
+							continue;
 						}
 						// Send command to server!
 						String protoString = command.protocolString();
@@ -125,21 +127,18 @@ public class Client {
 						    ioe.printStackTrace();
 						}
 					}
-					String serverResponse;
-
-					// byte[] message = new byte[Integer.MAX_VALUE];					
-					// int amtRead = 0;
-							
-					// while((amtRead = in.read(message, amtRead, 4 - amtRead) )!= 4) { 
-					//     System.out.println("Reading bytestream...");
-					//     System.out.println(new String(message));
-					// }
-							
-					// int size = 0;
-					// for (int i = 0; i < 4; i++) {
-					//     size |= ((int) message[i]) << 3 - i;    
-					// }
-
+					try {
+						char[] resp = MessageReader2.readMessage(socket.getInputStream());
+						System.out.println(resp);
+					} catch(IOException e) {
+						isConnect = false;
+						killConnection();
+					} catch(TerminateException e) {
+						isConnect = false;
+						killConnection();
+					} catch(ContinueException e) {
+						System.out.println("Server is bullshitting. But still alive.");
+					}
 				}
 				System.out.print(LINE_UI);
 			}
@@ -188,12 +187,10 @@ public class Client {
 
 			// works for now.
 		} catch (GeneralSecurityException gse) {
-			gse.printStackTrace();
 			System.out.println("Could not authorize");
 			System.exit(1);
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
-			System.out.println("Could not authorize");
+			System.out.println("Could not connect");
 			System.exit(1);
 		} 
 
