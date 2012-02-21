@@ -8,28 +8,28 @@ public class ReadCommand extends Command {
 	}
 
 	public String execute(Map<String, Record> records) {
-		Record record =  map.get(recordID);
-		if (id == null) {
+		Record record =  records.get(recordID);
+		if (record == null) {
 			return "Record [" + recordID + "] not found.";
 		} 
 		boolean canDo = false;		
-		String subject = cert.getSubjectDN();
-		switch (subject.charAt(0P)) {
+		String subject = cert.getSubjectDN().getName();
+		switch (subject.charAt(0)) {
 			case 'a':
 					 canDo = true;
 					 break;
 			case 'd':
-					 String doctorDivision = units.get(subject);
-					 if (subject.equals(record.doctorID) || doctorDivision.equals(record.departmentID)) {
+					 if (subject.equals(record.doctorID) || record.departmentID.equals(departmentID)) {
 						canDo = true;
 					 }
 					 break;
 			case 'n':
 					 canDo = true;
 					 break;
-			defalt: 
+			default: 
+					 break;
 
 		}
-
+		return null;
 	}
 }
