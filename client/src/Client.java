@@ -16,7 +16,7 @@ public class Client {
 	private String keystorePassword;
 	private String passwordKey;
     private String truststorePassword;
-	private static String[] validUsers = new String[] {"patient", "doctor", "nurse", "agency"};
+	private static String[] validUsers = new String[] {"patient", "doctor1", "doctor2", "nurse1", "nurse2", "agency"};
 	private PrintWriter out;
 	private InputStream in;
     private SSLSocket socket = null;
@@ -209,22 +209,18 @@ public class Client {
     }
 
 	private void readPassword() throws IOException {
-		// while (keystorePassword == null || keystorePassword.length() == 0) {
-		// 	System.out.print("Keystore password:");
-		// 	keystorePassword = new String(System.console().readPassword());
-		// }
+		 while (keystorePassword == null || keystorePassword.length() == 0) {
+			 System.out.print("Keystore password:");
+			 keystorePassword = new String(System.console().readPassword());
+		 }
+		 passwordKey = keystorePassword;
 
-		// while (passwordKey == null || passwordKey.length() == 0) {
-		// 	System.out.print("Private key access password:");
-		// 	passwordKey = new String(System.console().readPassword());
-		// }
-
-		// while (truststorePassword == null || truststorePassword.length() == 0) {
-		// 	System.out.print("Truststore password:");
-		// 	truststorePassword = new String(System.console().readPassword());
-		// }
-	    keystorePassword = "pzNniiebY9oqs";
-	    passwordKey = "pzNniiebY9oqs";
-	    truststorePassword = "xLN75gzUJz7Yh";
+		 while (truststorePassword == null || truststorePassword.length() == 0) {
+			 System.out.print("Truststore password:");
+			 truststorePassword = new String(System.console().readPassword());
+		 }
+		//keystorePassword = "pzNniiebY9oqs";
+		//passwordKey = "pzNniiebY9oqs";
+		//truststorePassword = "xLN75gzUJz7Yh";
 	}
 }
