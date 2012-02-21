@@ -1,7 +1,6 @@
 import java.util.Map;
 
 public class CreateCommand extends Command { 
-	// cannot have record here. would change global stuf w/o calling execute.
 	private String patientID;
 	private String nurseID;
 	private String departMentID;

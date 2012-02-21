@@ -7,7 +7,7 @@ public class ReadFactory extends CommandFactory<ReadCommand> {
 				if (args[1].matches("\\d+")) {
 					command =  new ReadCommand(args[1]);	
 				} else {
-					throw new BadCommandParamException(COMMAND_NAME, "Records ID must be digits only.");
+					throw new BadCommandParamException(COMMAND_NAME, "Record ID must be digits only.");
 				}
 			} else {
 				throw new BadCommandParamException(COMMAND_NAME, "Wrong number of arguments. One expected.");
