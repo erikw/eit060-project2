@@ -229,7 +229,7 @@ public class JournalServer {
 					break;
 				}
 
-				// TDOD skriv ut det med prefix längd.
+				// TODO skriv ut det med prefix längd.
 				//out.write(command.execute(userType, records).toBytes)
 
 			}
