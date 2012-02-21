@@ -13,6 +13,7 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 import java.net.Socket;
+import net.*;
 
 public class JournalServer {
 	private static final int LENGTH_LENGTH = 4; // length of the length field, bytes
