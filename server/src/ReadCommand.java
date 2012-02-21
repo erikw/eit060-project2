@@ -36,7 +36,7 @@ public class ReadCommand extends Command {
 		if (canDo) {
 			return record.recordText;
 		} else {
-			return "You shall not pass!"
+			return "You shall not pass!";
 		}
 	}
 }
