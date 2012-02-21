@@ -7,7 +7,7 @@ public class DeleteCommand extends Command {
 		this.recordID = recordID;
 	}
 
-	public String execute(int userType, Map<String, Record> records) {
+	public String execute(Map<String, Record> records) {
 		return null;
 	}
 }

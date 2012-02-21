@@ -9,7 +9,7 @@ public class AppendCommand extends Command {
 		this.text = text;
 	}
 	
-	public String execute(int userType, Map<String, Record> records) {
+	public String execute(Map<String, Record> records) {
 		return null;
 	}
 
