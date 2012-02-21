@@ -167,59 +167,22 @@ public class JournalServer {
 			}
 			boolean terminated = false;
 			while (!terminated) {
-				int readBytes = 0;
-				int tmp, tmp_shift;
-				int length = 0;
-
-				while (readBytes < LENGTH_LENGTH) {
-					try {
-						tmp = in.read();
-					} catch (java.io.IOException e) {
-						continue;
-					}
-					++readBytes;
-					tmp_shift = tmp << (LENGTH_LENGTH - readBytes);
-					length |= tmp_shift;
-					// System.out.printf("raw:%s shifted:%d addedToLength:%d\n", Integer.toHexString(tmp), tmp_shift, length);
-				}
-				if (length < 0) {
-					trace("the client is fucking w/ us. Alternativly the connection died");
-					terminated = true;
+				char[] message;
+				try {
+					message = MessageReader2.readMessage(in);
+				} catch (ContinueException e) {
 					continue;
-				} else if (readBytes == LENGTH_LENGTH) {
-					trace("the msg is " + length + " bytes long");
-				} else {
-					trace("failed to read length field");
-					continue;
-				}
-				// got length, do work.
-				InputStreamReader reader = new InputStreamReader(in);
-				char[] message = new char[length];
-				int ret;
-				int offset = 0;
-				while (offset < length) {
-					try {
-						ret = reader.read(message, offset, (length - offset));
-					} catch(Exception e) {
-						trace("got exception while reading message: " + e.toString());
-						break;
-					}
-
-					if (ret == -1) {
-						trace("fuck. something went south. breaking the parsing of message.");
-						break;
-					}
-					offset += ret;
-				}
-				if (offset < length) {
-					trace("could not read complete message");
+				} catch (TerminateException e) {
 					terminated = true;
-					break;
-				}
-
+					this.trace("logical err in msg");
+					continue;
+				} catch (IOException e) {
+					terminated = true;
+					this.trace("connection error");
+					continue;
+				}					
 				Command command;
 				try {
-					//command = CommandFactory.makeCommand(message, userType);
 					command = CommandFactory.makeCommand(message, cert);
 				} catch (UnknownCommandException uce) {
 					trace("Got unparsable command.");

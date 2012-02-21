@@ -19,6 +19,7 @@
 		<mkdir dir="${path.destination}" />
 		<javac includeantruntime="false" destdir="${path.destination}">
 			<src path="${path.source}" />
+			<src path="../net" />
 		</javac>
 	</target>
 

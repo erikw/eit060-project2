@@ -99,45 +99,45 @@ public class Client {
 					if (factory == null) {
 						System.err.println("Not a valid command.");
 					} else {
+						Command command = null;
 						try {
-							Command command = factory.makeCommand(parts);
-							// Send command to server!
-							String protoString = command.protocolString();
-							//out.print(protoString.toCharArray().length);
-							int len = protoString.getBytes().length;
-							int mask = 0x0f;
+							command = factory.makeCommand(parts);
+						} catch (BadCommandParamException bcpe) {
+							System.err.println(bcpe.getMessage());
+						}
+						// Send command to server!
+						String protoString = command.protocolString();
+						int len = protoString.getBytes().length;
+						int mask = 0x0f;
+						try {
 							for (int i = 3; i >= 0; i--) {
-							    socket.getOutputStream().write((len >> i) & mask);
+								socket.getOutputStream().write((len >> i) & mask);
 							}
 							OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
 							osw.write(protoString, 0, len);
 							osw.flush();
-							
-							String serverResponse;
-							// byte[] message = new byte[Integer.MAX_VALUE];					
-							// int amtRead = 0;
-							
-							// while((amtRead = in.read(message, amtRead, 4 - amtRead) )!= 4) { 
-							//     System.out.println("Reading bytestream...");
-							//     System.out.println(new String(message));
-							// }
-							
-							// int size = 0;
-							// for (int i = 0; i < 4; i++) {
-							//     size |= ((int) message[i]) << 3 - i;    
-							// }
-							
-							
-						} catch (BadCommandParamException bcpe) {
-							System.err.println(bcpe.getMessage());
 						} catch (IOException ioe) {
 						    killConnection();
 						    
 						    System.err.println(ioe.getMessage());
 						    ioe.printStackTrace();
 						}
-				     
 					}
+					String serverResponse;
+
+					// byte[] message = new byte[Integer.MAX_VALUE];					
+					// int amtRead = 0;
+							
+					// while((amtRead = in.read(message, amtRead, 4 - amtRead) )!= 4) { 
+					//     System.out.println("Reading bytestream...");
+					//     System.out.println(new String(message));
+					// }
+							
+					// int size = 0;
+					// for (int i = 0; i < 4; i++) {
+					//     size |= ((int) message[i]) << 3 - i;    
+					// }
+
 				}
 				System.out.print(LINE_UI);
 			}
