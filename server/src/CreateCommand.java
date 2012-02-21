@@ -13,8 +13,14 @@ public class CreateCommand extends Command {
 		this.text = text;
 	}
 
-	public String execute(Map<String, Record> records, Map<String, String> units) {
-		records.put(Record.getNextRecordID(), new Record(super.departmentID, this.patientID, this.nurseID, super.subject, this.text));
-		
+	public String execute(Map<Integer, Record> records) {
+		boolean ok = false;
+		if (super.subject.charAt(0) == 'd') {
+			records.put(Record.getNextRecordID(), new Record(super.departmentID, this.patientID, this.nurseID, super.subject, this.text));
+			log.info(String.format(String.format("%s@%s created record %s", super.subject, super.departmentID, rec.recordID)));
+		} else {
+			log.info(String.format("Access denied for %s on %s", super.subject, rec.recordID));
+		}
+		return (ok) ? "Record created" : "Access denied";
 	}
 }
