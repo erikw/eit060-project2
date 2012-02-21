@@ -18,11 +18,6 @@ public class JournalServer {
 	private Logger log;
 	private Map<String, Record> records;
 
-	public static final int USER_PATIENT = 0;
-	public static final int USER_NURSE   = 1;
-	public static final int USER_DOCTOR  = 2;
-	public static final int USER_AGENCY  = 3;
-
 	public static void main(String args[]) {
 		new JournalServer().start(8080);
 	}
@@ -222,10 +217,10 @@ public class JournalServer {
 					break;
 				}
 
-				int userType = getType(subj);
 				Command command;
 				try {
-					command = CommandFactory.makeCommand(message, userType);
+					//command = CommandFactory.makeCommand(message, userType);
+					command = CommandFactory.makeCommand(message, cert);
 				} catch (UnknownCommandException uce) {
 					trace("Got unparsable command.");
 					terminated = true;
@@ -239,14 +234,6 @@ public class JournalServer {
 			if (terminated)
 				log("terminated");
 				trace("terminated");
-		}
-	}
-	private int getType(String s) {
-		switch (s.charAt(0)) {
-		case 'd': return JournalServer.USER_DOCTOR;
-		case 'n': return JournalServer.USER_NURSE;
-		case 'a': return JournalServer.USER_AGENCY;
-		default:  return JournalServer.USER_PATIENT;
 		}
 	}
 

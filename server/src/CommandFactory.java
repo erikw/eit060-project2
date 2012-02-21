@@ -1,14 +1,21 @@
-public class CommandFactory {
+import javax.security.cert.X509Certificate;
 
-	public static Command makeCommand(char[] data, int userType) throws UnknownCommandException {
+public class CommandFactory {
+	public static final int USER_PATIENT = 0;
+	public static final int USER_NURSE   = 1;
+	public static final int USER_DOCTOR  = 2;
+	public static final int USER_AGENCY  = 3;
+
+	public static Command makeCommand(char[] data, X509Certificate cert) throws UnknownCommandException {
 		String[] parts = new String(data).split(" ", 2);
 		String commandName = parts[0];
 		System.out.println("CommandFactory: parsed command name = " + commandName);
 		Command command = null;
+		int userType = CommandFactory.getType(cert.getSubjectDN().getName());
 		try {
 			if (commandName.equals("list")) {
 				System.out.print("Command is list");
-				if (userType == JournalServer.USER_PATIENT) {
+				if (userType == CommandFactory.USER_PATIENT) {
 					System.out.println(" for patient.");
 					command = new ListCommand();
 				} else {
@@ -43,4 +50,14 @@ public class CommandFactory {
 		}
 		return command;
 	}
+
+	private static int getType(String s) {
+		switch (s.charAt(0)) {
+		case 'd': return CommandFactory.USER_DOCTOR;
+		case 'n': return CommandFactory.USER_NURSE;
+		case 'a': return CommandFactory.USER_AGENCY;
+		default:  return CommandFactory.USER_PATIENT;
+		}
+	}
+
 }
