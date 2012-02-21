@@ -1,5 +1,5 @@
 import java.util.Map;
 
 public interface Command { 
-	public String execute(Map<String, Record> records);
+	public String execute(int userType, Map<String, Record> records);
 }

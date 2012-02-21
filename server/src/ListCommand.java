@@ -12,7 +12,7 @@ public class ListCommand implements Command {
 		this.patientID = patientID;
 	}
 
-	public String execute(Map<String, Record> records) {
+	public String execute(int userType, Map<String, Record> records) {
 		return null;
 	}
 }

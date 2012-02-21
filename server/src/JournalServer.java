@@ -157,10 +157,12 @@ public class JournalServer {
 			log(subj, sock, "connected");
 
 			InputStream in;
+			OutputStream out;
 			try {
 				in = sock.getInputStream();
+				out = sock.getOutputStream();
 			} catch (java.io.IOException e) {
-				trace("failed to get inputstream");
+				trace("failed to get inputstream or output stream.");
 				try {
 					sock.close();
 				} catch (java.io.IOException e2) {
@@ -220,14 +222,19 @@ public class JournalServer {
 					break;
 				}
 
+				int userType = getType(subj);
 				Command command;
 				try {
-					command = CommandFactory.makeCommand(message, this.getType(subj));
+					command = CommandFactory.makeCommand(message, userType);
 				} catch (UnknownCommandException uce) {
 					trace("Got unparsable command.");
 					terminated = true;
 					break;
 				}
+
+				// TDOD skriv ut det med prefix längd.
+				//out.write(command.execute(userType, records).toBytes)
+
 			}
 			if (terminated)
 				log("terminated");
