@@ -24,12 +24,19 @@ public class ReadCommand extends Command {
 					 }
 					 break;
 			case 'n':
-					 canDo = true;
+					 if (subject.equals(record.nurseID) || record.departmentID.equals(departmentID)) {
+						canDo = true;
+					 }
 					 break;
-			default: 
-					 break;
-
+			default: // patient
+					 if (record.patientID.equals(subject)) {
+						 canDo = true;
+					 }
 		}
-		return null;
+		if (canDo) {
+			return record.recordText;
+		} else {
+			return "You shall not pass!"
+		}
 	}
 }
