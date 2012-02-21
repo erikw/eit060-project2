@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public class AppendCommand implements Command { 
 	private int recordID;
 	private String text;
@@ -6,4 +8,9 @@ public class AppendCommand implements Command {
 		this.recordID = recordID;
 		this.text = text;
 	}
+	
+	public String execute(Map<String, Record> records) {
+		return null;
+	}
+
 }

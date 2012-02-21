@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public class ListCommand implements Command { 
 	public static final int NO_ID = -1;
 	private int patientID;
@@ -8,5 +10,9 @@ public class ListCommand implements Command {
 
 	public ListCommand(int patientID) {
 		this.patientID = patientID;
+	}
+
+	public String execute(Map<String, Record> records) {
+		return null;
 	}
 }
