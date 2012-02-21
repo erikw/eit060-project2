@@ -1,6 +1,6 @@
 public class Record {
 	public static int nextRecordID = 0;
-	public String recordID;
+	public int recordID;
 	public String recordText;
 
 	public String departmentID;
@@ -9,7 +9,7 @@ public class Record {
 	public String doctorID;
 
 	public Record(String departmentID, String patientID, String nurseID, String doctorID, String recordText) {
-		this.recordID     = String.valueOf(nextRecordID++);
+		this.recordID     = nextRecordID++;
 		this.departmentID = departmentID;
 		this.patientID    = patientID;
 		this.nurseID      = nurseID;
@@ -17,7 +17,7 @@ public class Record {
 		this.recordText   = recordText;
 	}
 
-	public static String getNextRecordID() {
-		return String.valueOf(nextRecordID);
+	public static int getNextRecordID() {
+		return nextRecordID;
 	}
 }

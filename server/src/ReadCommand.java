@@ -7,13 +7,13 @@ public class ReadCommand extends Command {
 		this.recordID = recordID;
 	}
 
-	public String execute(Map<String, Record> records) {
+	public String execute(Map<Integer, Record> records) {
 		Record record =  records.get(recordID);
 		if (record == null) {
+			log.info("User tried to access record which was not found.");
 			return "Record [" + recordID + "] not found.";
 		} 
 		boolean canDo = false;		
-		String subject = cert.getSubjectDN().getName();
 		switch (subject.charAt(0)) {
 			case 'a':
 					 canDo = true;

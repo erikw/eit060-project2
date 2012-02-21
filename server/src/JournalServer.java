@@ -16,7 +16,7 @@ public class JournalServer {
 	private static final int LENGTH_LENGTH = 4; // length of the length field, bytes
 	private KeyStore keyStore;
 	private Logger log;
-	private Map<String, Record> records;
+	private Map<Integer, Record> records;
 
 	public static void main(String args[]) {
 		new JournalServer().start(8080);
@@ -39,7 +39,7 @@ public class JournalServer {
 		log = Logger.getLogger("auditLog");
 		log.addHandler(fileHandler);
 
-		records = new HashMap<String, Record>();
+		records = new HashMap<Integer, Record>();
 		putStaticRecords();
 	}
 
@@ -180,7 +180,7 @@ public class JournalServer {
 					++readBytes;
 					tmp_shift = tmp << (LENGTH_LENGTH - readBytes);
 					length |= tmp_shift;
-					System.out.printf("raw:%s shifted:%d addedToLength:%d\n", Integer.toHexString(tmp), tmp_shift, length);
+					// System.out.printf("raw:%s shifted:%d addedToLength:%d\n", Integer.toHexString(tmp), tmp_shift, length);
 				}
 				if (length < 0) {
 					trace("the client is fucking w/ us. Alternativly the connection died");
@@ -229,7 +229,7 @@ public class JournalServer {
 
 				// TODO skriv ut det med prefix längd.
 				//out.write(command.execute(records, units).toBytes)
-
+				command.execute(records);
 			}
 			if (terminated)
 				log("terminated");

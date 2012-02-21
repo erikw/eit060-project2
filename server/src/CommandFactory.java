@@ -32,7 +32,7 @@ public class CommandFactory {
 			} else if (commandName.equals("create")) {
 				System.out.println("Command is create");
 				parts = parts[1].split(" ", 3);
-				if (parts.length() != 3)
+				if (parts.length != 3)
 					throw new UnknownCommandException();
 				command = new CreateCommand(parts[0], parts[1], parts[2]);
 			} else if (commandName.equals("delete")) {

@@ -12,7 +12,7 @@ public class ListCommand extends Command {
 		this.patientID = patientID;
 	}
 
-	public String execute(Map<String, Record> records) {
+	public String execute(Map<Integer, Record> records) {
 		return null;
 	}
 }

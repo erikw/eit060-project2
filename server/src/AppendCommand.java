@@ -28,7 +28,6 @@ public class AppendCommand extends Command {
 			log.info(String.format("Access denied for %s on %s", super.subject, rec.recordID));
 		}
 		return (ok) ? "Record changed" : "Access denied";
-		
 	}
 
 }
