@@ -21,7 +21,7 @@ public class CommandFactory {
 					System.out.println(" for patient.");
 					command = new ListCommand();
 				} else {
-					int patientID = Integer.parseInt(parts[1]);
+					String patientID = parts[1];
 					command = new ListCommand(patientID);
 				}
 			} else if (commandName.equals("append")) {
