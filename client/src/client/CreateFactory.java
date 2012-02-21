@@ -1,3 +1,5 @@
+package client;
+
 public class CreateFactory extends CommandFactory<CreateCommand> {
 		public static final String COMMAND_NAME = "create";
 

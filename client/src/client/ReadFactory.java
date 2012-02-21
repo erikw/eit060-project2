@@ -1,3 +1,5 @@
+package client;
+
 public class ReadFactory extends CommandFactory<ReadCommand> {
 		public static final String COMMAND_NAME = "read";
 

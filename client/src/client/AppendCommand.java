@@ -1,3 +1,5 @@
+package client;
+
 public class AppendCommand implements Command {
 	private String recordID;
 	private String appendText;

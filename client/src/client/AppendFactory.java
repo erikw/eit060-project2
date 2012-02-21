@@ -1,3 +1,5 @@
+package client;
+
 public class AppendFactory extends CommandFactory<AppendCommand> {
 		public static final String COMMAND_NAME = "append";
 

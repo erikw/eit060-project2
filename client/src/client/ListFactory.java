@@ -1,3 +1,5 @@
+package client;
+
 public class ListFactory extends CommandFactory<ListCommand> {
 		public static final String COMMAND_NAME = "list";
 

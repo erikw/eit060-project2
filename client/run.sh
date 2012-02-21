@@ -5,4 +5,4 @@ if [ "$1" = "-d" ]; then
 else 
 	user=$1
 fi
-java -cp bin $debugopt Client $user
+java -cp bin $debugopt client.Client $user

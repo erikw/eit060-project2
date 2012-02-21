@@ -1,3 +1,5 @@
+package client;
+
 public class ReadCommand implements Command {
 	private String recordID;
 

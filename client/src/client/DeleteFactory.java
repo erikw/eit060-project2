@@ -1,3 +1,5 @@
+package client;
+
 public class DeleteFactory extends CommandFactory<DeleteCommand> {
 		public static final String COMMAND_NAME = "delete";
 

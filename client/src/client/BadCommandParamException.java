@@ -1,3 +1,5 @@
+package client;
+
 import java.io.IOException;
 
 public class BadCommandParamException extends IOException {

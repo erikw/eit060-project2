@@ -1,3 +1,5 @@
+package client;
+
 public class DeleteCommand implements Command {
 	private String recordID;
 

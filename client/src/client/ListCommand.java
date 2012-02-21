@@ -1,3 +1,5 @@
+package client;
+
 public class ListCommand implements Command {
 	public static final String NO_ID = "-1";
 	private String patientID;
