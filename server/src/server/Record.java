@@ -1,3 +1,5 @@
+package server;
+
 public class Record {
 	public static int nextRecordID = 0;
 	public int recordID;

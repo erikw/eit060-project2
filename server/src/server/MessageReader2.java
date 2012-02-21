@@ -1,7 +1,11 @@
+package server;
+
+import java.io.*;
+
 public class MessageReader2 {
 	private static final int LENGTH_LENGTH = 4; // length of the length field, bytes	
 
-	public static char[] readMessage(Inputstream in) throws IOException{
+	public static char[] readMessage(InputStream in) throws java.io.IOException, TerminateException, ContinueException {
 		int readBytes = 0;
 		int tmp, tmp_shift;
 		int length = 0;
@@ -31,19 +35,14 @@ public class MessageReader2 {
 
 			if (ret == -1) {
 				trace("fuck. something went south. breaking the parsing of message.");
-				terminated = true;
+				throw new ContinueException();
 			}
 			offset += ret;
 		}
-		if (offset < length) {
-			trace("could not read complete message");
-			terminated = true;
-			throw new ContinueException();
-
-		}
+		return message;
 	}
 
-	private void trace(String msg) {
+	private static void trace(String msg) {
 		System.out.println("Trace---> " + msg);
 	}
 }

@@ -1,3 +1,5 @@
+package server;
+
 /*
  * Documentation for Jessy:
  * http://docs.oracle.com/javase/1.4.2/docs/api/javax/net/ssl/package-summary.html

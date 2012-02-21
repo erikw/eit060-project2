@@ -1,3 +1,5 @@
+package server;
+
 import java.util.Map;
 import javax.security.cert.X509Certificate;
 import java.util.logging.*;

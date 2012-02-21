@@ -1,3 +1,5 @@
+package server;
+
 import java.util.Map;
 
 public class CreateCommand extends Command { 
