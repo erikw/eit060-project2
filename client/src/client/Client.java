@@ -101,12 +101,15 @@ public class Client {
 					CommandFactory<Command> factory = factories.get(parts[0]);
 					if (factory == null) {
 						System.err.println("Not a valid command.");
+						System.out.print("\n" + LINE_UI);
+						continue;
 					} else {
 						Command command = null;
 						try {
 							command = factory.makeCommand(parts);
 						} catch (BadCommandParamException bcpe) {
 							System.err.println(bcpe.getMessage());
+							System.out.print("\n" + LINE_UI);
 							continue;
 						}
 						// Send command to server!
