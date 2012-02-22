@@ -50,7 +50,7 @@ A patient will need to obtain the client software from the ``socialstyrelsen'' o
 In a further extension of this system, it should be possible to add new doctors and nurses. This, however, is out of the scope of this project.
 
 \section{Authentication}
-The system will use two-factor authentication to connect to the server. The first factor is a password the user has to enter to get the certificates from the keystore and the truststore. These certificates are then used as the second factor, and are used to authenticate the user to the server. The certificates are valid for one year the password policy requres 13 characters from the set of upper and lower case letters and numbers.
+The system will use two-factor authentication to connect to the server. The first factor is a password the user has to enter to get the certificates from the keystore and the truststore. These certificates are then used as the second factor, and are used to authenticate the user to the server. The certificates are valid for one year the password policy requres 13 characters from the set of upper and lower case letters and numbers. The password is also choosen in such a way that it cannot be cracked using a dictionary attack. These requirements were chosen to make sure that the password would not be cracked with a brute-force search within the timeframe of a single year.
 
 \section{Protocol}
 \subsection{Read}
@@ -122,6 +122,12 @@ Optionally the server now (as in our program) wants to identify the client to be
 Next the client will send \emph{ClientKeyExchange} which is dependent on the previously chosen key exchange algorithm. In our case Ethmeral Diffie-Hellman (DHE) is used. They now agree on a modulus and a generator. Both sides raises the generator in the power of a generated random number and sends it to the other side. By combining these the now share a secret depending on the discrete logarithm problem. The only problem is here the MITM\footnote{Man in the Middle.}-attack. This is solved in DHE by signing the sent values  with their respecive private keys.
 
 The client now send \emph{ChangeCipherSpec} and \emph{Finished} meaning that from now on all communication will be encrypted using the now shared secret. The server answers with the same sequence.
+
+\begin{figure}[hbt]
+  \begin{center}
+    \includegraphics[scale=0.6]{protocol.png}
+  \end{center}
+\end{figure}
 
 \subsection{Communication}
 Now both parties have agreed upon how to communicate and with what keys. The messages is encrypted using the specified block or stream cipher and the HMAC is send allowing the receiver to verify the integrity of the message.
