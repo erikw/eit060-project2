@@ -22,7 +22,6 @@
 \begin{titlepage}
 \maketitle
 \begin{center}
-  %% stuff in center of titlepage
 \end{center}
 
 \thispagestyle{empty}
@@ -39,8 +38,7 @@ The entities are as follows:
 \item Nurse: A nurse works under a division will have read and write access to records for records to all patients registered to him/her. Also all records associated with the same division will be readable to the nurse.
 \item Medical record: A medical record is stored on a server. Each record is associated with one patient, one doctor, one nurse and one division.
 \item Agency: An agency will have the ability to read and delete records at will.
-\item Certificate Authority: All certificates are signed by a root CA and every entity trusts this CA, this CA is
-separate from the hospital.
+\item Certificate Authority: All certificates are signed by a root CA and every entity trusts this CA, this CA is separate from the hospital.
 \item The server sits in a locked room and it accessible only by trusted technicians. Is has an audit log containing all access to the patient records.
 \end{itemize}
 
@@ -52,10 +50,7 @@ A patient will need to obtain the client software from the ``socialstyrelsen'' o
 In a further extension of this system, it should be possible to add new doctors and nurses. This, however, is out of the scope of this project.
 
 \section{Authentication}
-The system will use two-factor authentication to connect to the server. The first factor is a password the user has to enter to get the certificates from the keystore. These certificates are then used as the second factor, and are used to authenticate the user to the server.
-
-% TODO expiration of the certs?
-% TODO How certs generated?
+The system will use two-factor authentication to connect to the server. The first factor is a password the user has to enter to get the certificates from the keystore and the truststore. These certificates are then used as the second factor, and are used to authenticate the user to the server. The certificates are valid for one year the password policy requres 13 characters from the set of upper and lower case letters and numbers.
 
 \section{Protocol}
 \subsection{Read}
