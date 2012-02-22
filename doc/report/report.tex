@@ -37,7 +37,7 @@ The entities are as follows:
 \item Doctor: A doctor works at a department and will have read, write and create access for records to all patients registered to him. Also all records associated with the same department will be readable.
 \item Nurse: A nurse works under a department will have read and write access to records for records to all patients registered to him/her. Also all records associated with the same department will be readable to the nurse.
 \item Medical record: A medical record is stored on a server. Each record is associated with one patient, one doctor, one nurse and one department.
-\item Agency: An agency will have the ability to read and delete records at will.
+\item Agency: An agency will have the ability to list, read and delete records at will.
 \item Certificate Authority: All certificates are signed by a root CA and every entity trusts this CA, this CA is separate from the hospital.
 \item The server sits in a locked room and it accessible only by trusted technicians. Is has an audit log containing all access to the patient records.
 \end{itemize}
@@ -45,12 +45,12 @@ The entities are as follows:
 \section{Setup Process}
 The first step in setting the system up (apart from server installation and hardware distribution) is to generate a key pair and from this a Certificate Signing Request (CSR) for the public key. The CSR is transfered over sneakernet to the CA where it is signed and taken back and stored. 
 
-A patient will need to obtain the client software from the ``socialstyrelsen'' office. They will there get their signed certificate stored together with the client on some form of read only memory (e.g compact disc or thumbdrive). This certificate is transfered to the client application and stored in the user's password protected keystore. 
+A patient will need to obtain the system independent Java-client software from the ``socialstyrelsen'' office. They will there get their certificate signed. This certificate stored in the users private and protected keystore. They will also get a truststore with the certificate of the CA. All this will be put on a read only media (e.g. compact disc) that the patient can carry home and put his/her computer.
 
 In a further extension of this system, it should be possible to add new doctors and nurses. This, however, is out of the scope of this project.
 
 \section{Authentication}
-The system will use two-factor authentication to connect to the server. The first factor is a password the user has to enter to get the certificates from the keystore and the truststore. These certificates are then used as the second factor, and are used to authenticate the user to the server. The certificates are valid for one year the password policy requres 13 characters from the set of upper and lower case letters and numbers. The password is also choosen in such a way that it cannot be cracked using a dictionary attack. These requirements were chosen to make sure that the password would not be cracked with a brute-force search within the timeframe of a single year.
+The system will use two-factor authentication to connect to the server. The first factor is a password the user has to enter to get the unlock the keystore and one password for the truststore. These certificates are then used as the second factor, and are used to authenticate the user to the server. The certificates are valid for one year the password policy requres 13 characters from the set of upper and lower case letters and numbers. The password is also choosen in such a way that it cannot be cracked using a dictionary attack. These requirements were chosen to make sure that the password would not be cracked with a brute-force search within the timeframe of a single year.
 
 \section{Protocol}
 \subsection{Read}
