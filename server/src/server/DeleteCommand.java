@@ -13,7 +13,7 @@ public class DeleteCommand extends Command {
 		if (subject.equals("agency")) {
 			records.remove(String.valueOf(recordID));
 			System.out.println("YES");
-			log.info("Record with ID " + recordID + " removed.");
+			log.info("Record with ID " + recordID + " removed by agency.");
 			return "Record with ID " + recordID + " removed.";
 		}
 		log.warning("User with insufficient rights tried to remove record with ID " + recordID);

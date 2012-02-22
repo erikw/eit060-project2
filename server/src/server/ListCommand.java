@@ -16,20 +16,15 @@ public class ListCommand extends Command {
 
 	public String execute(Map<Integer, Record> records) {
 
-		if(subject.matches("[0-9]{6}-[0-9]{4}")) {
-			if(patientID.equals(NO_ID)) {
-				//TODO Add logging messages here?
-				return getAllRecords(records, subject);
-			} else {
-				//TODO Add logging messages here?
-				return "No journals available for you.";
-			}
+		if (subject.matches("[0-9]{10}")) {
+			return getAllRecords(records, subject);
 		} else {
-			if(patientID.equals(NO_ID)) {
-				//TODO Add logging messages here?
-				return "Add a patientID dumbass.";
+			if (patientID.equals("") || !patientID.matches("[0-9]{10}")) {
+				log.info("Incorrect patient ID in List");
+				return "Incorrect patient ID";
 			}
 			//TODO add logging messages here?
+			log.info(String.format("%s@%s fetched record for patient with ID %s", subject, departmentID, patientID));
 			return getAllRecords(records, patientID);
 		}
 
@@ -38,13 +33,12 @@ public class ListCommand extends Command {
 
 	private String getAllRecords(Map<Integer, Record> records, String getID) {
 		StringBuilder sb = new StringBuilder();
-		String search = getID;
 		Collection<Record> list = records.values();
 
-		for(Record rec : list) {
-			if(rec.patientID.equals(search)) {
-				sb.append(rec.recordID).append(": ").append(rec.recordText).append(" ");
-				//TODO Add logging messages here?
+		sb.append("Patient with ID " + getID + " has:\n");
+		for (Record rec : list) {
+			if (rec.patientID.equals(getID)) {
+				sb.append(rec.recordID).append("\n");
 			}
 		}
 		return sb.toString();

@@ -239,8 +239,8 @@ public class JournalServer {
 	}
 
 	private void putStaticRecords() {
-		records.put(Record.getNextRecordID(), new Record("1", "901021-1192", "1", "1", "Ill, not sick." ));
-		records.put(Record.getNextRecordID(), new Record("1", "700101-0000", "1", "1", "Bruten stortå. Lagad med tajp." ));
-		records.put(Record.getNextRecordID(), new Record("2", "900814-4553", "2", "2", "Y2K error in brain." ));
+		records.put(Record.getNextRecordID(), new Record("DEP1", "9010211192", "N001", "D001", "Ill, not sick." ));
+		records.put(Record.getNextRecordID(), new Record("DEP1", "7001010000", "N001", "D001", "Bruten stortå. Lagad med tajp." ));
+		records.put(Record.getNextRecordID(), new Record("DEP2", "9008144553", "N002", "D002", "Y2K error in brain." ));
 	}
 }

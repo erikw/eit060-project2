@@ -3,24 +3,19 @@ package server;
 import javax.security.cert.X509Certificate;
 
 public class CommandFactory {
-	public static final int USER_PATIENT = 0;
-	public static final int USER_NURSE   = 1;
-	public static final int USER_DOCTOR  = 2;
-	public static final int USER_AGENCY  = 3;
-
 	public static Command makeCommand(char[] data, X509Certificate cert) throws UnknownCommandException {
 		String[] parts = new String(data).split(" ", 2);
 		String commandName = parts[0];
 		System.out.println("CommandFactory: parsed command name = " + commandName);
 		Command command = null;
-		int userType = CommandFactory.getType(cert.getSubjectDN().getName());
 		try {
 			if (commandName.equals("list")) {
 				System.out.print("Command is list");
-				if (userType == CommandFactory.USER_PATIENT) {
+				if (parts.length <= 1) {
 					System.out.println(" for patient.");
 					command = new ListCommand();
 				} else {
+					System.out.println(" for other.");
 					String patientID = parts[1];
 					command = new ListCommand(patientID);
 				}
@@ -33,10 +28,13 @@ public class CommandFactory {
 				command = new AppendCommand(recordID, text);
 			} else if (commandName.equals("create")) {
 				System.out.println("Command is create");
-				parts = parts[1].split(" ", 3);
-				if (parts.length != 3)
+				parts = parts[1].split(" ", 2);
+				for (String s : parts) {
+					System.out.println(s);
+				}
+				if (parts.length != 2)
 					throw new UnknownCommandException();
-				command = new CreateCommand(parts[0], parts[1], parts[2]);
+				command = new CreateCommand(parts[0], parts[1]);
 			} else if (commandName.equals("delete")) {
 				System.out.println("Command is delete");
 				int recordID = Integer.parseInt(parts[1]);
@@ -54,15 +52,6 @@ public class CommandFactory {
 		}
 		command.setCert(cert);
 		return command;
-	}
-
-	private static int getType(String s) {
-		switch (s.charAt(0)) {
-		case 'd': return CommandFactory.USER_DOCTOR;
-		case 'n': return CommandFactory.USER_NURSE;
-		case 'a': return CommandFactory.USER_AGENCY;
-		default:  return CommandFactory.USER_PATIENT;
-		}
 	}
 
 }

@@ -14,12 +14,12 @@ public class AppendCommand extends Command {
 	public String execute(Map<Integer, Record> records) {
 		Record rec = records.get(this.recordID);
 		boolean ok = false;
-		if (super.subject.charAt(0) == 'n') {
-			if (super.subject == rec.nurseID || super.departmentID == rec.departmentID) {
+		if (super.subject.charAt(0) == 'N') {
+			if (super.subject.equals(rec.nurseID) || super.departmentID.equals(rec.departmentID)) {
 				ok = true;
 			}
-		} else if (super.subject.charAt(0) == 'd') {
-			if (super.subject == rec.doctorID || super.departmentID == rec.departmentID) {			
+		} else if (super.subject.charAt(0) == 'D') {
+			if (super.subject.equals(rec.doctorID) || super.departmentID.equals(rec.departmentID)) {			
 				ok = true;
 			}
 		}
@@ -29,7 +29,7 @@ public class AppendCommand extends Command {
 		} else {
 			log.info(String.format("Access denied for %s on %s", super.subject, rec.recordID));
 		}
-		return (ok) ? "Record changed" : "Access denied";
+		return (ok) ? "Record changed" : "You shall not pass!";
 	}
 
 }

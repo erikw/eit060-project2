@@ -21,7 +21,7 @@ public class ReadCommand extends Command {
 					 canDo = true;
 					 log.info("Agency reads record " + recordID);
 					 break;
-			case 'd':
+			case 'D':
 					 if (subject.equals(record.doctorID) || record.departmentID.equals(departmentID)) {
 						canDo = true;
 						 log.info("Doctor reads record " + recordID);
@@ -29,7 +29,7 @@ public class ReadCommand extends Command {
 						 log.severe("Doctor was denied reading record " + recordID);
 					 }
 					 break;
-			case 'n':
+			case 'N':
 					 if (subject.equals(record.nurseID) || record.departmentID.equals(departmentID)) {
 						canDo = true;
 						 log.info("Nurse reads record " + recordID);

@@ -193,34 +193,34 @@ public class Client {
 			System.out.println("Could not authorize");
 			System.exit(1);
 		} catch (IOException ioe) {
-			System.out.println("Could not connect");
+			System.out.println("Could not connect" + ioe.toString());
 			System.exit(1);
 		} 
 
 	}
 
-    private void killConnection() {
-	try {
-	in.close();
-	out.close();
-	socket.close();
-	} catch (IOException ioe) {
-	    System.err.println("Disconnection failed.");
-	    ioe.printStackTrace();
+	private void killConnection() {
+		try {
+			in.close();
+			out.close();
+			socket.close();
+		} catch (IOException ioe) {
+			System.err.println("Disconnection failed.");
+			ioe.printStackTrace();
+		}
 	}
-    }
 
 	private void readPassword() throws IOException {
-		 // while (keystorePassword == null || keystorePassword.length() == 0) {
-		 // 	 System.out.print("Keystore password:");
-		 // 	 keystorePassword = new String(System.console().readPassword());
-		 // }
-		 // passwordKey = keystorePassword;
+		// while (keystorePassword == null || keystorePassword.length() == 0) {
+		//     System.out.print("Keystore password:");
+		//     keystorePassword = new String(System.console().readPassword());
+		// }
+		// passwordKey = keystorePassword;
 
-		 // while (truststorePassword == null || truststorePassword.length() == 0) {
-		 // 	 System.out.print("Truststore password:");
-		 // 	 truststorePassword = new String(System.console().readPassword());
-		 // }
+		// while (truststorePassword == null || truststorePassword.length() == 0) {
+		//     System.out.print("Truststore password:");
+		//     truststorePassword = new String(System.console().readPassword());
+		// }
 		keystorePassword = "pzNniiebY9oqs";
 		passwordKey = "pzNniiebY9oqs";
 		truststorePassword = "xLN75gzUJz7Yh";
