@@ -21,9 +21,9 @@ public class CreateFactory extends CommandFactory<CreateCommand> {
 			StringBuilder sb = new StringBuilder();
 			sb.append(COMMAND_NAME);
 			sb.append(" - ");
-			sb.append ("Creates a new records for a specified patient.").append("\n");
-			sb.append("\t").append("[Doctor] Supply a patient ID identifying the patient to be give a new record and the associated nurse id.").append("\n");
-			sb.append("\t").append("[Others] NA.").append("\n");
+			sb.append ("Creates a new records for a specified patient with nurse\n");
+			sb.append("\t").append("[Doctor] create patientID nurseID\n");
+			sb.append("\t").append("[Others] N/A.").append("\n");
 			return sb.toString();
 		}
 }
