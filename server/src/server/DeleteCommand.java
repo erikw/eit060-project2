@@ -11,8 +11,7 @@ public class DeleteCommand extends Command {
 
 	public String execute(Map<Integer, Record> records) {
 		if (subject.equals("agency")) {
-			records.remove(String.valueOf(recordID));
-			System.out.println("YES");
+			records.remove(recordID);
 			log.info("Record with ID " + recordID + " removed by agency.");
 			return "Record with ID " + recordID + " removed.";
 		}

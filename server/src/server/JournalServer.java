@@ -217,24 +217,22 @@ public class JournalServer {
 	}
 
 	private String[] readPassword() throws IOException {
-		// while (keystorePassword == null || keystorePassword.length() == 0) {
-		// 	System.out.print("Server keystore password:");
-		// 	keystorePassword = new String(System.console().readPassword());
-		// }
+		String keystorePassword = null,
+			   truststorePassword = null;
+		while (keystorePassword == null || keystorePassword.length() == 0) {
+			System.out.print("Server keystore password:");
+			keystorePassword = new String(System.console().readPassword());
+		}
 
-		// while (keyPassword == null || keyPassword.length() == 0) {
-		// 	System.out.print("Server keystore password:");
-		// 	keystorePassword = new String(System.console().readPassword());
-		// }
+		while (truststorePassword == null || truststorePassword.length() == 0) {
+			System.out.print("Server truststore password:");
+			truststorePassword = new String(System.console().readPassword());
+		}
 
-		// while (truststorePassword == null || truststorePassword.length() == 0) {
-		// 	System.out.print("Server truststore password:");
-		// 	truststorePassword = new String(System.console().readPassword());
-		// }
 		String pws[] = new String[3];
-	    pws[0] = "LrLV3w4TZ5I6a";
-	    pws[1] = "LrLV3w4TZ5I6a";
-	    pws[2] = "QWH7yedDGR18y";
+	    pws[0] = keystorePassword;
+	    pws[1] = keystorePassword;
+	    pws[2] = truststorePassword;
 		return pws;
 	}
 

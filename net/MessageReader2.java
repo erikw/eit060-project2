@@ -43,6 +43,6 @@ public class MessageReader2 {
 	}
 
 	private static void trace(String msg) {
-		System.out.println("Trace---> " + msg);
+		// System.out.println("Trace---> " + msg);
 	}
 }

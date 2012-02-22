@@ -211,18 +211,18 @@ public class Client {
 	}
 
 	private void readPassword() throws IOException {
-		// while (keystorePassword == null || keystorePassword.length() == 0) {
-		//     System.out.print("Keystore password:");
-		//     keystorePassword = new String(System.console().readPassword());
-		// }
-		// passwordKey = keystorePassword;
+		while (keystorePassword == null || keystorePassword.length() == 0) {
+			System.out.print("Keystore password:");
+			keystorePassword = new String(System.console().readPassword());
+		}
+		passwordKey = keystorePassword;
 
-		// while (truststorePassword == null || truststorePassword.length() == 0) {
-		//     System.out.print("Truststore password:");
-		//     truststorePassword = new String(System.console().readPassword());
-		// }
-		keystorePassword = "pzNniiebY9oqs";
-		passwordKey = "pzNniiebY9oqs";
-		truststorePassword = "xLN75gzUJz7Yh";
+		while (truststorePassword == null || truststorePassword.length() == 0) {
+			System.out.print("Truststore password:");
+			truststorePassword = new String(System.console().readPassword());
+		}
+		// keystorePassword = "pzNniiebY9oqs";
+		// passwordKey = "pzNniiebY9oqs";
+		// truststorePassword = "xLN75gzUJz7Yh";
 	}
 }
