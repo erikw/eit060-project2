@@ -16,7 +16,6 @@ import java.net.Socket;
 import net.*;
 
 public class JournalServer {
-	private static final int LENGTH_LENGTH = 4; // length of the length field, bytes
 	private KeyStore keyStore;
 	private Logger log;
 	private Map<Integer, Record> records;
@@ -193,8 +192,6 @@ public class JournalServer {
 					break;
 				}
 
-				// TODO skriv ut det med prefix längd.
-				//out.write(command.execute(records, units).toBytes)
 				String resp = command.execute(records);
 				int mask = 0x0f;
 				int len = resp.getBytes().length;
