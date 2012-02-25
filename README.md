@@ -1,5 +1,5 @@
 # EIT060 Project 2
-Second project in the course [EIT060](http://www.eit.lth.se/index.php?id=241&ciuid=508) Computer Security at Lund University. The goal is to design and implement a system for medical records with secure connections. For further documentation; visit [doc/](https://github.com/erikw/eit060_project2/tree/master/doc) and especially [doc/report/](https://github.com/erikw/eit060_project2/tree/master/doc/report) and (`make` to) read the PDF.
+Second project in the course [EIT060](http://www.eit.lth.se/index.php?id=241&ciuid=508) Computer Security at Lund University. The goal is to design and implement a system for medical records with secure connections. For further documentation; visit [doc/](https://github.com/erikw/eit060_project2/tree/master/doc) and especially [doc/report/](https://github.com/erikw/eit060_project2/tree/master/doc/report) and (`make` to) read the PDF. The password used for server and the testing accounts are in [passwords.txt](https://github.com/erikw/eit060_project2/tree/master/passwords.txt).
 
 ## How to build and run
 ### Server
