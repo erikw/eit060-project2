@@ -5,18 +5,18 @@ Second project in the course [EIT060](http://www.eit.lth.se/index.php?id=241&ciu
 ### Server
 Compile and run by typing the following commands:
 
-	$cd eit060_project2/server/
-	$ant
-	$./run.sh [-d]
+	$ cd eit060_project2/server/
+	$ ant
+	$ ./run.sh [-d]
 
 -d Enables TLS handshake debugging.
 
 ### Client
 Compile and run by typing the following commands:
 
-	$cd eit060_project2/client/
-	$ant
-	$./run.sh [-d] [<user-type>]
+	$ cd eit060_project2/client/
+	$ ant
+	$ ./run.sh [-d] [<user-type>]
 
 -d Enables TLS handshake debugging.
 
